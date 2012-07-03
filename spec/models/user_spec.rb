@@ -4,10 +4,10 @@ describe User do
 
   before(:each) do
     @attr = {
-        :name => "Example User",
-        :email => "user@example.com",
-        :password => "foobar",
-        :password_confirmation => "foobar"
+      :name => "Example User",
+      :email => "user@example.com",
+      :password => "foobar",
+      :password_confirmation => "foobar"
     }
   end
 
@@ -63,12 +63,12 @@ describe User do
 
   it "should require a password" do
     User.new(@attr.merge(:password => "", :password_confirmation => "")).
-        should_not be_valid
+      should_not be_valid
   end
 
   it "should require a matching password confirmation" do
     User.new(@attr.merge(:password_confirmation => "invalid")).
-        should_not be_valid
+      should_not be_valid
   end
 
   it "should reject short password" do
@@ -89,67 +89,54 @@ describe User do
       @user = User.create!(@attr)
     end
 
-    it "should have an encrypted password attribute" do
-      @user.should respond_to(:encrypted_password)
+    it "should have an name attribute" do
+      @user.should respond_to(:name)
     end
 
-    it "should set the encrypted password" do
-      @user.encrypted_password.should_not be_blank
+    it "should have an email attribute" do
+      @user.should respond_to(:email)
     end
 
-    describe "has_password? method" do
-      it "should be true if the password match" do
-        @user.has_password?(@attr[:password]).should be_true
+    it "should have an password attribute" do
+      @user.should respond_to(:password)
+    end
+
+    it "should have an password_confirmation attribute" do
+      @user.should respond_to(:password_confirmation)
+    end
+
+    it "should have an password digest attribute" do
+      @user.should respond_to(:password_digest)
+    end
+
+    it "should have an remember token attribute" do
+      @user.should respond_to(:remember_token)
+    end
+
+    it "should set the password digest" do
+      @user.password_digest.should_not be_blank
+    end
+
+    describe "authenticate method" do
+
+      it "should have an instance authenticate method" do
+        @user.should respond_to(:authenticate)
       end
 
-      it "should be false if the passwords don't match" do
-        @user.has_password?("invalid").should be_false
+      it "should return nil on email/password mismatch" do
+        wrong_password_user = @user.authenticate("wrongpass")
+        wrong_password_user.should be_false
       end
 
-      describe "authenticate method" do
-
-        it "should have an authenticate method" do
-          User.should respond_to(:authenticate)
-        end
-
-        it "should return nil on email/password mismatch" do
-          wrong_password_user = User.authenticate(@attr[:email], "wrongpass")
-          wrong_password_user.should be_nil
-        end
-
-        it "should return nil for an email address with no user" do
-          nonexistent_user = User.authenticate("bar@foo.com", @attr[:password])
-          nonexistent_user.should be_nil
-        end
-
-        it "should return the user on email/password match" do
-          matching_user = User.authenticate(@attr[:email], @attr[:password])
-          matching_user.should == @user
-        end
+      it "should return the user on email/password match" do
+        matching_user = @user.authenticate(@attr[:password])
+        matching_user.should == @user
       end
     end
-  end
 
-  describe "micropost associations" do
-
-    before(:each) do
-      @user = User.create(@attr)
-      @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
-      @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
-    end
-
-    it "should have a microposts attribute" do
-      @user.should respond_to(:microposts)
-    end
-
-    it "should have the right microposts in the right order" do
-      @user.microposts.should == [@mp2, @mp1]
-    end
-
-    it "should destroy associated microposts" do
-      @user.destroy
-      [@mp1, @mp2].each do |micropost|
-        Micropost.find_by_id(micropost.id).should be_nil
+    describe "remember token" do
+      it "should set the remember_token" do
+        @user.remember_token.should_not be_blank
       end
     end
   end

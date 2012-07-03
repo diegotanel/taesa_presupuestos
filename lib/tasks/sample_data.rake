@@ -15,10 +15,10 @@ namespace :db do
                    :password => password,
                    :password_confirmation => password)
     end
-    50.times do
-      User.all(:limit => 6).each do |user|
-        user.microposts.create!(:content => Faker::Lorem.sentence(5))
-      end
-    end
+#    50.times do
+#      User.all(:limit => 6).each do |user|
+#        user.microposts.create!(:content => Faker::Lorem.sentence(5))
+#      end
+#    end
   end
 end

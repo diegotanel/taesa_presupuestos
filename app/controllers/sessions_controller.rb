@@ -6,15 +6,14 @@ class SessionsController < ApplicationController
   def create
     @email = params[:session][:email]
     @password = params[:session][:password]
-    user = User.authenticate(@email, @password)
-
-    if user.nil?
-      flash.now[:error] = "Invalid email/password combination." 
-      @title = "Sign in"
-      render 'new'
-    else
+    user = User.find_by_email(@email)
+    if user && user.authenticate(@password)
       sign_in user
       redirect_back_or user
+    else
+      @title = "Sign in"
+      flash.now[:error] = 'Invalid email/password combination'
+      render 'new'
     end
   end
 
