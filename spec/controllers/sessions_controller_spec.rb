@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 require 'spec_helper'
 
 describe SessionsController do
@@ -12,13 +14,20 @@ describe SessionsController do
 
     it "should have the right title" do
       get :new
-      response.should have_selector("title", :content => "Sign in")
+      response.should have_selector("title", :content => "Ingresar")
+    end
+
+    it "should have the right header" do
+      get :new
+      response.should have_selector("h1", :content => "Ingresar")
     end
 
     it "verificar si el formulario contiene los campos correspondientes" do
       get :new
       response.should have_selector("input#session_email")
       response.should have_selector("input#session_password")
+      response.should have_selector("label", :content => "Contraseña")
+      response.should have_selector("input", :type => "submit", :value => "Ingresar" )
     end
   end
 
@@ -35,12 +44,12 @@ describe SessionsController do
 
       it "should have the right title" do
         post :create, :session => @attr
-        response.should have_selector("title", :content => "Sign in")
+        response.should have_selector("title", :content => "Ingresar")
       end
 
       it "should have a flash.now message" do
         post :create, :session => @attr
-        flash.now[:error].should =~ /invalid/i
+        flash.now[:error].should =~ /no válida/i
       end
 
       it "deben llegar los datos ingresados" do

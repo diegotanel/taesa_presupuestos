@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 require 'spec_helper'
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
@@ -19,53 +21,19 @@ describe "LayoutLinks" do
     response.should be_success
   end
 
-
-  it "should have a Contact page at '/contact'" do
-    get '/contact'
-    response.should have_selector('title', :content => "Contact")
-  end
-
-  it "should have an About page at '/about'" do
-    get '/about'
-    response.should have_selector('title', :content => "About")
-  end
-
-  it "should have a Help page at '/help'" do
-    get '/help'
-    response.should have_selector('title', :content => "Help")
-  end
-
   it "should have a signup page at '/signup'" do
     get '/signup'
-    response.should have_selector('title', :content => "Sign up")
+    response.should have_selector('title', :content => "Alta de usuario")
   end
 
   it "should have a signup page at '/signin'" do
     get '/signin'    
-    response.should have_selector('title', :content => "Sign in")
+    response.should have_selector('title', :content => "Ingresar")
   end
 
   it "Visito la pagina de Sign in" do
     visit signin_path
-    response.should have_selector('title', :content => "Sign in")
-  end
-
-  it "should have the right links on the layout - About" do
-    visit root_path
-    click_link "About"
-    response.should have_selector('title', :content => "About")
-  end
-
-  it "should have the right links on the layout - Help" do
-    visit root_path
-    click_link "Help"
-    response.should have_selector('title', :content => "Help")
-  end
-
-  it "should have the right links on the layout - Contact" do
-    visit root_path
-    click_link "Contact"
-    response.should have_selector('title', :content => "Contact")
+    response.should have_selector('title', :content => "Ingresar")
   end
 
   it "should have the right links on the layout - Home" do
@@ -83,7 +51,7 @@ describe "LayoutLinks" do
   describe "when not signed in" do
     it "should have a signin link" do
       visit root_path
-      response.should have_selector("a", :href => signin_path, :content => "Sign in")
+      response.should have_selector("a", :href => signin_path, :content => "Ingresar")
     end
   end
 
@@ -102,7 +70,7 @@ describe "LayoutLinks" do
     end
 
     it "should have a flash.now message" do
-      flash.now[:error].should =~ /invalid/i
+      flash.now[:error].should =~ /no válida/i
     end
   end
 
@@ -145,24 +113,24 @@ describe "LayoutLinks" do
       controller.should be_signed_in
     end
 
-    it"should have a signout link" do
+    it"should have a cerrar_sesión link" do
       visit root_path
-      response.should have_selector("a", :href => signout_path, :content => "Sign out")
+      response.should have_selector("a", :href => signout_path, :content => "Cerrar sesión")
     end
 
-    it "should have a profile link" do
+    it "should have a perfil link" do
       visit root_path
-      response.should have_selector("a", :href => user_path(@user), :content => "Profile")
+      response.should have_selector("a", :href => user_path(@user), :content => "Perfil")
     end
 
-    it "should have a settings link" do
+    it "should have a seteos link" do
       visit root_path
-      response.should have_selector("a", :href => edit_user_path(@user), :content => "Settings")
+      response.should have_selector("a", :href => edit_user_path(@user), :content => "Seteos")
     end
 
-    it "should have a users link" do
+    it "should have a usuarios link" do
       visit root_path
-      response.should have_selector("a", :href => users_path, :content => "Users")
+      response.should have_selector("a", :href => users_path, :content => "Usuarios")
     end
 
   end

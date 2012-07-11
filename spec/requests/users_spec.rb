@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 require 'spec_helper'
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
@@ -17,15 +19,15 @@ describe "Users" do
 
     it "el boton de submit tiene que tener la etiqueta correcta" do
       visit signup_path
-      response.should have_selector("input", :type => "submit", :value => "Sign up" )
+      response.should have_selector("input", :type => "submit", :value => "Alta" )
     end
 
     it "Borrar los campos de password cuando se genera un error" do
       visit signup_path
-      fill_in "Name",         :with => "fruta"
-      fill_in "Email",        :with => "fruta@frutamail"
-      fill_in "Password",     :with => "foobar"
-      fill_in "Confirmation", :with => "foobar"
+      fill_in :user_name,                  :with => "fruta"
+      fill_in :user_email,                 :with => "fruta@frutamail"
+      fill_in :user_password,              :with => "foobar"
+      fill_in :user_password_confirmation, :with => "foobar"
       click_button
       response.should have_selector('input#user_password', :content => "")
       response.should have_selector('input#user_password_confirmation', :content => "")
@@ -35,10 +37,10 @@ describe "Users" do
       it "should not make a new user" do
         lambda do
           visit signup_path
-          fill_in "Name",         :with => ""
-          fill_in "Email",        :with => ""
-          fill_in "Password",     :with => ""
-          fill_in "Confirmation", :with => ""
+          fill_in :user_name,                  :with => ""
+          fill_in :user_email,                 :with => ""
+          fill_in :user_password,              :with => ""
+          fill_in :user_password_confirmation, :with => ""
           click_button
           response.should have_selector("div#error_explanation")
           response.should render_template('users/new')
@@ -50,12 +52,12 @@ describe "Users" do
       it "should make a new user" do
         lambda do
           visit signup_path
-          fill_in "Name",         :with => "Example User"
-          fill_in "Email",        :with => "user@example.com"
-          fill_in "Password",     :with => "foobar"
-          fill_in "Confirmation", :with => "foobar"
+          fill_in :user_name,                  :with => "Example User"
+          fill_in :user_email,                 :with => "user@example.com"
+          fill_in :user_password,              :with => "foobar"
+          fill_in :user_password_confirmation, :with => "foobar"
           click_button
-          response.should have_selector("div.flash.success", :content => "Welcome")
+          response.should have_selector("div.flash.success", :content => "Bienvenido")
           response.should render_template('users/show')
         end.should change(User, :count).by(1)
         DatabaseCleaner.clean
@@ -69,9 +71,9 @@ describe "Users" do
       it "should not sign a user in" do
         visit signin_path
         fill_in :email,    :with => ""
-        fill_in :password, :with => ""
+        fill_in :session_password, :with => ""
         click_button
-        response.should have_selector("div.flash.error", :content => "Invalid")
+        response.should have_selector("div.flash.error", :content => "no válida")
       end
     end
 
@@ -84,13 +86,13 @@ describe "Users" do
       
       it "should sign a user in and out" do
         controller.should be_signed_in
-        click_link "Sign out"
+        click_link "Cerrar sesión"
         controller.should_not be_signed_in
       end
 
       it "el boton de submit tiene que tener la etiqueta correcta" do
         visit edit_user_path(@user)
-        response.should have_selector("input", :type => "submit", :value => "Update" )
+        response.should have_selector("input", :type => "submit", :value => "Actualizar" )
       end
 
     end
@@ -109,17 +111,14 @@ describe "Users" do
       end
     end
 
-    it "debe haber tres usuarios" do
+   it "debe haber tres usuarios" do
       @admin = integration_sign_in(Factory(:user, :email => "admin@example.com", :admin => true))
       @second = Factory(:user, :name => "Bob", :email => "another@example.com")
       @third  = Factory(:user, :name => "Ben", :email => "another@example.net")
-      visit users_path
       @users = [@admin, @second, @third]
-      response.should have_selector("ul") do |n|
-        @cantidadDeUsuarios = n.count 
-      end
-      @cantidadDeUsuarios.should == @users.length
-    end
+      visit users_path
+      response.should have_selector("ul.users li", :count => @users.length)
+   end
   end
 
   describe "delete user" do

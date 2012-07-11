@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 require 'spec_helper'
 
 describe UsersController do
@@ -9,7 +11,7 @@ describe UsersController do
       it "should deny access" do
         get :index
         response.should redirect_to(signin_path)
-        flash[:notice].should =~ /sign in/i
+        flash[:notice].should =~ /ingrese/i
       end
     end
 
@@ -30,8 +32,13 @@ describe UsersController do
 
       it "should have the right title" do
         get :index
-        response.should have_selector("title", :content => "All users")
+        response.should have_selector("title", :content => "Usuarios")
       end
+
+       it "should have the right header" do
+        get :index
+        response.should have_selector("h1", :content => "Usuarios")
+       end
 
       it "should have an element for each user" do
         get :index
@@ -43,7 +50,7 @@ describe UsersController do
       it "no debe contener un link de delete por cada usuario" do
         get :index
         @users.each do |user|
-          response.should_not have_selector("li", :content => "delete")
+          response.should_not have_selector("li", :content => "eliminar")
         end
       end
 
@@ -51,7 +58,7 @@ describe UsersController do
         @user.toggle!(:admin)
         get :index
         @users.each do |user|
-          response.should have_selector("li", :content => "delete")
+          response.should have_selector("li", :content => "eliminar")
         end
       end
     end
@@ -65,15 +72,23 @@ describe UsersController do
 
     it "should have the right title" do
       get :new
-      response.should have_selector("title", :content => "Sign up")
+      response.should have_selector("title", :content => "Alta de usuario")
+    end
+
+    it "should have the right header" do
+      get :new
+      response.should have_selector("h1", :content => "Alta de usuario")
     end
 
     it "verificar si el formulario contiene los campos correspondientes" do
       get :new
       response.should have_selector("input#user_name")
+      response.should have_selector("label", :content => "Nombre")
       response.should have_selector("input#user_email")
       response.should have_selector("input#user_password")
+      response.should have_selector("label", :content => "Contraseña")
       response.should have_selector("input#user_password_confirmation")
+      response.should have_selector("label", :content => "Confirmación")
     end
 
     it "no debe poder acceder en caso de que este logueado" do
@@ -126,7 +141,7 @@ describe UsersController do
         get :show, :id => @user
         response.should have_selector("h1>img", :class => "gravatar")
       end
-      
+
     end
   end
 
@@ -166,7 +181,7 @@ describe UsersController do
 
       it "shoud have the right title" do
         post :create, :user => @attr
-        response.should have_selector("title", :content => "Sign up")
+        response.should have_selector("title", :content => "Alta de usuario")
       end
 
       it "should render the 'new' page" do
@@ -195,7 +210,7 @@ describe UsersController do
 
       it "should have a welcome message" do
         post :create, :user => @attr
-        flash[:success].should =~ /welcome to the sample app/i
+        flash[:success].should =~ /bienvenido al sistema de presupuestos/i
       end
 
       it "should sign the user in" do
@@ -246,7 +261,7 @@ describe UsersController do
       controller.current_user.name.should == "Michael Hartl"
     end
 
-    it "el usuario logueado debe ser Michale Hart" do
+    it "el usuario logueado debe ser Michael Hart" do
       controller.current_user?(@user).should == true
     end
 
@@ -257,13 +272,18 @@ describe UsersController do
 
     it "should have the right title" do
       get :edit, :id => @user
-      response.should have_selector("title", :content => "Edit user")
+      response.should have_selector("title", :content => "Editar usuario")
+    end
+
+    it "should have the right header" do
+      get :edit, :id => @user
+      response.should have_selector("h1", :content => "Editar usuario")
     end
 
     it "should have a link to change the Gravatar" do
       get :edit, :id => @user
       gravatar_url = "http://gravatar.com/emails"
-      response.should have_selector("a", :href => gravatar_url, :content => "change")
+      response.should have_selector("a", :href => gravatar_url, :content => "cambiar")
     end
   end
 
@@ -287,7 +307,7 @@ describe UsersController do
 
       it "should have the right title" do
         put :update, :id => @user, :user => @attr
-        response.should have_selector("title", :content => "Edit user")
+        response.should have_selector("title", :content => "Editar usuario")
       end
     end
 
@@ -311,7 +331,7 @@ describe UsersController do
 
       it "should have a flash message" do
         put :update, :id => @user, :user => @attr
-        flash[:success].should =~ /updated/
+        flash[:success].should =~ /actualizado/
       end
     end
   end
@@ -393,6 +413,11 @@ describe UsersController do
       it "should redirect to the users page" do
         delete :destroy, :id => @user
         response.should redirect_to(users_path)
+      end
+
+      it "should have a flash message" do
+        delete :destroy, :id => @user
+        flash[:success].should =~ /eliminado/
       end
 
       it "no puede destruirse a si mismo" do

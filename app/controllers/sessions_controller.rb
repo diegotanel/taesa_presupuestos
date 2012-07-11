@@ -1,6 +1,8 @@
+#encoding: utf-8
+
 class SessionsController < ApplicationController
   def new
-    @title = "Sign in"
+    @title = "Ingresar"
   end
 
   def create
@@ -11,8 +13,8 @@ class SessionsController < ApplicationController
       sign_in user
       redirect_back_or user
     else
-      @title = "Sign in"
-      flash.now[:error] = 'Invalid email/password combination'
+      @title = "Ingresar"
+      flash.now[:error] = 'Combinación de email o contraseña no válida'
       render 'new'
     end
   end

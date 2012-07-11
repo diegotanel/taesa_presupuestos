@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_filter :deny_for_same_user,    :only => :destroy
 
   def index
-    @title = "All users"
+    @title = "Usuarios"
     @users = User.paginate(:page => params[:page])
   end
 
@@ -18,17 +18,17 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @title = "Sign up"
+    @title = "Alta de usuario"
   end
 
   def create
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to the Sample App!"
+      flash[:success] = "Bienvenido al sistema de presupuestos"
       redirect_to @user
     else
-      @title = "Sign up"
+      @title = "Alta de usuario"
       @user.password = ""
       @user.password_confirmation = ""
       render 'new'
@@ -36,22 +36,22 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @title = "Edit user"
+    @title = "Editar usuario"
   end
 
   def update
     if @user.update_attributes(params[:user])
-      flash[:success] = "Profile updated."
+      flash[:success] = "Perfil actualizado"
       redirect_to @user
     else
-      @title = "Edit user"
+      @title = "Editar usuario"
       render 'edit'
     end
   end
 
   def destroy
     @user.destroy
-    flash[:success] = "User destroyed."
+    flash[:success] = "Usuario eliminado"
     redirect_to users_path 
   end
 
