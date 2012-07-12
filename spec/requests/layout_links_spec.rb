@@ -8,7 +8,7 @@ describe "LayoutLinks" do
 
   it "should have a Home page at '/'" do
     get '/'
-    response.should have_selector('title', :content => "Home")
+    response.should have_selector('title', :content => "Ingresar")
   end
 
   it "tiene que redireccionarse a la pagina raiz" do
@@ -21,11 +21,6 @@ describe "LayoutLinks" do
     response.should be_success
   end
 
-  it "should have a signup page at '/signup'" do
-    get '/signup'
-    response.should have_selector('title', :content => "Alta de usuario")
-  end
-
   it "should have a signup page at '/signin'" do
     get '/signin'    
     response.should have_selector('title', :content => "Ingresar")
@@ -36,24 +31,18 @@ describe "LayoutLinks" do
     response.should have_selector('title', :content => "Ingresar")
   end
 
-  it "should have the right links on the layout - Home" do
-    visit root_path
-    click_link "Home"
-    response.should have_selector('title', :content => "Home")
-  end
+#  it "should have the right links on the layout - Sign up now!" do
+#    visit root_path
+#    click_link "Sign up now!"
+#    response.should # fill in
+#  end
 
-  it "should have the right links on the layout - Sign up now!" do
-    visit root_path
-    click_link "Sign up now!"
-    response.should # fill in
-  end
-
-  describe "when not signed in" do
-    it "should have a signin link" do
-      visit root_path
-      response.should have_selector("a", :href => signin_path, :content => "Ingresar")
-    end
-  end
+#  describe "when not signed in" do
+#    it "should have a signin link" do
+#      visit root_path
+#      response.should have_selector("a", :href => signin_path, :content => "Ingresar")
+#    end
+#  end
 
   describe "Cuando se quiere ingresar a la aplicacion pero con datos erroneos" do
     before(:each) do
@@ -81,12 +70,27 @@ describe "LayoutLinks" do
       integration_sign_in(@user)
     end
 
-    it "tiene que redireccionarse a la pagina con los perfiles del usuario" do
+    it "tiene que redireccionarse a la página de home" do
+      visit home_path
+      response.should render_template('pages/home')
+    end
+
+    it "should have a signup page at '/signup'" do
+      get '/signup'
+      response.should have_selector('title', :content => "Alta de usuario")
+    end
+
+    it "tiene que redireccionarse a la página de alta de usuarios" do
+      visit signup_path
+      response.should render_template('users/new')
+    end
+
+    it "tiene que redireccionarse a la página con los perfiles del usuario" do
       visit user_path(@user)
       response.should render_template('users/show')
     end
 
-    it "tiene que redireccionarse a la pagina con los seteos del usuario" do
+    it "tiene que redireccionarse a la página con los seteos del usuario" do
       visit edit_user_path(@user)
       response.should render_template('users/edit')
     end
@@ -104,16 +108,26 @@ describe "LayoutLinks" do
       response.should have_selector('title', :content => @user.name)
     end
 
-#    "Esto no funciona en el integration test por que el paso final al loguearse es un get al perfil del usuario"
-#    it "Se debe direccionar a la pagina del usuario especifico" do
-#      response.should redirect_to('sessions')
-#    end
+    #    "Esto no funciona en el integration test por que el paso final al loguearse es un get al perfil del usuario"
+    #    it "Se debe direccionar a la pagina del usuario especifico" do
+    #      response.should redirect_to('sessions')
+    #    end
 
     it "debe estar logueado" do
       controller.should be_signed_in
     end
 
-    it"should have a cerrar_sesión link" do
+    it "should have a home link" do
+      visit root_path
+      response.should have_selector("a", :href => home_path, :content => "Home")
+    end
+
+    it "should have a home link" do
+      click_link "Home"
+      response.should have_selector('title', :content => "Home")
+    end
+
+    it "should have a cerrar_sesión link" do
       visit root_path
       response.should have_selector("a", :href => signout_path, :content => "Cerrar sesión")
     end

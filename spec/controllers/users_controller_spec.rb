@@ -40,6 +40,11 @@ describe UsersController do
         response.should have_selector("h1", :content => "Usuarios")
        end
 
+       it "should have a link to alta de usuario" do
+        get :index
+         response.should have_selector("a", :href => signup_path, :content => "Alta de usuario")
+       end
+
       it "should have an element for each user" do
         get :index
         @users.each do |user|
@@ -65,38 +70,50 @@ describe UsersController do
   end
 
   describe "GET 'new'" do
-    it "should be successful" do
-      get :new
-      response.should be_success
+    describe "as a non-signed-in user" do
+      it "should deny access" do
+        get :new
+        response.should redirect_to(signin_path)
+      end
     end
 
-    it "should have the right title" do
-      get :new
-      response.should have_selector("title", :content => "Alta de usuario")
-    end
+    describe "as a signed-in user" do
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+      end
 
-    it "should have the right header" do
-      get :new
-      response.should have_selector("h1", :content => "Alta de usuario")
-    end
+      it "should be successful" do
+        get :new
+        response.should be_success
+      end
 
-    it "verificar si el formulario contiene los campos correspondientes" do
-      get :new
-      response.should have_selector("input#user_name")
-      response.should have_selector("label", :content => "Nombre")
-      response.should have_selector("input#user_email")
-      response.should have_selector("input#user_password")
-      response.should have_selector("label", :content => "Contraseña")
-      response.should have_selector("input#user_password_confirmation")
-      response.should have_selector("label", :content => "Confirmación")
-    end
+      it "should have the right title" do
+        get :new
+        response.should have_selector("title", :content => "Alta de usuario")
+      end
 
-    it "no debe poder acceder en caso de que este logueado" do
-      @user = test_sign_in(Factory(:user))
-      get :new
-      response.should redirect_to(user_path(@user))
-    end
+      it "should have the right header" do
+        get :new
+        response.should have_selector("h1", :content => "Alta de usuario")
+      end
 
+      it "verificar si el formulario contiene los campos correspondientes" do
+        get :new
+        response.should have_selector("input#user_name")
+        response.should have_selector("label", :content => "Nombre")
+        response.should have_selector("input#user_email")
+        response.should have_selector("input#user_password")
+        response.should have_selector("label", :content => "Contraseña")
+        response.should have_selector("input#user_password_confirmation")
+        response.should have_selector("label", :content => "Confirmación")
+      end
+
+      #    it "no debe poder acceder en caso de que este logueado" do
+      #      @user = test_sign_in(Factory(:user))
+      #      get :new
+      #      response.should redirect_to(user_path(@user))
+      #    end
+    end
   end
 
   describe "GET 'show'" do
@@ -142,109 +159,126 @@ describe UsersController do
         response.should have_selector("h1>img", :class => "gravatar")
       end
 
+      it "debe tener la palabra nombre" do
+        get :show, :id => @user
+        response.should have_selector("td.sidebar.round", :content => "Nombre")
+      end
+
     end
   end
 
   describe "POST 'create'" do
-    describe "failure" do
+
+    describe "as a signed-in user" do
       before(:each) do
-        @attr = {:name => "", :email => "", :password => "", :password_confirmation => ""}
+        test_sign_in(Factory(:user))
       end
 
-      it "El usuario no es valido si los datos estan en blanco" do
-        post :create, :user => @attr
-        assigns(:user).should_not be_valid
-      end
+      describe "failure" do
+        before(:each) do
+          @attr = {:name => "", :email => "", :password => "", :password_confirmation => ""}
+        end
 
-      it "Los datos del usuario deben estar en blanco" do
-        post :create, :user => @attr
-        @user = assigns(:user)
-        @user.name.should == @attr[:name]
-        @user.email.should == @attr[:email]
-        @user.password.should == @attr[:password]
-        @user.password_confirmation.should == @attr[:password_confirmation]
-      end
-
-      it "Se deben quedar en blanco los campos passwords" do
-        @attr2 = {:name => "diego", :email => "fruta@fruta", :password => "foo", :password_confirmation => "foo"}      
-        post :create, :user => @attr2
-        @user = assigns(:user)
-        @user.password.should be_blank
-        @user.password_confirmation.should be_blank
-      end
-
-      it "should not create a user" do
-        lambda do
+        it "El usuario no es valido si los datos estan en blanco" do
           post :create, :user => @attr
-        end.should_not change(User, :count)
-      end
+          assigns(:user).should_not be_valid
+        end
 
-      it "shoud have the right title" do
-        post :create, :user => @attr
-        response.should have_selector("title", :content => "Alta de usuario")
-      end
-
-      it "should render the 'new' page" do
-        post :create, :user => @attr
-        response.should render_template('new')
-      end
-    end
-
-    describe "success" do
-
-      before(:each) do
-        @attr = { :name => "New User", :email => "user@example.com",
-                  :password => "foobar", :password_confirmation => "foobar" }
-      end
-
-      it "should create a user" do
-        lambda do
+        it "Los datos del usuario deben estar en blanco" do
           post :create, :user => @attr
-        end.should change(User, :count).by(1)
+          @user = assigns(:user)
+          @user.name.should == @attr[:name]
+          @user.email.should == @attr[:email]
+          @user.password.should == @attr[:password]
+          @user.password_confirmation.should == @attr[:password_confirmation]
+        end
+
+        it "Se deben quedar en blanco los campos passwords" do
+          @attr2 = {:name => "diego", :email => "fruta@fruta", :password => "foo", :password_confirmation => "foo"}      
+          post :create, :user => @attr2
+          @user = assigns(:user)
+          @user.password.should be_blank
+          @user.password_confirmation.should be_blank
+        end
+
+        it "should not create a user" do
+          lambda do
+            post :create, :user => @attr
+          end.should_not change(User, :count)
+        end
+
+        it "shoud have the right title" do
+          post :create, :user => @attr
+          response.should have_selector("title", :content => "Alta de usuario")
+        end
+
+        it "should render the 'new' page" do
+          post :create, :user => @attr
+          response.should render_template('new')
+        end
       end
 
-      it "should redirect to the user show page" do
-        post :create, :user => @attr
-        response.should redirect_to(user_path(assigns(:user)))
-      end   
-
-      it "should have a welcome message" do
-        post :create, :user => @attr
-        flash[:success].should =~ /bienvenido al sistema de presupuestos/i
-      end
-
-      it "should sign the user in" do
-        post :create, :user => @attr
-        controller.should be_signed_in
-      end
-
-      it "no debe poder acceder en caso de que este logueado" do
-        @user = test_sign_in(Factory(:user))
-        post :create, :user => @attr
-        response.should redirect_to(user_path(@user))
-      end
-
-      describe "admin attribute" do
+      describe "success" do
 
         before(:each) do
-          @user = User.create!(@attr)
+          @attr = { :name => "New User", :email => "user@example.com",
+                    :password => "foobar", :password_confirmation => "foobar" }
         end
 
-        it "should respond to admin" do
-          @user.should respond_to(:admin)
+        it "should create a user" do
+          lambda do
+            post :create, :user => @attr
+          end.should change(User, :count).by(1)
         end
 
-        it "should not be an admin by default" do
-          @user.should_not be_admin
-        end
+        it "should redirect to the user index page" do
+          post :create, :user => @attr
+          response.should redirect_to(users_path)
+        end   
 
-        it "should be convertible to an admin" do
-          @user.toggle!(:admin)
-          @user.should be_admin
+        #        it "should redirect to the user show page" do
+        #          post :create, :user => @attr
+        #          response.should redirect_to(user_path(assigns(:user)))
+        #        end   
+
+        #        it "should have a welcome message" do
+        #          post :create, :user => @attr
+        #          flash[:success].should =~ /bienvenido al sistema de presupuestos/i
+        #        end
+
+        #        it "should sign the user in" do
+        #          post :create, :user => @attr
+        #          controller.should be_signed_in
+        #        end
+
+        #      it "no debe poder acceder en caso de que este logueado" do
+        #        @user = test_sign_in(Factory(:user))
+        #        post :create, :user => @attr
+        #        response.should redirect_to(user_path(@user))
+        #      end
+
+        describe "admin attribute" do
+
+          before(:each) do
+            @user = User.create!(@attr)
+          end
+
+          it "should respond to admin" do
+            @user.should respond_to(:admin)
+          end
+
+          it "should not be an admin by default" do
+            @user.should_not be_admin
+          end
+
+          it "should be convertible to an admin" do
+            @user.toggle!(:admin)
+            @user.should be_admin
+          end
         end
       end
-    end
-  end 
+    end 
+  end
 
   describe "GET 'edit'" do
 
@@ -336,13 +370,17 @@ describe UsersController do
     end
   end
 
-  describe "authentication of edit/update pages" do
+  describe "authentication of create, edit and update pages" do
 
     before(:each) do
       @user = Factory(:user)
     end
 
     describe "for non-signed-in users" do
+      it "should deny access to 'create'" do
+        post :create, :user => @user
+        response.should redirect_to(signin_path)
+      end
 
       it "should deny access to 'edit'" do
         get :edit, :id => @user

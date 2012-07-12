@@ -7,6 +7,11 @@ DatabaseCleaner.strategy = :truncation
 describe "Users" do
   describe "signup" do
 
+    before(:each) do
+      @user = Factory(:user)
+      integration_sign_in(@user)
+    end
+
     it "verificar si el formulario contiene los campos correspondientes" do
       visit signup_path
       response.should render_template('users/new')
@@ -57,8 +62,9 @@ describe "Users" do
           fill_in :user_password,              :with => "foobar"
           fill_in :user_password_confirmation, :with => "foobar"
           click_button
-          response.should have_selector("div.flash.success", :content => "Bienvenido")
-          response.should render_template('users/show')
+          #          response.should have_selector("div.flash.success", :content => "Bienvenido")
+          #          response.should render_template('users/show')
+          response.should render_template('users/index')
         end.should change(User, :count).by(1)
         DatabaseCleaner.clean
       end
@@ -83,7 +89,7 @@ describe "Users" do
         @user = Factory(:user)
         integration_sign_in(@user)
       end
-      
+
       it "should sign a user in and out" do
         controller.should be_signed_in
         click_link "Cerrar sesión"
@@ -111,14 +117,14 @@ describe "Users" do
       end
     end
 
-   it "debe haber tres usuarios" do
+    it "debe haber tres usuarios" do
       @admin = integration_sign_in(Factory(:user, :email => "admin@example.com", :admin => true))
       @second = Factory(:user, :name => "Bob", :email => "another@example.com")
       @third  = Factory(:user, :name => "Ben", :email => "another@example.net")
       @users = [@admin, @second, @third]
       visit users_path
       response.should have_selector("ul.users li", :count => @users.length)
-   end
+    end
   end
 
   describe "delete user" do

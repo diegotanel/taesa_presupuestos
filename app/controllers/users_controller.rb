@@ -1,9 +1,7 @@
 class UsersController < ApplicationController
-#  before_filter :authenticate,          :only => [:index, :edit, :update, :destroy, :show]
-  before_filter :signed_in_user,        :only => [:index, :edit, :update, :destroy, :show]
+  before_filter :signed_in_user,        :only => [:index, :new, :create, :edit, :update, :destroy, :show]
   before_filter :correct_user,          :only => [:edit, :update]
   before_filter :admin_user,            :only => :destroy
-  before_filter :deny_for_signed_users, :only => [:new, :create]
   before_filter :deny_for_same_user,    :only => :destroy
 
   def index
@@ -24,9 +22,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      sign_in @user
-      flash[:success] = "Bienvenido al sistema de presupuestos"
-      redirect_to @user
+      #      sign_in @user
+      #      flash[:success] = "Bienvenido al sistema de presupuestos"
+      #      redirect_to @user
+      redirect_to users_path
     else
       @title = "Alta de usuario"
       @user.password = ""
@@ -64,10 +63,6 @@ class UsersController < ApplicationController
 
   def admin_user
     redirect_to(root_path) unless current_user.admin?
-  end
-
-  def deny_for_signed_users
-    redirect_to(user_path(current_user)) if signed_in?
   end
 
   def deny_for_same_user

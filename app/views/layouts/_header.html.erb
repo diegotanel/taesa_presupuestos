@@ -2,14 +2,12 @@
 <%= link_to logo, root_path %>
 <nav class="round">
 <ul>
-  <li><%= link_to "Home", root_path %></li>
   <% if signed_in? %>
+    <li><%= link_to "Home", home_path %></li>
     <li><%= link_to "Usuarios", users_path %></li>
     <li><%= link_to "Seteos", edit_user_path(current_user) %></li>
     <li><%= link_to "Perfil", current_user %></li>
     <li><%= link_to "Cerrar sesión", signout_path, :method => :delete %></li>
-  <% else %>
-    <li><%= link_to "Ingresar", signin_path %></li>
   <% end %>
 </ul>
 </nav>

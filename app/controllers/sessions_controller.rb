@@ -1,6 +1,8 @@
 #encoding: utf-8
 
 class SessionsController < ApplicationController
+  before_filter :deny_for_signed_users, :only => [:new, :create]
+  
   def new
     @title = "Ingresar"
   end
@@ -22,6 +24,12 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
     redirect_to root_path
+  end
+
+  private
+
+  def deny_for_signed_users
+    redirect_to(user_path(current_user)) if signed_in?
   end
 
 end

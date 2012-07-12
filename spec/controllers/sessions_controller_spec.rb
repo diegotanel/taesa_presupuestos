@@ -29,12 +29,25 @@ describe SessionsController do
       response.should have_selector("label", :content => "Contraseña")
       response.should have_selector("input", :type => "submit", :value => "Ingresar" )
     end
+
+    it "no debe poder acceder en caso de que este logueado" do
+      @user = test_sign_in(Factory(:user))
+      get :new
+      response.should redirect_to(user_path(@user))
+    end
+
   end
 
   describe "POST 'create'" do
     describe "invalid signin" do
       before(:each) do
         @attr = {:email => "email@example.com", :password => "invalid"}
+      end
+
+      it "no debe poder acceder en caso de que este logueado" do
+        @user = test_sign_in(Factory(:user))
+        post :create, :session => @attr
+        response.should redirect_to(user_path(@user))
       end
 
       it "should re-render the new page" do
