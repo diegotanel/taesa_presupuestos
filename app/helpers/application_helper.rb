@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def logo
-    image_tag("taesa_logo.jpg", :alt => "taesa", :class => "round")
+    image_tag("taesa_logo.jpg", :alt => "taesa", :id => 'logo', :class => "round")
   end
 
   def title

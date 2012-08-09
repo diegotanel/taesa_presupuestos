@@ -1,13 +1,15 @@
 <h1>Usuarios</h1>
 
+<% if current_user.admin? %>
 <td class="sidebar round">
-<%= link_to "Alta de usuario", signup_path %>
+	<%= link_to "Alta de usuario", signup_path %>
 </td>
+<% end %>
 
 <%= will_paginate %>
 
 <ul class="users">
-  <%= render @users %>
+	<%= render @users %>
 </ul>
 
 <%= will_paginate %>

@@ -3,7 +3,7 @@
 }
 
 body {
-  background: #cff;
+  background: #87181C;
 }
 
 header {
@@ -66,10 +66,11 @@ nav ul li {
 nav ul li a {
   padding: 0 5px;
   font-weight: bold;
+  color: #01773D;
 }
 
 nav ul li a:visited {
-  color: #09c;
+  color: #01773D;
 }
 
 nav ul li a:hover {

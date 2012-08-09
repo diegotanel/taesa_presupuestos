@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user,        :only => [:index, :new, :create, :edit, :update, :destroy, :show]
-  before_filter :correct_user,          :only => [:edit, :update]
-  before_filter :admin_user,            :only => :destroy
-  before_filter :deny_for_same_user,    :only => :destroy
+  before_filter :signed_in_user,             :only => [:index, :new, :create, :edit, :update, :destroy, :show]
+  before_filter :correct_user_administrator, :only => [:edit, :update]
+  # before_filter :correct_user,               :only => :update
+  before_filter :admin_user,                 :only => [:new, :create, :destroy]
+  before_filter :deny_for_same_user,         :only => :destroy
 
   def index
     @title = "Usuarios"
@@ -11,7 +12,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @title = @user.name
+    @title = @user.name 
   end
 
   def new
@@ -59,6 +60,13 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_path) unless current_user?(@user)
+  end
+
+  def correct_user_administrator
+    @user = User.find(params[:id])
+    unless current_user.admin?
+      redirect_to(root_path) unless current_user?(@user)
+    end
   end
 
   def admin_user

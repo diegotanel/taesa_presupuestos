@@ -1,11 +1,15 @@
 <header>
-<%= link_to logo, root_path %>
+<% if signed_in? %>
+		<%= link_to logo, home_path %>
+	<% else %>
+		<%= link_to logo, root_path %>
+<% end %>
 <nav class="round">
 <ul>
   <% if signed_in? %>
     <li><%= link_to "Home", home_path %></li>
     <li><%= link_to "Usuarios", users_path %></li>
-    <li><%= link_to "Seteos", edit_user_path(current_user) %></li>
+    <li><%= link_to "Configuración", edit_user_path(current_user) %></li>
     <li><%= link_to "Perfil", current_user %></li>
     <li><%= link_to "Cerrar sesión", signout_path, :method => :delete %></li>
   <% end %>

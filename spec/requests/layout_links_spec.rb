@@ -31,18 +31,29 @@ describe "LayoutLinks" do
     response.should have_selector('title', :content => "Ingresar")
   end
 
-#  it "should have the right links on the layout - Sign up now!" do
-#    visit root_path
-#    click_link "Sign up now!"
-#    response.should # fill in
-#  end
+  it "cuando se clickea en el Logo tiene que redireccionarse a la raíz" do
+    visit root_path
+    click_link "logo"
+    response.should render_template('new')
+  end
 
-#  describe "when not signed in" do
-#    it "should have a signin link" do
-#      visit root_path
-#      response.should have_selector("a", :href => signin_path, :content => "Ingresar")
-#    end
-#  end
+  it "tiene que tener Logo principal" do
+    visit root_path
+    response.should have_selector("img", :id => "logo")
+  end
+
+  #  it "should have the right links on the layout - Sign up now!" do
+  #    visit root_path
+  #    click_link "Sign up now!"
+  #    response.should # fill in
+  #  end
+
+  #  describe "when not signed in" do
+  #    it "should have a signin link" do
+  #      visit root_path
+  #      response.should have_selector("a", :href => signin_path, :content => "Ingresar")
+  #    end
+  #  end
 
   describe "Cuando se quiere ingresar a la aplicacion pero con datos erroneos" do
     before(:each) do
@@ -75,14 +86,10 @@ describe "LayoutLinks" do
       response.should render_template('pages/home')
     end
 
-    it "should have a signup page at '/signup'" do
-      get '/signup'
-      response.should have_selector('title', :content => "Alta de usuario")
-    end
-
-    it "tiene que redireccionarse a la página de alta de usuarios" do
-      visit signup_path
-      response.should render_template('users/new')
+    it "cuando se clickea en el Logo tiene que redireccionarse a la página de home" do
+      visit root_path
+      click_link "logo"
+      response.should render_template('pages/home')
     end
 
     it "tiene que redireccionarse a la página con los perfiles del usuario" do
@@ -137,9 +144,9 @@ describe "LayoutLinks" do
       response.should have_selector("a", :href => user_path(@user), :content => "Perfil")
     end
 
-    it "should have a seteos link" do
+    it "should have a configuración link" do
       visit root_path
-      response.should have_selector("a", :href => edit_user_path(@user), :content => "Seteos")
+      response.should have_selector("a", :href => edit_user_path(@user), :content => "Configuración")
     end
 
     it "should have a usuarios link" do
@@ -147,6 +154,28 @@ describe "LayoutLinks" do
       response.should have_selector("a", :href => users_path, :content => "Usuarios")
     end
 
+    it "no debe acceder a la página de alta de usuario" do
+      visit signup_path
+      response.should_not render_template('pages/home')  
+    end
   end
+  
+  describe "como administrador" do
+
+    before do
+      @admin = integration_sign_in(Factory(:user, :email => "admin@example.com", :admin => true))
+    end
+
+    it "should have a signup page at '/signup'" do
+      get '/signup'
+      response.should have_selector('title', :content => "Alta de usuario")
+    end
+
+    it "tiene que redireccionarse a la página de alta de usuarios" do
+      visit signup_path
+      response.should render_template('users/new')
+    end
+  end
+
   DatabaseCleaner.clean
 end

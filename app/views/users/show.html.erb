@@ -5,6 +5,15 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
+      <br/>
+      <div id="rol">
+        <% @rol = @user.admin? ? "Administrador" : "Usuario básico" %>
+        <%= "Rol: #{@rol}" %>
+      </div>
+      <br/>
+      <% if current_user.admin? %>
+      <%= link_to "Editar usuario", edit_user_path(@user) %>
+      <% end %>
     </td>
     <td class="sidebar round">
       <strong>Nombre</strong> <%= @user.name %><br />
