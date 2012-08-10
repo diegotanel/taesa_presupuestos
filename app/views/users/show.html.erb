@@ -7,12 +7,12 @@
       </h1>
       <br/>
       <div id="rol">
-        <% @rol = @user.admin? ? "Administrador" : "Usuario básico" %>
-        <%= "Rol: #{@rol}" %>
+        <%= "Rol: #{nombre_del_rol(@user)}" %>
       </div>
       <br/>
       <% if current_user.admin? %>
       <%= link_to "Editar usuario", edit_user_path(@user) %>
+      | <%= link_to "Cambiar rol", role_path(@user), :method => :put %>
       <% end %>
     </td>
     <td class="sidebar round">

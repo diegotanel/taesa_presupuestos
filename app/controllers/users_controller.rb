@@ -69,10 +69,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def admin_user
-    redirect_to(root_path) unless current_user.admin?
-  end
-
   def deny_for_same_user
     @user = User.find(params[:id])
     redirect_to users_path if current_user?(@user) 
