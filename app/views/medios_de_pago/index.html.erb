@@ -1,0 +1,26 @@
+<h1><%=t("activerecord.models.medio_de_pago") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.medio_de_pago.detalle") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @medios_de_pago.each do |medio_de_pago| %>
+    <td><%= medio_de_pago.detalle %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), medio_de_pago %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_medio_de_pago_path(medio_de_pago) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), medio_de_pago, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_medio_de_pago_path %>
+
+

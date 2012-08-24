@@ -6,6 +6,7 @@ gem 'rails', '3.1.1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'gravatar_image_tag'
+gem 'rails-i18n'
 
 group :production do
   # gems specifically for Heroku go here

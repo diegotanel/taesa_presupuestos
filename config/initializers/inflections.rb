@@ -8,3 +8,8 @@
 #   inflect.irregular 'person', 'people'
 #   inflect.uncountable %w( fish sheep )
 # end
+
+ActiveSupport::Inflector.inflections do |inflect|
+	inflect.irregular 'medio_de_pago', 'medios_de_pago'
+	inflect.irregular 'motivo_de_baja_presupuestaria', 'motivos_de_baja_presupuestaria'
+end

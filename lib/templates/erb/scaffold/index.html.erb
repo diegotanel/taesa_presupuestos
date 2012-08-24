@@ -1,0 +1,27 @@
+<h1><%%=t("activerecord.models.<%= singular_name %>") %></h1>
+
+<table>
+  <tr>
+<% attributes.each do |attribute| -%>
+    <th><%%=t("activerecord.attributes.<%= singular_name %>.<%= attribute.name %>") %></th>
+<% end -%>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%%= content_tag_for(:tr, @<%= plural_table_name %>) do |<%= singular_table_name %>| %>
+<% attributes.each do |attribute| -%>
+    <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% end -%>
+    <td><%%= link_to t("scaffoldi18n.show"), <%= singular_table_name %> %></td>
+    <td><%%= link_to t("scaffoldi18n.edit"), edit_<%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
+    <td><%%= link_to t("scaffoldi18n.destroy"), <%= singular_table_name %>, <%= key_value :confirm, 't("scaffoldi18n.are_you_sure?")' %>, <%= key_value :method, ":delete" %> %></td>
+  <%% end %>
+</table>
+
+<br />
+
+<%%= link_to t('scaffoldi18n.new')+' '+t("activerecord.models.<%= singular_name %>"), new_<%= singular_table_name %>_path %>
+
+

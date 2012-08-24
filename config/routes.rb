@@ -1,4 +1,10 @@
 SampleApp::Application.routes.draw do
+  resources :medios_de_pago
+
+  resources :motivos_de_baja_presupuestaria
+
+  resources :rubros
+
 # get "sessions/new"
 # get "users/new"
 resources :users

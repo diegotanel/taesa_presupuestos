@@ -1,13 +1,16 @@
 <% if signed_in? %>
-  <table class="front" summary="For signed-in users">
-    <tr>
-      <td class="main">
+<table class="front" summary="For signed-in users">
+  <tr>
+    <td class="main">
+      <%= link_to 'Rubros', rubros_path %><br />
+      <%= link_to 'Medios de pago', medios_de_pago_path %><br />
+      <%= link_to 'Motivos de baja presupuestaria', motivos_de_baja_presupuestaria_path %><br />
       <td class="sidebar round">
         <%= render 'shared/user_info' %>
       </td>
     </tr>
   </table>
-<% else %>
+  <% else %>
   <h1>Sample App</h1>
 
   <p>
@@ -17,5 +20,5 @@
   </p>
 
   <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
-<% end %>
+  <% end %>
 
