@@ -1,0 +1,27 @@
+<h1><%=t("activerecord.models.producto_trabajo") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.producto_trabajo.detalle") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @productos_trabajos) do |producto_trabajo| %>
+
+    <td><%= producto_trabajo.detalle %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), producto_trabajo %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_producto_trabajo_path(producto_trabajo) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), producto_trabajo, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_producto_trabajo_path %>
+
+

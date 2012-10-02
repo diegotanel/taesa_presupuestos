@@ -1,0 +1,27 @@
+<h1><%=t("activerecord.models.empresa") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.empresa.detalle") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @empresas) do |empresa| %>
+
+    <td><%= empresa.detalle %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), empresa %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_empresa_path(empresa) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), empresa, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_empresa_path %>
+
+

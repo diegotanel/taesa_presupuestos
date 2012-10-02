@@ -11,10 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120928162217) do
+ActiveRecord::Schema.define(:version => 20121002183950) do
 
   create_table "bancos", :force => true do |t|
     t.string   "detalle"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "canales_de_solicitud", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "clientes", :force => true do |t|
+    t.string   "detalle",    :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -27,6 +39,57 @@ ActiveRecord::Schema.define(:version => 20120928162217) do
   end
 
   add_index "cotizaciones_peso_dolar", ["user_id"], :name => "index_cotizaciones_peso_dolar_on_user_id"
+
+  create_table "empresas", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "medios_de_pago", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "motivos_de_baja_presupuestaria", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "productos_trabajos", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "proveedores", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "rubros", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "saldos_bancario", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "valor_cents",    :default => 0, :null => false
+    t.string   "valor_currency",                :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "saldos_bancario", ["user_id"], :name => "index_saldos_bancario_on_user_id"
+
+  create_table "solicitantes", :force => true do |t|
+    t.string   "detalle",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"

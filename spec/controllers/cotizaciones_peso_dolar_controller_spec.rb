@@ -27,7 +27,7 @@ describe CotizacionesPesoDolarController do
   before do
     @user = Factory(:user)
     test_sign_in(@user)
-    # cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
+    @cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
   end
 
   def valid_attributes
@@ -45,52 +45,46 @@ describe CotizacionesPesoDolarController do
 
   describe "GET edit" do
     it "assigns the requested cotizacion_peso_dolar as @cotizacion_peso_dolar" do
-      cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
-      get :edit, {:id => cotizacion_peso_dolar.to_param}, valid_session
-      assigns(:cotizacion_peso_dolar).should eq(cotizacion_peso_dolar)
+      get :edit, {:id => @cotizacion_peso_dolar.to_param}, valid_session
+      assigns(:cotizacion_peso_dolar).should eq(@cotizacion_peso_dolar)
     end
   end
 
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested cotizacion_peso_dolar" do
-        cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
         # Assuming there are no other cotizaciones_peso_dolar in the database, this
         # specifies that the CotizacionPesoDolar created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         CotizacionPesoDolar.any_instance.should_receive(:update_attributes).with({'these' => 'params', "user_id" => @user.id})
-        put :update, {:id => cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => {'these' => 'params'}}, valid_session
+        put :update, {:id => @cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => {'these' => 'params'}}, valid_session
       end
 
       it "assigns the requested cotizacion_peso_dolar as @cotizacion_peso_dolar" do
-        cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
-        put :update, {:id => cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => valid_attributes}, valid_session
-        assigns(:cotizacion_peso_dolar).should eq(cotizacion_peso_dolar)
+        put :update, {:id => @cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => valid_attributes}, valid_session
+        assigns(:cotizacion_peso_dolar).should eq(@cotizacion_peso_dolar)
       end
 
       it "redirects to the cotizacion_peso_dolar" do
-        cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
-        put :update, {:id => cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => valid_attributes}, valid_session
-        response.should redirect_to(edit_cotizacion_peso_dolar_path(cotizacion_peso_dolar))
+        put :update, {:id => @cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => valid_attributes}, valid_session
+        response.should redirect_to(edit_cotizacion_peso_dolar_path(@cotizacion_peso_dolar))
       end
     end
 
     describe "with invalid params" do
       it "assigns the cotizacion_peso_dolar as @cotizacion_peso_dolar" do
-        cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         CotizacionPesoDolar.any_instance.stub(:save).and_return(false)
-        put :update, {:id => cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => {}}, valid_session
-        assigns(:cotizacion_peso_dolar).should eq(cotizacion_peso_dolar)
+        put :update, {:id => @cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => {}}, valid_session
+        assigns(:cotizacion_peso_dolar).should eq(@cotizacion_peso_dolar)
       end
 
       it "re-renders the 'edit' template" do
-        cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         CotizacionPesoDolar.any_instance.stub(:save).and_return(false)
         CotizacionPesoDolar.any_instance.stub(:errors).and_return('anything')
-        put :update, {:id => cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => {}}, valid_session
+        put :update, {:id => @cotizacion_peso_dolar.to_param, :cotizacion_peso_dolar => {}}, valid_session
         response.should render_template("edit")
       end
     end

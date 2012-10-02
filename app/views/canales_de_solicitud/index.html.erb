@@ -1,0 +1,27 @@
+<h1><%=t("activerecord.models.canal_de_solicitud") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.canal_de_solicitud.detalle") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @canales_de_solicitud) do |canal_de_solicitud| %>
+
+    <td><%= canal_de_solicitud.detalle %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), canal_de_solicitud %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_canal_de_solicitud_path(canal_de_solicitud) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), canal_de_solicitud, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_canal_de_solicitud_path %>
+
+

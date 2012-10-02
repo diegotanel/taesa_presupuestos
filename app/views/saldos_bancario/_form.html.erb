@@ -1,0 +1,20 @@
+<%= form_for(@saldo_bancario) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+
+<table>
+  <tr>
+    <td>Último saldo: <%= humanized_money_with_symbol @valorVista %></td>
+    <td>Fecha: <%= I18n.l(@actualizacionVista) %></td>
+    <td>Usuario: <%= @usuarioVista %></td>
+  </tr>
+</table>
+
+  <div class="field">
+    <%= f.label :valor, "Saldo en pesos" %><br />
+    <%= f.text_field :valor %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -16,6 +16,13 @@ describe "CotizacionesPesoDolar" do
         visit edit_cotizacion_peso_dolar_path(@cotizacion)
       end
 
+       it "link de acceso" do
+        visit home_path
+        response.should have_selector("a", :href => edit_cotizacion_peso_dolar_path(@cotizacion), :content => "Cotizaciones peso dolar")
+        click_link "Cotizaciones peso dolar"
+        response.should render_template('cotizaciones_peso_dolar/edit')
+      end
+
       it "verificar si el formulario contiene los campos correspondientes" do
         response.should render_template('cotizaciones_peso_dolar/edit')
         response.should have_selector("input#cotizacion_peso_dolar_valor")

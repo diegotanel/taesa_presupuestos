@@ -1,11 +1,24 @@
 <% if signed_in? %>
 <table class="front" summary="For signed-in users">
 	<tr>
+		
 		<td class="main">
-
 			<td class="sidebar round">
 				<%= render 'shared/user_info' %>
 			</td>
+		</td>	
+		<tr><td><%= link_to "Cotizaciones peso dolar", edit_cotizacion_peso_dolar_path(@cotizacion_peso_dolar) if @cotizacion_peso_dolar %></td></tr>
+		<tr><td><%= link_to "Saldos bancario", edit_saldo_bancario_path(@saldo_bancario) if @saldo_bancario %></td></tr>
+		<tr><td><%= link_to "Bancos", bancos_path %></td></tr>
+		<tr><td><%= link_to "Empresas", empresas_path %></td></tr>
+		<tr><td><%= link_to "Solicitantes", solicitantes_path %></td></tr>
+		<tr><td><%= link_to "Canales de solicitud", canales_de_solicitud_path %></td></tr>
+		<tr><td><%= link_to "Rubros", rubros_path %></td></tr>
+		<tr><td><%= link_to "Clientes", clientes_path %></td></tr>
+		<tr><td><%= link_to "Proveedores", proveedores_path %></td></tr>
+		<tr><td><%= link_to "Productos Trabajos", productos_trabajos_path %></td></tr>
+		<tr><td><%= link_to "Medios de pago", medios_de_pago_path %></td></tr>
+		<tr><td><%= link_to "Motivos de baja presupuestaria", motivos_de_baja_presupuestaria_path %></td></tr>
 		</tr>
 	</table>
 	<% else %>

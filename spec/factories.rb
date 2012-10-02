@@ -19,3 +19,9 @@ Factory.define :cotizacion_peso_dolar do |cotizacion|
   cotizacion.valor_currency "ARS"
   cotizacion.association :user
 end
+
+Factory.define :saldo_bancario do |cotizacion|
+  cotizacion.valor_cents 1356
+  cotizacion.valor_currency "ARS"
+  cotizacion.association :user
+end

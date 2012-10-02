@@ -1,0 +1,27 @@
+<h1><%=t("activerecord.models.rubro") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.rubro.detalle") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @rubros) do |rubro| %>
+
+    <td><%= rubro.detalle %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), rubro %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_rubro_path(rubro) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), rubro, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_rubro_path %>
+
+

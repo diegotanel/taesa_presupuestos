@@ -1,6 +1,24 @@
 SampleApp::Application.routes.draw do
 
-  resources :bancos
+
+
+  resources :motivos_de_baja_presupuestaria
+
+  resources :medios_de_pago
+
+  resources :productos_trabajos
+
+  resources :canales_de_solicitud
+
+  resources :proveedores
+
+  resources :clientes
+
+  resources :rubros
+
+  resources :solicitantes
+
+  resources :empresas
 
 # get "sessions/new"
 # get "users/new"
@@ -8,7 +26,9 @@ resources :users
 resources :sessions, :only => [:new, :create, :destroy] 
 resources :microposts, :only => [:create, :destroy] 
 resources :roles, :only => :update
+resources :bancos
 resources :cotizaciones_peso_dolar, :only => [:edit, :update]
+resources :saldos_bancario, :only => [:edit, :update]
 
 
 match '/signup',  :to => 'users#new'

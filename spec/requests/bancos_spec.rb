@@ -1,10 +1,15 @@
 require 'spec_helper'
 
 describe "Bancos" do
-	describe "GET /bancos" do
-		it "debe responder correctamente" do
-			get bancos_path
-			response.should be_success
-		end
-	end
+  before do
+    @user = Factory(:user)
+    integration_sign_in(@user)
+  end
+
+  it "link de acceso" do
+    visit home_path
+    response.should have_selector("a", :href => bancos_path, :content => "Bancos")
+    click_link "Bancos"
+    response.should render_template('bancos/index')
+  end
 end

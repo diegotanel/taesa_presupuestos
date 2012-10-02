@@ -5,8 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
- @user = User.create!(:name => "admin", :email => "admin@admin.com",
-                 	    :password => "123456", :password_confirmation => "123456")
- @user.toggle!(:admin)
+@user = User.create!(:name => "admin", :email => "admin@admin.com",
+                     :password => "123456", :password_confirmation => "123456")
+@user.toggle!(:admin)
 
- @user.cotizacionespesodolar.create!(:valor => 1)
+valid_attributes = {:user_id => @user, :valor => 1}
+@cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
+@saldo_bancario = SaldoBancario.create! valid_attributes

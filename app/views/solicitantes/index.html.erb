@@ -1,0 +1,27 @@
+<h1><%=t("activerecord.models.solicitante") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.solicitante.detalle") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @solicitantes) do |solicitante| %>
+
+    <td><%= solicitante.detalle %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), solicitante %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_solicitante_path(solicitante) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), solicitante, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_solicitante_path %>
+
+

@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <b>Detalle:</b>
+  <%= @solicitante.detalle %>
+</p>
+
+
+
+<%= link_to t('scaffoldi18n.edit'), edit_solicitante_path(@solicitante) %> |
+<%= link_to t('scaffoldi18n.back'), solicitantes_path %>
