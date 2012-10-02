@@ -1,0 +1,10 @@
+es-AR:
+  flash:
+    actions:
+      create:
+        success: '%{resource_name} fue creado satisfactoriamente.'
+      update:
+        success: '%{resource_name} fue actualizado satisfactoriamente.'
+      destroy:
+        success: '%{resource_name} fue eliminado satisfactoriamente.'
+        failure: '%{resource_name} no pudo ser eliminado.'

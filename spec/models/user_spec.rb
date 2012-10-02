@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  email           :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  admin           :boolean          default(FALSE)
+#  password_digest :string(255)
+#  remember_token  :string(255)
+#
+
 require 'spec_helper'
 
 describe User do
@@ -140,17 +154,18 @@ describe User do
       end
     end
   end
-end
-# == Schema Information
-#
-# Table name: users
-#
-#  id                 :integer         not null, primary key
-#  name               :string(255)
-#  email              :string(255)
-#  created_at         :datetime
-#  updated_at         :datetime
-#  encrypted_password :string(255)
-#  salt               :string(255)
-#
 
+  # describe "CotizacionPesoDolar associations" do
+
+  #   before(:each) do
+  #     @user = User.create(@attr)
+  #     # @mp1 = Factory(:cotizacion_peso_dolar, :user => @user, :updated_at => 1.day.ago)
+  #     # @mp2 = Factory(:cotizacion_peso_dolar, :user => @user, :updated_at => 1.hour.ago)
+  #   end
+
+  #   it "should have a cotizaciones_peso_dolar attribute" do
+  #     @user.should respond_to(:cotizacionpesodolar)
+  #   end
+  # end
+
+end

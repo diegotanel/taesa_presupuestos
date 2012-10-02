@@ -1,7 +1,7 @@
 <% if object.errors.any? %>
   <div id="error_explanation">
     <h2>
-        <%= I18n.t 'errors.template.header', :model => object.class.to_s.underscore.humanize.downcase, :count => object.errors.count %></h2>
+        <%= I18n.t 'errors.template.header', :model => object.class.to_s.underscore.humanize.camelcase, :count => object.errors.count %></h2>
     <p> <%= I18n.t 'errors.template.body' %></p>
     <ul>
     <% object.errors.full_messages.each do |msg| %>

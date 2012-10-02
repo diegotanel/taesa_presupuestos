@@ -1,7 +1,11 @@
-scaffoldi18n:
-  edit: Editar
-  show: Mostrar
-  destroy: Eliminar
-  new: Nuevo
-  back: Atras
-  are_you_sure?: "¿Esta seguro?"
+es-AR:
+  scaffoldi18n:
+    edit: Editar
+    show: Mostrar
+    destroy: Eliminar
+    new: Alta
+    back: Atras
+    are_you_sure?: "¿Esta seguro?"
+  time:
+    formats:
+      default: ! '%d/%m/%Y %H:%M'

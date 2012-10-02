@@ -11,31 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120824142638) do
+ActiveRecord::Schema.define(:version => 20120928162217) do
 
-  create_table "medios_de_pago", :force => true do |t|
+  create_table "bancos", :force => true do |t|
     t.string   "detalle"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "motivos_de_baja_presupuestaria", :force => true do |t|
-    t.string   "detalle"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "cotizaciones_peso_dolar", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "valor_cents",    :default => 0, :null => false
+    t.string   "valor_currency",                :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
-  create_table "rubros", :force => true do |t|
-    t.string   "detalle"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "cotizaciones_peso_dolar", ["user_id"], :name => "index_cotizaciones_peso_dolar_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.boolean  "admin",           :default => false
     t.string   "password_digest"
     t.string   "remember_token"

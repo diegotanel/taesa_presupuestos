@@ -33,8 +33,8 @@ Spork.prefork do
     # examples within a transaction, remove the following line or assign false
     # instead of true.
     config.use_transactional_fixtures = true
-	
-	ActiveSupport::Dependencies.clear
+
+    ActiveSupport::Dependencies.clear
 
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of

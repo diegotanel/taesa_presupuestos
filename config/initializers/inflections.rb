@@ -12,4 +12,5 @@
 ActiveSupport::Inflector.inflections do |inflect|
 	inflect.irregular 'medio_de_pago', 'medios_de_pago'
 	inflect.irregular 'motivo_de_baja_presupuestaria', 'motivos_de_baja_presupuestaria'
+	inflect.irregular 'cotizacion_peso_dolar', 'cotizaciones_peso_dolar'
 end
