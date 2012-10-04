@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002183950) do
+ActiveRecord::Schema.define(:version => 20121003183122) do
 
   create_table "bancos", :force => true do |t|
     t.string   "detalle"
@@ -57,6 +57,39 @@ ActiveRecord::Schema.define(:version => 20121002183950) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "partidas_contable", :force => true do |t|
+    t.datetime "fecha_actual",                                    :null => false
+    t.datetime "fecha_de_vencimiento",                            :null => false
+    t.integer  "empresa_id",                                      :null => false
+    t.integer  "banco_id",                                        :null => false
+    t.integer  "solicitante_id",                                  :null => false
+    t.integer  "canal_de_solicitud_id",                           :null => false
+    t.integer  "rubro_id",                                        :null => false
+    t.integer  "importe_cents",                    :default => 0, :null => false
+    t.string   "importe_currency",                                :null => false
+    t.string   "tipo_de_movimiento",                              :null => false
+    t.integer  "referente_id",                                    :null => false
+    t.string   "referente_type",                                  :null => false
+    t.string   "detalle"
+    t.integer  "producto_trabajo_id",                             :null => false
+    t.integer  "medio_de_pago_id",                                :null => false
+    t.string   "estado",                                          :null => false
+    t.integer  "motivo_de_baja_presupuestaria_id"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  add_index "partidas_contable", ["banco_id"], :name => "index_partidas_contable_on_banco_id"
+  add_index "partidas_contable", ["canal_de_solicitud_id"], :name => "index_partidas_contable_on_canal_de_solicitud_id"
+  add_index "partidas_contable", ["empresa_id"], :name => "index_partidas_contable_on_empresa_id"
+  add_index "partidas_contable", ["medio_de_pago_id"], :name => "index_partidas_contable_on_medio_de_pago_id"
+  add_index "partidas_contable", ["motivo_de_baja_presupuestaria_id"], :name => "index_partidas_contable_on_motivo_de_baja_presupuestaria_id"
+  add_index "partidas_contable", ["producto_trabajo_id"], :name => "index_partidas_contable_on_producto_trabajo_id"
+  add_index "partidas_contable", ["referente_id"], :name => "index_partidas_contable_on_referente_id"
+  add_index "partidas_contable", ["referente_type"], :name => "index_partidas_contable_on_referente_type"
+  add_index "partidas_contable", ["rubro_id"], :name => "index_partidas_contable_on_rubro_id"
+  add_index "partidas_contable", ["solicitante_id"], :name => "index_partidas_contable_on_solicitante_id"
 
   create_table "productos_trabajos", :force => true do |t|
     t.string   "detalle",    :null => false

@@ -2,6 +2,8 @@ SampleApp::Application.routes.draw do
 
 
 
+  resources :partidas_contable
+
   resources :motivos_de_baja_presupuestaria
 
   resources :medios_de_pago

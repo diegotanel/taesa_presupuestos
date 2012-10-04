@@ -1,0 +1,96 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <b>Fecha actual:</b>
+  <%= @partida_contable.fecha_actual %>
+</p>
+
+
+<p>
+  <b>Fecha de vencimiento:</b>
+  <%= @partida_contable.fecha_de_vencimiento %>
+</p>
+
+
+<p>
+  <b>Empresa:</b>
+  <%= @partida_contable.empresa.detalle %>
+</p>
+
+
+<p>
+  <b>Banco:</b>
+  <%= @partida_contable.banco.detalle %>
+</p>
+
+
+<p>
+  <b>Solicitante:</b>
+  <%= @partida_contable.solicitante.detalle %>
+</p>
+
+
+<p>
+  <b>Canal de solicitud:</b>
+  <%= @partida_contable.canal_de_solicitud.detalle %>
+</p>
+
+
+<p>
+  <b>Rubro:</b>
+  <%= @partida_contable.rubro.detalle %>
+</p>
+
+
+<p>
+  <b>Importe:</b>
+  <%= @partida_contable.importe %>
+</p>
+
+
+<p>
+  <b>Tipo de movimiento:</b>
+  <%= @partida_contable.tipo_de_movimiento %>
+</p>
+
+
+<p>
+  <b>Referente:</b>
+  <%= @partida_contable.referente_id %>
+</p>
+
+
+<p>
+  <b>Producto trabajo:</b>
+  <%= @partida_contable.producto_trabajo.detalle %>
+</p>
+
+
+<p>
+  <b>Medio de pago:</b>
+  <%= @partida_contable.medio_de_pago.detalle %>
+</p>
+
+
+<p>
+  <b>Estado:</b>
+  <%= @partida_contable.estado %>
+</p>
+
+
+<p>
+  <b>Motivo de baja presupuestaria:</b>
+  <%= @partida_contable.motivo_de_baja_presupuestaria.detalle %>
+</p>
+
+
+<p>
+  <b>Detalle:</b>
+  <%= @partida_contable.detalle %>
+</p>
+
+
+
+<%= link_to t('scaffoldi18n.edit'), edit_partida_contable_path(@partida_contable) %> |
+<%= link_to t('scaffoldi18n.back'), partidas_contable_path %>

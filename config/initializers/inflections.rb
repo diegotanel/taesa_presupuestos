@@ -17,4 +17,5 @@ ActiveSupport::Inflector.inflections do |inflect|
 	inflect.irregular 'canal_de_solicitud', 'canales_de_solicitud'
 	inflect.irregular 'producto_trabajo', 'productos_trabajos'
 	inflect.irregular 'proveedor', 'proveedores'
+	inflect.irregular 'partida_contable', 'partidas_contable'
 end
