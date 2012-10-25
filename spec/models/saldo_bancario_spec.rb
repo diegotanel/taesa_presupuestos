@@ -49,16 +49,28 @@ describe SaldoBancario do
         SaldoBancario.new(@attr.merge(:user_id => "")).should_not be_valid
       end
 
+      it "should require number content" do
+        SaldoBancario.new(@attr.merge(:valor => "a")).should_not be_valid
+      end
+
+      it "should require non nil content" do
+        SaldoBancario.new(@attr.merge(:valor => nil)).should_not be_valid
+      end
+
       it "should require nonblank content" do
         SaldoBancario.new(@attr.merge(:valor => "")).should_not be_valid
       end
 
-      it "no puede ser cero" do
-        SaldoBancario.new(@attr.merge(:valor => 0.00)).should_not be_valid
+      it "puede ser cero" do
+        SaldoBancario.new(@attr.merge(:valor => 0)).should be_valid
       end
 
-      it "no puede ser inferior a cero" do
-        SaldoBancario.new(@attr.merge(:valor => -0.01)).should_not be_valid
+      it "puede ser cero con decimales" do
+        SaldoBancario.new(@attr.merge(:valor => 0.00)).should be_valid
+      end
+
+      it "puede ser inferior a cero" do
+        SaldoBancario.new(@attr.merge(:valor => -0.01)).should be_valid
       end
 
       it "should require nonblank content" do

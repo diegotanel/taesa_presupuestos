@@ -9,3 +9,7 @@ es-AR:
   time:
     formats:
       default: ! '%d/%m/%Y %H:%M'
+  activerecord:
+    attributes:
+        user: Usuario
+        created_at: Fecha de creación

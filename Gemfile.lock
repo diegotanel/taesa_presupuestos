@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/RubyMoney/money-rails.git
+  revision: 73d3eb9f3799e291c49cfe388c203b65c29e4f84
+  specs:
+    money-rails (0.6.0)
+      activesupport (~> 3.0)
+      money (~> 5.0.0)
+      railties (~> 3.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -34,8 +43,9 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.2)
+    bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-x86-mingw32)
-    builder (3.0.2)
+    builder (3.0.4)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -74,13 +84,11 @@ GEM
     money (5.0.0)
       i18n (~> 0.4)
       json
-    money-rails (0.6.0)
-      activesupport (~> 3.0)
-      money (~> 5.0.0)
-      railties (~> 3.0)
     multi_json (1.3.6)
+    nokogiri (1.5.5)
     nokogiri (1.5.5-x86-mingw32)
     nori (1.1.3)
+    pg (0.14.1)
     pg (0.14.1-x86-mingw32)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -88,7 +96,7 @@ GEM
       rack (>= 0.4)
     rack-ssl (1.3.2)
       rack
-    rack-test (0.6.1)
+    rack-test (0.6.2)
       rack (>= 1.0)
     rails (3.2.8)
       actionmailer (= 3.2.8)
@@ -112,6 +120,8 @@ GEM
       json (~> 1.4)
     responders (0.9.2)
       railties (~> 3.1)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -138,12 +148,21 @@ GEM
       nokogiri (>= 1.4.0)
       nori (~> 1.1.0)
       wasabi (~> 2.5.0)
+    sequel (3.20.0)
+    sinatra (1.0)
+      rack (>= 1.0)
     spork (1.0.0rc3)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.6)
     sqlite3 (1.3.6-x86-mingw32)
+    taps (0.3.24)
+      rack (>= 1.0.1)
+      rest-client (>= 1.4.0, < 1.7.0)
+      sequel (~> 3.20.0)
+      sinatra (~> 1.0.0)
     thor (0.16.0)
     tilt (1.3.3)
     treetop (1.4.10)
@@ -175,7 +194,7 @@ DEPENDENCIES
   gravatar_image_tag
   jquery-rails
   money
-  money-rails
+  money-rails!
   pg
   rails (= 3.2.8)
   rails-i18n
@@ -186,6 +205,7 @@ DEPENDENCIES
   savon
   spork
   sqlite3 (= 1.3.6)
+  taps
   uglifier
   webrat
   will_paginate

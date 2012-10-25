@@ -1,27 +1,17 @@
 SampleApp::Application.routes.draw do
 
-
-
-  resources :partidas_contable
-
-  resources :motivos_de_baja_presupuestaria
-
-  resources :medios_de_pago
-
-  resources :productos_trabajos
-
-  resources :canales_de_solicitud
-
-  resources :proveedores
-
-  resources :clientes
-
-  resources :rubros
-
-  resources :solicitantes
-
-  resources :empresas
-
+resources :cotizaciones_peso_dolar_historico, :only => :index
+resources :saldos_bancario_historico, :only => :index
+resources :partidas_contable
+resources :motivos_de_baja_presupuestaria
+resources :medios_de_pago
+resources :productos_trabajos
+resources :canales_de_solicitud
+resources :proveedores
+resources :clientes
+resources :rubros
+resources :solicitantes
+resources :empresas
 # get "sessions/new"
 # get "users/new"
 resources :users

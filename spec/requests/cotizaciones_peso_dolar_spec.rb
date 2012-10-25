@@ -58,7 +58,7 @@ describe "CotizacionesPesoDolar" do
 
       describe "exitoso" do
         before do
-          fill_in :cotizacion_peso_dolar_valor, :with => "4,65"
+          fill_in :cotizacion_peso_dolar_valor, :with => "4.65"
           click_button
         end
 

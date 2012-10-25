@@ -1,0 +1,29 @@
+require 'spec_helper'
+
+describe "saldos_bancario_historico/index" do
+  before(:each) do
+    assign(:saldos_bancario_historico, [
+      stub_model(SaldoBancarioHistorico,
+        :user => nil,
+        :saldo_bancario => nil,
+        :valor_cents => 1,
+        :valor_currency => "Valor Currency"
+      ),
+      stub_model(SaldoBancarioHistorico,
+        :user => nil,
+        :saldo_bancario => nil,
+        :valor_cents => 1,
+        :valor_currency => "Valor Currency"
+      )
+    ])
+  end
+
+  it "renders a list of saldos_bancario_historico" do
+    render
+    # Run the generator again with the --webrat flag if you want to use webrat matchers
+    assert_select "tr>td", :text => nil.to_s, :count => 2
+    assert_select "tr>td", :text => nil.to_s, :count => 2
+    assert_select "tr>td", :text => 1.to_s, :count => 2
+    assert_select "tr>td", :text => "Valor Currency".to_s, :count => 2
+  end
+end

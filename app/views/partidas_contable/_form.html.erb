@@ -19,7 +19,7 @@
 
   <div class="field">
     <%= f.label :banco %><br />
-    <%= f.collection_select("banco_id", @bancos, "id", "detalle") %>
+    <%= f.grouped_collection_select("banco_id", @empresas, "bancos", "detalle", "id", "detalle") %>
   </div>
 
   <div class="field">
@@ -35,6 +35,11 @@
   <div class="field">
     <%= f.label :rubro %><br />
     <%= f.collection_select("rubro_id", @rubros, "id", "detalle") %>
+  </div>
+
+  <div class="field">
+    <%= f.label :importe_currency, "Tipo de moneda" %><br />
+    <%= f.select("importe_currency", PartidaContable::TIPODEMONEDA) %>
   </div>
 
   <div class="field">

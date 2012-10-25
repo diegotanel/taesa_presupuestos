@@ -47,7 +47,6 @@ describe "SaldosBancarios" do
     end
 
     describe "actualización del saldo" do
-
       before do
         @secondUser = Factory(:user, :name => "Bob", :email => "another@example.com")
         integration_sign_in(@secondUser)
@@ -57,54 +56,60 @@ describe "SaldosBancarios" do
       end
 
       describe "exitoso" do
-        before do
-          fill_in :saldo_bancario_valor, :with => "4,65"
-          click_button
+        describe "valores permitidos" do
+          it "debe permitir actualizar con valor cero" do
+            valor = "0"
+            fill_in :saldo_bancario_valor, :with => valor
+            click_button
+            response.should have_selector("td", :content => valor)
+          end
+
+          it "debe permitir actualizar con valor negativo" do
+            valor = "-1"
+            fill_in :saldo_bancario_valor, :with => valor
+            click_button
+            response.should have_selector("td", :content => valor)
+          end
+
+          it "debe permitir actualizar con valor positivo" do
+            valor = "4.65"
+            fill_in :saldo_bancario_valor, :with => valor
+            click_button
+            response.should have_selector("td", :content => "4,65")
+          end
         end
 
-        it "el formulario debe mostrar los nuevos valores" do
-          response.should have_selector("td", :content => "4,65")
-          response.should have_selector("td", :content => "13/05/2011 23:45")
-          response.should have_selector("td", :content => "Bob")
-        end
+        describe "comportamiento del formulario" do
 
-        it "debe retornar a la misma página" do
-          response.should render_template('saldos_bancario/edit')
-        end
+          before do
+            fill_in :saldo_bancario_valor, :with => "4.65"
+            click_button
+          end
 
-        it "debe mostrar un mensaje exitoso" do
-          response.should have_selector("div.flash.success")
-        end
+          it "el formulario debe mostrar los nuevos valores" do
+            response.should have_selector("td", :content => "4,65")
+            response.should have_selector("td", :content => "13/05/2011 23:45")
+            response.should have_selector("td", :content => "Bob")
+          end
 
-        it "el mensaje exitoso debe desaparecer cuando se cambia de página" do
-          visit root_path
-          response.should_not have_selector("div.flash.success")
+          it "debe retornar a la misma página" do
+            response.should render_template('saldos_bancario/edit')
+          end
+
+          it "debe mostrar un mensaje exitoso" do
+            response.should have_selector("div.flash.success")
+          end
+
+          it "el mensaje exitoso debe desaparecer cuando se cambia de página" do
+            visit root_path
+            response.should_not have_selector("div.flash.success")
+          end
         end
       end
 
       describe "fallido" do
-        it "no debe permitir actualizar con valor cero" do
-          fill_in :saldo_bancario_valor, :with => "0"
-          click_button
-          response.should have_selector("div#error_explanation")
-          response.should render_template('saldos_bancario/edit')
-          response.should have_selector("td", :content => "13,56")
-          response.should have_selector("td", :content => @fecha)
-          response.should have_selector("td", :content => "Michael Hartl")
-        end
-
         it "no debe permitir actualizar con valor vacio" do
           fill_in :saldo_bancario_valor, :with => ""
-          click_button
-          response.should have_selector("div#error_explanation")
-          response.should render_template('saldos_bancario/edit')
-          response.should have_selector("td", :content => "13,56")
-          response.should have_selector("td", :content => @fecha)
-          response.should have_selector("td", :content => "Michael Hartl")
-        end
-
-        it "no debe permitir actualizar con valor negativo" do
-          fill_in :saldo_bancario_valor, :with => "-1"
           click_button
           response.should have_selector("div#error_explanation")
           response.should render_template('saldos_bancario/edit')
@@ -123,7 +128,6 @@ describe "SaldosBancarios" do
           response.should have_selector("td", :content => "Michael Hartl")
         end
       end
-
     end
   end
 end

@@ -3,11 +3,18 @@
 
 
   <div class="field">
-    <%= f.label :detalle %><br />
-    <%= f.text_field :detalle %>
+  <%= f.label :detalle %><br />
+  <%= f.text_field :detalle %>
+  </div>
+  <div class="field">
+  <%= hidden_field_tag "banco[empresa_ids][]", nil %>
+  <% Empresa.all.each do |empresa| %>
+    <%= check_box_tag "banco[empresa_ids][]", empresa.id, @banco.empresa_ids.include?(empresa.id), id: dom_id(empresa) %>
+    <%= label_tag dom_id(empresa), empresa.detalle %><br>
+  <% end %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+  <%= f.submit %>
   </div>
 <% end %>

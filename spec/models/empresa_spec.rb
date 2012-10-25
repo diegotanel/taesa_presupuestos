@@ -20,4 +20,28 @@ describe Empresa do
       Empresa.new(@attr.merge(:detalle => "")).should_not be_valid
     end
   end
+
+  describe "Asociación con banco" do
+    before do
+      @empresa = Empresa.create!(@attr)
+    end
+
+    it "debe responder a bancos" do
+      @empresa.should respond_to(:bancos)
+    end
+
+    describe "verificación de asociación" do
+      before do
+        @banco1 = Banco.new(:detalle => "Banco Galicia")
+        @banco2 = Banco.new(:detalle => "Banco Frances")
+        @bancos = [@banco1, @banco2]
+        @empresa.bancos = @bancos
+      end
+
+      it "debe tener los bancos asociados" do
+        @empresa.bancos.should == @bancos
+      end
+
+    end
+  end
 end

@@ -18,4 +18,6 @@ ActiveSupport::Inflector.inflections do |inflect|
 	inflect.irregular 'producto_trabajo', 'productos_trabajos'
 	inflect.irregular 'proveedor', 'proveedores'
 	inflect.irregular 'partida_contable', 'partidas_contable'
+	inflect.irregular 'saldo_bancario_historico', 'saldos_bancario_historico'
+	inflect.irregular 'cotizacion_peso_dolar_historico', 'cotizaciones_peso_dolar_historico'
 end

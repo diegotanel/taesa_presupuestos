@@ -1,0 +1,31 @@
+<h1><%=t("activerecord.models.saldo_bancario_historico") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.saldo_bancario_historico.valor") %></th>
+
+    <th><%=t("activerecord.attributes.created_at") %></th>
+
+    <th><%=t("activerecord.attributes.user") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @saldos_bancario_historico) do |saldo_bancario_historico| %>
+
+    <td><%= saldo_bancario_historico.valor %></td>
+
+    <td><%= I18n.l(saldo_bancario_historico.created_at) %></td>
+
+    <td><%= saldo_bancario_historico.user.name %></td>
+    <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.back'), edit_saldo_bancario_path(@saldos_bancario_historico.first.saldo_bancario.id) if @saldos_bancario_historico.first%>
+
+

@@ -11,13 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003183122) do
+ActiveRecord::Schema.define(:version => 20121025182636) do
 
   create_table "bancos", :force => true do |t|
     t.string   "detalle"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "bancos_empresas", :id => false, :force => true do |t|
+    t.integer "banco_id",   :null => false
+    t.integer "empresa_id", :null => false
+  end
+
+  add_index "bancos_empresas", ["banco_id", "empresa_id"], :name => "index_bancos_empresas_on_banco_id_and_empresa_id"
 
   create_table "canales_de_solicitud", :force => true do |t|
     t.string   "detalle",    :null => false
@@ -39,6 +46,17 @@ ActiveRecord::Schema.define(:version => 20121003183122) do
   end
 
   add_index "cotizaciones_peso_dolar", ["user_id"], :name => "index_cotizaciones_peso_dolar_on_user_id"
+
+  create_table "cotizaciones_peso_dolar_historico", :force => true do |t|
+    t.integer  "user_id",                                 :null => false
+    t.integer  "cotizacion_peso_dolar_id",                :null => false
+    t.integer  "valor_cents",              :default => 0, :null => false
+    t.string   "valor_currency",                          :null => false
+    t.datetime "created_at",                              :null => false
+  end
+
+  add_index "cotizaciones_peso_dolar_historico", ["cotizacion_peso_dolar_id"], :name => "index_cpdh_on_cotizacion_peso_dolar_id"
+  add_index "cotizaciones_peso_dolar_historico", ["user_id"], :name => "index_cotizaciones_peso_dolar_historico_on_user_id"
 
   create_table "empresas", :force => true do |t|
     t.string   "detalle",    :null => false
@@ -117,6 +135,17 @@ ActiveRecord::Schema.define(:version => 20121003183122) do
   end
 
   add_index "saldos_bancario", ["user_id"], :name => "index_saldos_bancario_on_user_id"
+
+  create_table "saldos_bancario_historico", :force => true do |t|
+    t.integer  "user_id",                          :null => false
+    t.integer  "saldo_bancario_id",                :null => false
+    t.integer  "valor_cents",       :default => 0, :null => false
+    t.string   "valor_currency",                   :null => false
+    t.datetime "created_at",                       :null => false
+  end
+
+  add_index "saldos_bancario_historico", ["saldo_bancario_id"], :name => "index_saldos_bancario_historico_on_saldo_bancario_id"
+  add_index "saldos_bancario_historico", ["user_id"], :name => "index_saldos_bancario_historico_on_user_id"
 
   create_table "solicitantes", :force => true do |t|
     t.string   "detalle",    :null => false

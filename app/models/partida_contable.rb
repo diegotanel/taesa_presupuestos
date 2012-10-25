@@ -14,8 +14,9 @@ class PartidaContable < ActiveRecord::Base
                   :referente_id, :referente_type
 
   TIPODEMOVIMIENTO = %w[entrada salida]
+  TIPODEMONEDA = %w[ARS USD]
 
-  monetize :importe_cents, :with_model_currency => :importe_currency, :with_currency => :usd
+  monetize :importe_cents, :with_model_currency => :importe_currency
 
   validates :importe, :numericality => { :greater_than => 0.00 }
   validates :importe_currency, :presence => true
