@@ -26,7 +26,7 @@ describe "SaldoBancarioHistoricos" do
     end
 
     it "link volver" do
-    	@sbh = Factory(:saldo_bancario_historico, :user => @user, :saldo_bancario => @saldo)
+    	@sbh = Factory(:saldo_bancario_historico, :user => @user, :saldo_bancario => @saldo, :fecha_de_alta => @saldo.updated_at)
       visit saldos_bancario_historico_path
       response.should have_selector("a", :href => edit_saldo_bancario_path(@saldo), :content => "Atras")
       click_link "Atras"
@@ -47,7 +47,7 @@ describe "SaldoBancarioHistoricos" do
         click_button
         visit saldos_bancario_historico_path
         response.should have_selector("td", :content => "13,56")
-        response.should have_selector("td", :content => "13/05/2011 23:45")
+        response.should have_selector("td", :content => @fecha)
         response.should have_selector("td", :content => "Michael Hartl")
       end
 

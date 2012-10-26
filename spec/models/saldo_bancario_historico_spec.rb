@@ -5,7 +5,7 @@ describe SaldoBancarioHistorico do
     @user = Factory(:user)
     @fecha = "25/09/2012 23:06"
     @saldo = Factory(:saldo_bancario, :user => @user, :updated_at => @fecha)
-    @attr = {:user_id => @user.id, :saldo_bancario => @saldo, :valor => @saldo.valor_cents, :valor_currency => @saldo.valor_currency}
+    @attr = {:user_id => @user.id, :saldo_bancario => @saldo, :valor => @saldo.valor_cents, :valor_currency => @saldo.valor_currency, :fecha_de_alta => @saldo.updated_at}
   end
 
   describe "exitoso" do
@@ -22,8 +22,12 @@ describe SaldoBancarioHistorico do
         @sbh.should respond_to(:user)
       end
 
-      it "should have a valor_cents attribute" do
+      it "should have a saldo_bancario attribute" do
         @sbh.should respond_to(:saldo_bancario)
+      end
+
+      it "should have a fecha_de_alta attribute" do
+        @sbh.should respond_to(:fecha_de_alta)
       end
 
       it "should have a valor attribute" do
@@ -81,6 +85,14 @@ describe SaldoBancarioHistorico do
 
     it "la moneda del saldo bancario no debe ser vacia" do
       SaldoBancarioHistorico.new(@attr.merge(:valor_currency => "")).should_not be_valid
+    end
+
+    it "la fecha de alta del saldo bancario no debe ser nula" do
+      SaldoBancarioHistorico.new(@attr.merge(:fecha_de_alta => nil)).should_not be_valid
+    end
+
+    it "la fecha de alta del saldo bancario no debe ser vacia" do
+      SaldoBancarioHistorico.new(@attr.merge(:fecha_de_alta => "")).should_not be_valid
     end
   end
 

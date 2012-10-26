@@ -26,7 +26,7 @@ describe "CotizacionesPesoDolarHistorico" do
     end
 
     it "link volver" do
-    	@cotizacion = Factory(:cotizacion_peso_dolar_historico, :user => @user, :cotizacion_peso_dolar => @cotizacion)
+    	@cotizacion = Factory(:cotizacion_peso_dolar_historico, :user => @user, :cotizacion_peso_dolar => @cotizacion, :fecha_de_alta => @cotizacion.updated_at)
       visit cotizaciones_peso_dolar_historico_path
       response.should have_selector("a", :href => edit_cotizacion_peso_dolar_path(@cotizacion), :content => "Atras")
       click_link "Atras"
@@ -47,7 +47,7 @@ describe "CotizacionesPesoDolarHistorico" do
         click_button
         visit cotizaciones_peso_dolar_historico_path
         response.should have_selector("td", :content => "13,56")
-        response.should have_selector("td", :content => "13/05/2011 23:45")
+        response.should have_selector("td", :content => @fecha)
         response.should have_selector("td", :content => "Michael Hartl")
       end
 

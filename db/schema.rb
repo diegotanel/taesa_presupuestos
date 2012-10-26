@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20121025182636) do
     t.integer  "cotizacion_peso_dolar_id",                :null => false
     t.integer  "valor_cents",              :default => 0, :null => false
     t.string   "valor_currency",                          :null => false
+    t.datetime "fecha_de_alta",                           :null => false
     t.datetime "created_at",                              :null => false
   end
 
@@ -141,6 +142,7 @@ ActiveRecord::Schema.define(:version => 20121025182636) do
     t.integer  "saldo_bancario_id",                :null => false
     t.integer  "valor_cents",       :default => 0, :null => false
     t.string   "valor_currency",                   :null => false
+    t.datetime "fecha_de_alta",                    :null => false
     t.datetime "created_at",                       :null => false
   end
 
