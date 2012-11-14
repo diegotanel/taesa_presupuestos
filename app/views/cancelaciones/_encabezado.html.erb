@@ -1,0 +1,21 @@
+<tr>
+    <td>Partida contable: <%= @pc.id.to_s %></td>
+  </tr>
+  <tr>
+    <td>Empresa: <%= @pc.empresa.detalle %></td>
+  </tr>
+  <tr>
+    <td>Banco: <%= @pc.banco.detalle %></td>
+  </tr>
+  <tr>
+    <td>Moneda: <%= @pc.importe_currency %></td>
+  </tr>
+  <tr>
+    <td>Total a cancelar: <%= humanized_money_with_symbol @pc.importe %></td>
+  </tr>
+  <tr>
+    <td>Importe total cancelado: <%= humanized_money_with_symbol @pc.importe_total_cancelado %></td>
+  </tr>
+  <tr>
+    <td>Resta cancelar: <%= humanized_money_with_symbol @pc.resta_cancelar %></td>
+  </tr>

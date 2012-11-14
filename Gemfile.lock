@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/RubyMoney/money-rails.git
-  revision: 73d3eb9f3799e291c49cfe388c203b65c29e4f84
+  revision: 9c551e806d44cef466e59f864539e13cb568ea9b
   specs:
     money-rails (0.6.0)
       activesupport (~> 3.0)
@@ -84,7 +84,7 @@ GEM
     money (5.0.0)
       i18n (~> 0.4)
       json
-    multi_json (1.3.6)
+    multi_json (1.3.7)
     nokogiri (1.5.5)
     nokogiri (1.5.5-x86-mingw32)
     nori (1.1.3)

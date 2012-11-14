@@ -1,0 +1,34 @@
+<h1><%=t("activerecord.models.cancelacion") %></h1>
+
+<table>
+  <%= render 'encabezado' %>
+</table>
+<table>
+<tr>
+
+    <th>Fecha de transacción</th>
+    <th><%=t("activerecord.attributes.banco.fecha_de_ingreso") %></th>
+    <th><%=t("activerecord.attributes.banco.medio_de_pago") %></th>
+    <th><%=t("activerecord.attributes.banco.importe_currency") %></th>
+    <th><%=t("activerecord.attributes.banco.importe") %></th>
+    <th><%=t("activerecord.attributes.banco.observaciones") %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tr>
+
+  <%= content_tag_for(:tr, @cancelaciones) do |cancelacion| %>
+
+    <td><%= I18n.l(cancelacion.created_at) %></td>
+    <td><%= I18n.l(cancelacion.fecha_de_ingreso) %></td>
+    <td><%= cancelacion.medio_de_pago.detalle %></td>
+    <td><%= cancelacion.importe_currency %></td>
+    <td><%= humanized_money_with_symbol cancelacion.importe %></td>
+    <td><%= cancelacion.observaciones %></td>
+    <td><%= link_to "Anular", [@pc, cancelacion], :confirm => "Se anulara la cancelación. \n\r" + t("scaffoldi18n.are_you_sure?"), :method => :delete %></td>
+  <% end %>
+</table>
+
+<%= link_to t('scaffoldi18n.new'), new_partida_contable_cancelacion_path(@pc) %> |
+<%= link_to t('scaffoldi18n.back'),partidas_contable_path %><br />
+<%= link_to "Dar por cumplida", dar_por_cumplida_partida_contable_path(@pc), :confirm => "Se dara por cumplida la partida contable. \n\r" + t("scaffoldi18n.are_you_sure?"), :method => :put %>

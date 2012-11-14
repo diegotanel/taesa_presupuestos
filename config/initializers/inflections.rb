@@ -20,4 +20,5 @@ ActiveSupport::Inflector.inflections do |inflect|
 	inflect.irregular 'partida_contable', 'partidas_contable'
 	inflect.irregular 'saldo_bancario_historico', 'saldos_bancario_historico'
 	inflect.irregular 'cotizacion_peso_dolar_historico', 'cotizaciones_peso_dolar_historico'
+	inflect.irregular 'cancelacion', 'cancelaciones'
 end

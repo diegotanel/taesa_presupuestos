@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121025182636) do
+ActiveRecord::Schema.define(:version => 20121105142532) do
 
   create_table "bancos", :force => true do |t|
     t.string   "detalle"
@@ -31,6 +31,21 @@ ActiveRecord::Schema.define(:version => 20121025182636) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "cancelaciones", :force => true do |t|
+    t.integer  "partida_contable_id",                :null => false
+    t.datetime "fecha_de_ingreso",                   :null => false
+    t.integer  "medio_de_pago_id",                   :null => false
+    t.integer  "importe_cents",       :default => 0, :null => false
+    t.string   "importe_currency",                   :null => false
+    t.string   "observaciones"
+    t.string   "estado",                             :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "cancelaciones", ["medio_de_pago_id"], :name => "index_cancelaciones_on_medio_de_pago_id"
+  add_index "cancelaciones", ["partida_contable_id"], :name => "index_cancelaciones_on_partida_contable_id"
 
   create_table "clientes", :force => true do |t|
     t.string   "detalle",    :null => false

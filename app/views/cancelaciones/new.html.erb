@@ -1,0 +1,36 @@
+<h1><%=t("activerecord.models.cancelacion") %></h1>
+<table>
+<%= render 'encabezado' %>
+</table>
+
+<%= form_for([@pc, @cancelacion]) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+
+  <div class="field">
+    <%= f.label :fecha_de_ingreso %><br />
+    <%= f.date_select :fecha_de_ingreso %>
+  </div>
+  <div class="field">
+    <%= f.label :medio_de_pago %><br />
+    <%= f.collection_select("medio_de_pago_id", @medios_de_pago, "id", "detalle") %>
+  </div>
+  <div class="field">
+    <%= f.label :importe_currency, "Tipo de moneda" %><br />
+    <%= f.select("importe_currency", PartidaContable::TIPODEMONEDA) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :importe %><br />
+    <%= f.text_field :importe %>
+  </div>
+  <div class="field">
+    <%= f.label :observaciones %><br />
+    <%= f.text_field :observaciones %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to t('scaffoldi18n.back'), partida_contable_cancelaciones_path(@pc) %>

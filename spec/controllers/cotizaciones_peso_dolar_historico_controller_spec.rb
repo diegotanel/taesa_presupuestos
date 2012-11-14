@@ -8,7 +8,7 @@ describe CotizacionesPesoDolarHistoricoController do
   def valid_attributes
     @user = Factory(:user)
     @cotizacion = Factory(:cotizacion_peso_dolar, :user => @user)
-    @cpdh = { :user_id => @user.id, :cotizacion_peso_dolar => @cotizacion, :valor => @cotizacion.valor_cents, :valor_currency => @cotizacion.valor_currency }
+    @cpdh = { :user_id => @user.id, :cotizacion_peso_dolar => @cotizacion, :valor => @cotizacion.valor_cents, :valor_currency => @cotizacion.valor_currency, :fecha_de_alta => DateTime.now }
   end
 
   # This should return the minimal set of values that should be in the session

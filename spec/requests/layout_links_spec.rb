@@ -22,7 +22,7 @@ describe "LayoutLinks" do
   end
 
   it "should have a signup page at '/signin'" do
-    get '/signin'    
+    get '/signin'
     response.should have_selector('title', :content => "Ingresar")
   end
 
@@ -154,12 +154,19 @@ describe "LayoutLinks" do
       response.should have_selector("a", :href => users_path, :content => "Usuarios")
     end
 
+    it "should have a partidas contable link" do
+      visit root_path
+      response.should have_selector("a", :href => partidas_contable_path, :content => "Partidas contable")
+      click_link "Partidas contable"
+      response.should render_template('partidas_contable/index')
+    end
+
     it "no debe acceder a la página de alta de usuario" do
       visit signup_path
-      response.should_not render_template('pages/home')  
+      response.should_not render_template('pages/home')
     end
   end
-  
+
   describe "como administrador" do
 
     before do

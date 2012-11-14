@@ -26,7 +26,7 @@ describe SaldosBancarioHistoricoController do
   def valid_attributes
     @user = Factory(:user)
     @saldo = Factory(:saldo_bancario, :user => @user)
-    @sbh = { :user_id => @user.id, :saldo_bancario => @saldo, :valor => @saldo.valor_cents, :valor_currency => @saldo.valor_currency }
+    @sbh = { :user_id => @user.id, :saldo_bancario => @saldo, :valor => @saldo.valor_cents, :valor_currency => @saldo.valor_currency, :fecha_de_alta => DateTime.now }
   end
 
   # This should return the minimal set of values that should be in the session

@@ -40,6 +40,17 @@ class PartidasContableController < ApplicationController
     respond_with(@partida_contable)
   end
 
+  def dar_por_cumplida
+    @partida_contable = PartidaContable.find(params[:id])
+    @partida_contable.dar_por_cumplida
+    if @partida_contable.save
+      flash[:success] = "La partida contable se dio por cumplida correctamente"
+      redirect_to partidas_contable_path(@pc)
+    else
+      flash.now[:failure] = "La partida contable no pudo darse por cumplida"
+      render 'index'
+    end
+  end
 
   private
 

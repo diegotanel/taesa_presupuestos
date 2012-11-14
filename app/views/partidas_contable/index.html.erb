@@ -73,6 +73,8 @@
     <td><%= link_to t("scaffoldi18n.show"), partida_contable %></td>
     <td><%= link_to t("scaffoldi18n.edit"), edit_partida_contable_path(partida_contable) %></td>
     <td><%= link_to t("scaffoldi18n.destroy"), partida_contable, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+    <td><%= link_to "Cancelación", partida_contable_cancelaciones_path(partida_contable) %></td>
+
   <% end %>
 </table>
 
