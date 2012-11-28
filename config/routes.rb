@@ -16,8 +16,6 @@ SampleApp::Application.routes.draw do
   resources :medios_de_pago
   resources :productos_trabajos
   resources :canales_de_solicitud
-  resources :proveedores
-  resources :clientes
   resources :rubros
   resources :solicitantes
   resources :empresas
