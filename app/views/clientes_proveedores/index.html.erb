@@ -1,0 +1,35 @@
+<h1><%=t("activerecord.models.cliente_proveedor") %></h1>
+
+<table>
+  <tr>
+
+    <th><%=t("activerecord.attributes.cliente_proveedor.detalle") %></th>
+
+    <th><%=t("activerecord.attributes.cliente_proveedor.cliente") %></th>
+
+    <th><%=t("activerecord.attributes.cliente_proveedor.proveedor") %></th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <%= content_tag_for(:tr, @clientes_proveedores) do |cliente_proveedor| %>
+
+    <td><%= cliente_proveedor.detalle %></td>
+
+    <td><%= cliente_proveedor.cliente %></td>
+
+    <td><%= cliente_proveedor.proveedor %></td>
+
+    <td><%= link_to t("scaffoldi18n.show"), cliente_proveedor %></td>
+    <td><%= link_to t("scaffoldi18n.edit"), edit_cliente_proveedor_path(cliente_proveedor) %></td>
+    <td><%= link_to t("scaffoldi18n.destroy"), cliente_proveedor, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to t('scaffoldi18n.new'), new_cliente_proveedor_path %>
+
+

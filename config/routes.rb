@@ -1,5 +1,7 @@
 SampleApp::Application.routes.draw do
 
+  resources :clientes_proveedores
+
   # match "partidas_contable/:id/dar_por_cumplida" => "partidas_contable#dar_por_cumplida", :as => :partida_contable_dar_por_cumplida
 
   resources :cotizaciones_peso_dolar_historico, :only => :index

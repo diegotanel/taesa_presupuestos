@@ -1,0 +1,23 @@
+<%= form_for(@cliente_proveedor) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+
+
+  <div class="field">
+    <%= f.label :detalle %><br />
+    <%= f.text_field :detalle %>
+  </div>
+
+  <div class="field">
+    <%= f.label :cliente %><br />
+    <%= f.check_box :cliente %>
+  </div>
+
+  <div class="field">
+    <%= f.label :proveedor %><br />
+    <%= f.check_box :proveedor %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

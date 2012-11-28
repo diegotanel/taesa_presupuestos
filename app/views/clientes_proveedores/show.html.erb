@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <b>Detalle:</b>
+  <%= @cliente_proveedor.detalle %>
+</p>
+
+
+<p>
+  <b>Cliente:</b>
+  <%= @cliente_proveedor.cliente %>
+</p>
+
+
+<p>
+  <b>Proveedor:</b>
+  <%= @cliente_proveedor.proveedor %>
+</p>
+
+
+
+<%= link_to t('scaffoldi18n.edit'), edit_cliente_proveedor_path(@cliente_proveedor) %> |
+<%= link_to t('scaffoldi18n.back'), clientes_proveedores_path %>
