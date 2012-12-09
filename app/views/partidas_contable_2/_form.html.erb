@@ -3,6 +3,11 @@
 
 
   <div class="field">
+    <%= f.label :fecha_actual %><br />
+    <%= f.date_select :fecha_actual %>
+  </div>
+
+  <div class="field">
     <%= f.label :fecha_de_vencimiento %><br />
     <%= f.date_select :fecha_de_vencimiento %>
   </div>
@@ -44,12 +49,12 @@
 
   <div class="field">
     <%= f.label :tipo_de_movimiento %><br />
-    <%= f.select("tipo_de_movimiento", @tipos_de_movimiento) %>
+    <%= f.select("tipo_de_movimiento", PartidaContable::TIPODEMOVIMIENTO) %>
   </div>
 
   <div class="field">
-    <%= f.label :cliente_proveedor %><br />
-    <%= f.collection_select("cliente_proveedor_id", @clientes_proveedores, "id", "detalle") %>
+    <%= f.label :referente %><br />
+    <%= f.collection_select("referente_id", @referentes, "id", "detalle") %>
   </div>
 
   <div class="field">
@@ -58,6 +63,17 @@
   </div>
 
   <div class="field">
+    <%= f.label :medio_de_pago %><br />
+    <%= f.collection_select("medio_de_pago_id", @medios_de_pago, "id", "detalle") %>
+
+  </div>
+
+  <div class="field">
+    <%= f.label :motivo_de_baja_presupuestaria %><br />
+    <%= f.collection_select("motivo_de_baja_presupuestaria_id", @motivos_de_baja_presupuestaria, "id", "detalle") %>
+  </div>
+
+    <div class="field">
     <%= f.label :detalle %><br />
     <%= f.text_area :detalle %>
   </div>

@@ -155,7 +155,7 @@ describe "Cancelaciones" do
 
         it "la partida contable debe cambiar el estado a parcial cuando se ingresa una cancelación" do
           visit partidas_contable_path
-          response.should have_selector("td", :content => "Parcial")
+          response.should have_selector("td", :content => "parcial")
         end
       end
 

@@ -72,7 +72,7 @@ describe "SaldosBancarios" do
           end
 
           it "debe permitir actualizar con valor positivo" do
-            valor = "4.65"
+            valor = "4,65"
             fill_in :saldo_bancario_valor, :with => valor
             click_button
             response.should have_selector("td", :content => "4,65")
@@ -82,7 +82,7 @@ describe "SaldosBancarios" do
         describe "comportamiento del formulario" do
 
           before do
-            fill_in :saldo_bancario_valor, :with => "4.65"
+            fill_in :saldo_bancario_valor, :with => "4,65"
             click_button
           end
 

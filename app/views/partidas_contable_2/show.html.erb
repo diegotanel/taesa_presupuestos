@@ -2,8 +2,14 @@
 
 
 <p>
+  <b>Fecha actual:</b>
+  <%= @partida_contable.fecha_actual %>
+</p>
+
+
+<p>
   <b>Fecha de vencimiento:</b>
-  <%= I18n.l(@partida_contable.fecha_de_vencimiento) %>
+  <%= @partida_contable.fecha_de_vencimiento %>
 </p>
 
 
@@ -15,7 +21,7 @@
 
 <p>
   <b>Banco:</b>
-  <%= @partida_contable.banco.detalle if @partida_contable.banco %>
+  <%= @partida_contable.banco.detalle %>
 </p>
 
 
@@ -41,52 +47,52 @@
   <%= @partida_contable.importe_currency %>
 </p>
 
+
 <p>
   <b>Importe:</b>
   <%= @partida_contable.importe %>
 </p>
 
-<p>
-  <b>Valor dolar:</b>
-  <%= @partida_contable.valor_dolar %>
-</p>
 
 <p>
   <b>Tipo de movimiento:</b>
-  <%= PartidaContable::TIPODEMOVIMIENTO.key(@partida_contable.tipo_de_movimiento) %>
+  <%= @partida_contable.tipo_de_movimiento %>
 </p>
 
 
 <p>
-  <b>Cliente proveedor:</b>
-  <%= @partida_contable.cliente_proveedor.detalle %>
+  <b>Referente:</b>
+  <%= @partida_contable.referente_id %>
 </p>
+
 
 <p>
   <b>Producto trabajo:</b>
   <%= @partida_contable.producto_trabajo.detalle %>
 </p>
 
+
 <p>
-  <b>Detalle:</b>
-  <%= @partida_contable.detalle %>
+  <b>Medio de pago:</b>
+  <%= @partida_contable.medio_de_pago.detalle %>
 </p>
 
 
 <p>
   <b>Estado:</b>
-  <%= PartidaContable::ESTADOS.key(@partida_contable.estado) %>
+  <%= @partida_contable.estado %>
 </p>
 
 
 <p>
   <b>Motivo de baja presupuestaria:</b>
-  <%= @partida_contable.motivo_de_baja_presupuestaria.detalle if @partida_contable.motivo_de_baja_presupuestaria %>
+  <%= @partida_contable.motivo_de_baja_presupuestaria.detalle %>
 </p>
 
+
 <p>
-  <b><%=t("activerecord.attributes.deleted_at") %>:</b>
-  <%= @partida_contable.deleted_at %>
+  <b>Detalle:</b>
+  <%= @partida_contable.detalle %>
 </p>
 
 

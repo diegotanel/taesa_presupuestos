@@ -13,3 +13,4 @@ es-AR:
     attributes:
         user: Usuario
         created_at: Fecha de creación
+        deleted_at: Fecha de baja

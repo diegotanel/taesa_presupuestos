@@ -9,7 +9,7 @@ gem 'gravatar_image_tag'
 gem 'rails-i18n'
 gem 'responders'
 gem 'money'
-gem 'money-rails', '~> 0.7.0.pre1'
+gem 'money-rails', :git => 'git://github.com/RubyMoney/money-rails.git'
 # gem "delocalize"
 gem 'taps'
 

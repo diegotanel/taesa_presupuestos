@@ -24,7 +24,7 @@ describe ClientesProveedoresController do
   # ClienteProveedor. As you add validations to ClienteProveedor, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {:detalle => "detalle1"}
   end
 
   # This should return the minimal set of values that should be in the session
@@ -96,6 +96,7 @@ describe ClientesProveedoresController do
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         ClienteProveedor.any_instance.stub(:save).and_return(false)
+        ClienteProveedor.any_instance.stub(:errors).and_return('anything')
         post :create, {:cliente_proveedor => {}}, valid_session
         response.should render_template("new")
       end
@@ -140,6 +141,7 @@ describe ClientesProveedoresController do
         cliente_proveedor = ClienteProveedor.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         ClienteProveedor.any_instance.stub(:save).and_return(false)
+        ClienteProveedor.any_instance.stub(:errors).and_return('anything')
         put :update, {:id => cliente_proveedor.to_param, :cliente_proveedor => {}}, valid_session
         response.should render_template("edit")
       end

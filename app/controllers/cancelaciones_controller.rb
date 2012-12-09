@@ -15,7 +15,7 @@ class CancelacionesController < ApplicationController
   def create
     @pc = PartidaContable.find_by_id(params[:partida_contable_id])
     @cancelacion = @pc.cancelaciones.build(params[:cancelacion])
-    @pc.estado = "Parcial"
+    @pc.estado = PartidaContable::ESTADOS[:parcial]
     if @pc.save
       redirect_to partida_contable_cancelaciones_path(@pc)
     else

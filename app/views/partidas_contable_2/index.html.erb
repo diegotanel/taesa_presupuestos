@@ -3,6 +3,8 @@
 <table>
   <tr>
 
+    <th><%=t("activerecord.attributes.partida_contable.fecha_actual") %></th>
+
     <th><%=t("activerecord.attributes.partida_contable.fecha_de_vencimiento") %></th>
 
     <th><%=t("activerecord.attributes.partida_contable.empresa") %></th>
@@ -15,25 +17,21 @@
 
     <th><%=t("activerecord.attributes.partida_contable.rubro") %></th>
 
-    <th>Importe</th>
-
-    <th>Tipo de moneda</th>
-
-    <th>Cotización dólar</th>
+    <th><%=t("activerecord.attributes.partida_contable.importe") %></th>
 
     <th><%=t("activerecord.attributes.partida_contable.tipo_de_movimiento") %></th>
 
-    <th><%=t("activerecord.attributes.partida_contable.cliente_proveedor") %></th>
-
-    <th><%=t("activerecord.attributes.partida_contable.detalle") %></th>
+    <th><%=t("activerecord.attributes.partida_contable.referente") %></th>
 
     <th><%=t("activerecord.attributes.partida_contable.producto_trabajo") %></th>
+
+    <th><%=t("activerecord.attributes.partida_contable.medio_de_pago") %></th>
 
     <th><%=t("activerecord.attributes.partida_contable.estado") %></th>
 
     <th><%=t("activerecord.attributes.partida_contable.motivo_de_baja_presupuestaria") %></th>
 
-    <th><%=t("activerecord.attributes.deleted_at") %></th>
+    <th><%=t("activerecord.attributes.partida_contable.detalle") %></th>
 
     <th></th>
     <th></th>
@@ -42,7 +40,9 @@
 
   <%= content_tag_for(:tr, @partidas_contable) do |partida_contable| %>
 
-    <td><%= I18n.l(partida_contable.fecha_de_vencimiento) %></td>
+    <td><%= partida_contable.fecha_actual %></td>
+
+    <td><%= partida_contable.fecha_de_vencimiento %></td>
 
     <td><%= partida_contable.empresa.detalle %></td>
 
@@ -56,28 +56,25 @@
 
     <td><%= partida_contable.importe %></td>
 
-    <td><%= partida_contable.importe_currency %></td>
+    <td><%= partida_contable.tipo_de_movimiento %></td>
 
-    <td><%= partida_contable.valor_dolar %></td>
-
-    <td><%= PartidaContable::TIPODEMOVIMIENTO.key(partida_contable.tipo_de_movimiento) %></td>
-
-    <td><%= partida_contable.cliente_proveedor.detalle %></td>
-
-    <td><%= partida_contable.detalle %></td>
+    <td><%= partida_contable.referente_id %></td>
 
     <td><%= partida_contable.producto_trabajo.detalle %></td>
 
-    <td><%= PartidaContable::ESTADOS.key(partida_contable.estado) %></td>
+    <td><%= partida_contable.medio_de_pago.detalle %></td>
 
-    <td><%= partida_contable.motivo_de_baja_presupuestaria %></td>
+    <td><%= partida_contable.estado %></td>
 
-    <td><%= partida_contable.deleted_at %></td>
+    <td><%= partida_contable.motivo_de_baja_presupuestaria.detalle %></td>
+
+    <td><%= partida_contable.detalle %></td>
 
     <td><%= link_to t("scaffoldi18n.show"), partida_contable %></td>
     <td><%= link_to t("scaffoldi18n.edit"), edit_partida_contable_path(partida_contable) %></td>
     <td><%= link_to t("scaffoldi18n.destroy"), partida_contable, confirm: t("scaffoldi18n.are_you_sure?"), method: :delete %></td>
     <td><%= link_to "Cancelación", partida_contable_cancelaciones_path(partida_contable) %></td>
+
   <% end %>
 </table>
 

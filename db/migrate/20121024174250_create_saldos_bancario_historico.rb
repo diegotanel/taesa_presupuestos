@@ -3,7 +3,7 @@ class CreateSaldosBancarioHistorico < ActiveRecord::Migration
     create_table :saldos_bancario_historico do |t|
       t.references :user, :null => false
       t.references :saldo_bancario, :null => false
-      t.integer :valor_cents, :null => false, :default => 0
+      t.integer :valor_cents, :null => false
       t.string :valor_currency, :null => false
       t.datetime :fecha_de_alta, :null => false
       t.datetime :created_at, :null => false
