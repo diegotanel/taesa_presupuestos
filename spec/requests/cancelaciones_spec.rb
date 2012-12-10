@@ -129,7 +129,7 @@ describe "Cancelaciones" do
 
       describe "exitoso" do
         before do
-          @cancelacion = Factory(:cancelacion, :partida_contable => @pc)
+          @medios_de_pago = Factory(:medio_de_pago)
           fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
           Time.stub!(:now).and_return(fechaDeTransaccion)
           visit new_partida_contable_cancelacion_path(@pc, @pc.cancelaciones.new)

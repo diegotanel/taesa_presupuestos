@@ -7,7 +7,7 @@ class PartidaContable < ActiveRecord::Base
   belongs_to :cliente_proveedor
   belongs_to :producto_trabajo
   belongs_to :motivo_de_baja_presupuestaria
-  has_many :cancelaciones
+  has_many :cancelaciones, :after_add => :cambiar_a_parcial
   attr_accessible :deleted_at, :detalle, :estado, :fecha_de_vencimiento, :importe, :importe_cents, :importe_currency, :tipo_de_movimiento, :valor_dolar_cents, :valor_dolar_currency
   attr_accessible :empresa_id, :banco_id, :solicitante_id, :canal_de_solicitud_id, :rubro_id, :cliente_proveedor_id, :producto_trabajo_id, :motivo_de_baja_presupuestaria_id
 
@@ -51,6 +51,7 @@ class PartidaContable < ActiveRecord::Base
     self.estado = PartidaContable::ESTADOS[:cumplida]
   end
 
+
   private
 
   after_initialize :init
@@ -58,5 +59,10 @@ class PartidaContable < ActiveRecord::Base
   def init
     self.estado ||= PartidaContable::ESTADOS[:activa]
   end
+
+  def cambiar_a_parcial(cancelacion)
+    self.estado = PartidaContable::ESTADOS[:parcial] if self.cancelaciones.count == 0
+  end
+
 
 end

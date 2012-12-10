@@ -200,6 +200,38 @@ describe PartidaContable do
       @pc.should respond_to(:dar_por_cumplida)
     end
 
+    it "debe cambiar el estado de la partida contable a parcial" do
+      @medio_de_pago = Factory(:medio_de_pago)
+      @pc.cancelaciones.build(:medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD"))
+      @pc.save
+      @pc.reload
+      @pc.estado.should == PartidaContable::ESTADOS[:parcial]
+    end
+
+    it "no debe cambiar el estado de la partida contable a parcial" do
+      @medio_de_pago = Factory(:medio_de_pago)
+      PartidaContable.any_instance.stub(:save).and_return(false)
+      @pc.cancelaciones.build(:medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD"))
+      @pc.save
+      @pc.reload
+      @pc.estado.should == PartidaContable::ESTADOS[:activa]
+    end
+
+    # it "debe responder a adicionar_cancelacion" do
+    #   @pc.should respond_to(:adicionar_cancelacion)
+    # end
+
+    # it "debe responder a eliminar_cancelacion" do
+    #   @pc.should respond_to(:eliminar_cancelacion)
+    # end
+
+    # it "debe adicionar una cancelacion a la partida contable" do
+    #   @medio_de_pago = Factory(:medio_de_pago)
+    #   @cancelacion = Cancelacion.build(:medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(150, "USD")})
+    #   @pc.adicionar_cancelacion
+    #   @pc.cancelaciones.first
+    # end
+
     describe "importe total cancelado" do
       before do
         @medio_de_pago = Factory(:medio_de_pago)

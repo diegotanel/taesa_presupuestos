@@ -1,4 +1,5 @@
 class Cancelacion < ActiveRecord::Base
+  # after_create :partida_contable_parcial
   belongs_to :partida_contable
   belongs_to :medio_de_pago
   attr_accessible :fecha_de_ingreso, :observaciones, :importe, :importe_cents, :importe_currency, :medio_de_pago, :medio_de_pago_id
@@ -23,6 +24,13 @@ class Cancelacion < ActiveRecord::Base
   def anular
     self.estado = "Anulada"
   end
+
+  private
+
+  # def partida_contable_parcial
+  #   self.partida_contable.estado = PartidaContable::ESTADOS[:parcial]
+  #   puts self.partida_contable.estado
+  # end
 
 
 end
