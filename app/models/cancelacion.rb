@@ -2,13 +2,17 @@ class Cancelacion < ActiveRecord::Base
   belongs_to :partida_contable
   belongs_to :medio_de_pago
   attr_accessible :fecha_de_ingreso, :observaciones, :importe, :importe_cents, :importe_currency, :medio_de_pago, :medio_de_pago_id
+  attr_accessible :valor_dolar, :valor_dolar_cents, :valor_dolar_currency
 
   monetize :importe_cents, :with_model_currency => :importe_currency
+  monetize :valor_dolar_cents, :with_model_currency => :valor_dolar_currency
 
   ESTADOS = { :activa => 1, :anulada => 2 }
 
   validates :importe, :numericality => { :greater_than => 0.00 }
   validates :importe_currency, :presence => true
+  validates :valor_dolar, :numericality => { :greater_than => 0.00 }
+  validates :valor_dolar_currency, :presence => true
   validates :partida_contable, :presence => true
   validates :fecha_de_ingreso, :presence => true
   validates :medio_de_pago, :presence => true

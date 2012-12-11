@@ -62,10 +62,29 @@ describe "PartidaContables" do
         response.should have_selector("p", :content => "Impuestos")
         response.should have_selector("p", :content => "ARS")
         response.should have_selector("p", :content => "105,98")
+        response.should have_selector("p", :content => "13,56")
         response.should have_selector("p", :content => "entrada")
         response.should have_selector("p", :content => "Jukic")
         response.should have_selector("p", :content => "Cosecha")
+        response.should have_selector("p", :content => "activa")
         response.should render_template('partidas_contable/show')
+      end
+
+      it "debe mostrar los datos ingresados en lista de partidas contables" do
+        visit partidas_contable_path
+        response.should have_selector("td", :content => "17/05/2012 23:45")
+        response.should have_selector("td", :content => "15/05/2012")
+        response.should have_selector("td", :content => "TAESA")
+        response.should have_selector("td", :content => "Fernando")
+        response.should have_selector("td", :content => "Mail")
+        response.should have_selector("td", :content => "Impuestos")
+        response.should have_selector("td", :content => "105,98")
+        response.should have_selector("td", :content => "ARS")
+        response.should have_selector("td", :content => "13,56")
+        response.should have_selector("td", :content => "entrada")
+        response.should have_selector("td", :content => "Jukic")
+        response.should have_selector("td", :content => "Cosecha")
+        response.should have_selector("td", :content => "activa")
       end
 
     end

@@ -96,6 +96,8 @@ Factory.define :cancelacion do |cancelacion|
   cancelacion.fecha_de_ingreso Time.zone.parse("22/04/2012 22:41")
   cancelacion.importe_cents 672
   cancelacion.importe_currency "ARS"
+  cancelacion.valor_dolar_cents "607"
+  cancelacion.valor_dolar_currency "ARS"
   cancelacion.estado "1"
   cancelacion.observaciones "cheque n 2314"
 end

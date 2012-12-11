@@ -129,6 +129,7 @@ describe "Cancelaciones" do
 
       describe "exitoso" do
         before do
+          @cotizacion_peso_dolar = Factory(:cotizacion_peso_dolar, :user => @user)
           @medios_de_pago = Factory(:medio_de_pago)
           fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
           Time.stub!(:now).and_return(fechaDeTransaccion)
@@ -161,6 +162,7 @@ describe "Cancelaciones" do
 
       describe "fallido" do
         before do
+          @cotizacion_peso_dolar = Factory(:cotizacion_peso_dolar, :user => @user)
           @cancelacion = Factory(:cancelacion, :partida_contable => @pc)
           fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
           Time.stub!(:now).and_return(fechaDeTransaccion)

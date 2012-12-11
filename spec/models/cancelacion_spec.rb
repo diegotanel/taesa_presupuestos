@@ -6,7 +6,7 @@ describe Cancelacion do
   before do
     @pc = Factory(:partida_contable)
     @medio_de_pago = Factory(:medio_de_pago)
-    @attr = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => 1356 , :importe_currency => "EUR"}
+    @attr = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => 1356 , :importe_currency => "EUR", :valor_dolar => Money.new(4, "ARS")}
   end
 
   it "con atributos válidos debe crear una nueva instancia" do
@@ -48,6 +48,22 @@ describe Cancelacion do
 
     it "valor es del tipo money" do
       @cancelacion.importe == Money.new(@attr[:importe], @attr[:importe_currency])
+    end
+
+    it "debe responder a importe_cents" do
+      @cancelacion.should respond_to(:valor_dolar_cents)
+    end
+
+    it "debe responder a importe_currency" do
+      @cancelacion.should respond_to(:valor_dolar_currency)
+    end
+
+    it "debe responder a importe" do
+      @cancelacion.should respond_to(:valor_dolar)
+    end
+
+    it "valor_dolar es del tipo money" do
+      @cancelacion.valor_dolar == Money.new(@attr[:importe], @attr[:importe_currency])
     end
 
     it "debe responder a observaciones" do

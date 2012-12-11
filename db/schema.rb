@@ -33,15 +33,17 @@ ActiveRecord::Schema.define(:version => 20121204182324) do
   end
 
   create_table "cancelaciones", :force => true do |t|
-    t.integer  "partida_contable_id", :null => false
-    t.datetime "fecha_de_ingreso",    :null => false
-    t.integer  "medio_de_pago_id",    :null => false
-    t.integer  "importe_cents",       :null => false
-    t.string   "importe_currency",    :null => false
+    t.integer  "partida_contable_id",  :null => false
+    t.datetime "fecha_de_ingreso",     :null => false
+    t.integer  "medio_de_pago_id",     :null => false
+    t.integer  "importe_cents",        :null => false
+    t.string   "importe_currency",     :null => false
+    t.integer  "valor_dolar_cents",    :null => false
+    t.string   "valor_dolar_currency", :null => false
     t.string   "observaciones"
-    t.integer  "estado",              :null => false
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.integer  "estado",               :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   add_index "cancelaciones", ["medio_de_pago_id"], :name => "index_cancelaciones_on_medio_de_pago_id"

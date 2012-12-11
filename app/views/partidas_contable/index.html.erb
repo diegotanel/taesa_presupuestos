@@ -54,7 +54,7 @@
 
     <td><%= partida_contable.empresa.detalle %></td>
 
-    <td><%= partida_contable.banco.detalle %></td>
+    <td><%= partida_contable.banco.detalle if partida_contable.banco %></td>
 
     <td><%= partida_contable.solicitante.detalle %></td>
 
@@ -78,7 +78,7 @@
 
     <td><%= PartidaContable::ESTADOS.key(partida_contable.estado) %></td>
 
-    <td><%= partida_contable.motivo_de_baja_presupuestaria %></td>
+    <td><%= partida_contable.motivo_de_baja_presupuestaria.detalle if partida_contable.motivo_de_baja_presupuestaria %></td>
 
     <td><%= partida_contable.deleted_at %></td>
 

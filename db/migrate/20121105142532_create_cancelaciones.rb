@@ -6,6 +6,8 @@ class CreateCancelaciones < ActiveRecord::Migration
       t.references :medio_de_pago, :null => false
       t.integer :importe_cents, :null => false
       t.string :importe_currency, :null => false
+      t.integer :valor_dolar_cents, :null => false
+      t.string :valor_dolar_currency, :null => false
       t.string :observaciones
       t.integer :estado, :null => false
 
