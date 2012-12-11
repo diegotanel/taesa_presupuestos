@@ -1,5 +1,16 @@
 <p id="notice"><%= notice %></p>
 
+<p>
+  <b>Número de partida contable:</b>
+  <%= @partida_contable.id %>
+</p>
+
+
+<p>
+  <b>Fecha de vencimiento:</b>
+  <%= I18n.l(@partida_contable.created_at) %>
+</p>
+
 
 <p>
   <b>Fecha de vencimiento:</b>

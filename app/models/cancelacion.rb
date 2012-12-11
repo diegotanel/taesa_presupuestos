@@ -1,36 +1,32 @@
 class Cancelacion < ActiveRecord::Base
-  # after_create :partida_contable_parcial
   belongs_to :partida_contable
   belongs_to :medio_de_pago
   attr_accessible :fecha_de_ingreso, :observaciones, :importe, :importe_cents, :importe_currency, :medio_de_pago, :medio_de_pago_id
 
   monetize :importe_cents, :with_model_currency => :importe_currency
 
+  ESTADOS = { :activa => 1, :anulada => 2 }
+
   validates :importe, :numericality => { :greater_than => 0.00 }
   validates :importe_currency, :presence => true
   validates :partida_contable, :presence => true
   validates :fecha_de_ingreso, :presence => true
   validates :medio_de_pago, :presence => true
+  validates :estado, :presence => true, :inclusion => { :in => Cancelacion::ESTADOS.values }
 
   # scope :activas, where(:estado => "Activa", :partida_contable_id => self.partida_contable)
   # scope :activas, joins(:partida_contable).where(:estado => "Activa")
 
-  after_initialize :init
 
-  def init
-    self.estado ||= "Activa"
-  end
 
   def anular
-    self.estado = "Anulada"
+    self.estado = Cancelacion::ESTADOS[:anulada]
   end
 
   private
 
-  # def partida_contable_parcial
-  #   self.partida_contable.estado = PartidaContable::ESTADOS[:parcial]
-  #   puts self.partida_contable.estado
-  # end
-
+  after_initialize do
+    self.estado ||= Cancelacion::ESTADOS[:activa]
+  end
 
 end

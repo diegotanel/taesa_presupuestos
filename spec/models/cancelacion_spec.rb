@@ -69,22 +69,32 @@ describe Cancelacion do
 
     describe "validación estado" do
       it "debe estar como activa" do
-        @cancelacion.estado.should == "Activa"
+        @cancelacion.estado.should == Cancelacion::ESTADOS[:activa]
       end
 
-      it "no puede ser nulo" do
+      it "no puede ser nulo al instanciarse" do
         cancelacion = @pc.cancelaciones.build(@attr.merge(:estado => nil))
-        cancelacion.estado.should == "Activa"
+        cancelacion.estado.should == Cancelacion::ESTADOS[:activa]
+      end
+
+      it "no puede ser nulo al asignarse" do
+        @cancelacion.estado = nil
+        @cancelacion.should_not be_valid
       end
 
       it "no debe aceptar valores" do
-        cancelacion = @pc.cancelaciones.build(@attr.merge(:estado => "hola"))
-        cancelacion.estado.should == "Activa"
+        cancelacion = @pc.cancelaciones.build(@attr.merge(:estado => 23))
+        cancelacion.estado.should == Cancelacion::ESTADOS[:activa]
+      end
+
+      it "no debe aceptar valores al asignarse" do
+        @cancelacion.estado = 23
+        @cancelacion.should_not be_valid
       end
 
       it "debe cambiar el estado a anulada" do
         @cancelacion.anular
-        @cancelacion.estado.should == "Anulada"
+        @cancelacion.estado.should == Cancelacion::ESTADOS[:anulada]
       end
 
     end

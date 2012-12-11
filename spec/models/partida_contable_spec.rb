@@ -102,6 +102,27 @@ describe PartidaContable do
         @pc.estado = nil
         @pc.should_not be_valid
       end
+
+      it "debe estar como activa" do
+        @pc.estado.should == PartidaContable::ESTADOS[:activa]
+      end
+
+      it "no puede ser nulo" do
+        @pc.estado = nil
+        @pc.save
+        @pc.reload
+        @pc.estado.should == PartidaContable::ESTADOS[:activa]
+      end
+
+      it "no debe aceptar valores" do
+        @pc.estado = 23
+        @pc.should_not be_valid
+      end
+
+      # it "debe cambiar el estado a anulada" do
+      #   @cancelacion.anular
+      #   @cancelacion.estado.should == PartidaContable::ESTADOS[:anulada]
+      # end
     end
 
     describe "importe" do

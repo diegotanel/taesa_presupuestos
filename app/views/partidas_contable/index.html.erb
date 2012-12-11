@@ -3,6 +3,10 @@
 <table>
   <tr>
 
+    <th>Núm.</th>
+
+    <th><%=t("activerecord.attributes.created_at") %></th>
+
     <th><%=t("activerecord.attributes.partida_contable.fecha_de_vencimiento") %></th>
 
     <th><%=t("activerecord.attributes.partida_contable.empresa") %></th>
@@ -41,6 +45,10 @@
   </tr>
 
   <%= content_tag_for(:tr, @partidas_contable) do |partida_contable| %>
+
+    <td><%= partida_contable.id %></td>
+
+    <td><%= I18n.l(partida_contable.created_at) %></td>
 
     <td><%= I18n.l(partida_contable.fecha_de_vencimiento) %></td>
 
