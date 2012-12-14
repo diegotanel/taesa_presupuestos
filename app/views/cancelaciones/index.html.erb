@@ -11,6 +11,7 @@
     <th><%=t("activerecord.attributes.banco.medio_de_pago") %></th>
     <th>Tipo de moneda</th>
     <th><%=t("activerecord.attributes.banco.importe") %></th>
+    <th>Cotización dólar</th>
     <th><%=t("activerecord.attributes.banco.observaciones") %></th>
     <th></th>
     <th></th>
@@ -24,6 +25,7 @@
     <td><%= cancelacion.medio_de_pago.detalle %></td>
     <td><%= cancelacion.importe_currency %></td>
     <td><%= humanized_money_with_symbol cancelacion.importe %></td>
+    <td><%= humanized_money_with_symbol cancelacion.valor_dolar %></td>
     <td><%= cancelacion.observaciones %></td>
     <td><%= link_to "Anular", [@pc, cancelacion], :confirm => "Se anulara la cancelación. \n\r" + t("scaffoldi18n.are_you_sure?"), :method => :delete %></td>
   <% end %>

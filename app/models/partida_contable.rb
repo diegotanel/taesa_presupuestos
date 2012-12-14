@@ -32,7 +32,7 @@ class PartidaContable < ActiveRecord::Base
 
   TIPODEMONEDA = %w[ARS USD]
 
-  
+
   TIPODEMOVIMIENTO = {:entrada => 1, :salida => 2}
 
   def cancelaciones_activas
@@ -40,9 +40,25 @@ class PartidaContable < ActiveRecord::Base
   end
 
   def importe_total_cancelado
+    # self.cancelaciones.where(:estado => Cancelacion::ESTADOS[:activa])
+    # .map(&:importe)
+    # .inject(Money.new(0, self.importe_currency), :+)
+    @resultado = Money.new(0, self.importe_currency)
     self.cancelaciones.where(:estado => Cancelacion::ESTADOS[:activa])
-    .map(&:importe)
-    .inject(Money.new(0, self.importe_currency), :+)
+    .each { |c|
+      if c.importe_currency == self.importe_currency
+        @resultado += c.importe
+      else
+        if self.importe_currency == "ARS"
+          Money.add_rate("USD", "ARS", c.valor_dolar.amount)
+          @resultado += c.importe
+        else
+          Money.add_rate("ARS", "USD", 1/c.valor_dolar.amount)
+          @resultado += c.importe
+        end
+      end
+    }
+    @resultado
   end
 
   def resta_cancelar

@@ -3,21 +3,12 @@
 require 'spec_helper'
 
 describe "Cancelaciones" do
-  # describe "GET /cancelaciones" do
-  #   it "works! (now write some real specs)" do
-  #     # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-  #     get cancelaciones_index_path
-  #     response.status.should be(200)
-  #   end
-  # end
 
   describe "lista de cancelaciones" do
     before do
       @user = Factory(:user)
       integration_sign_in(@user)
       @pc = Factory(:partida_contable)
-      # @medio_de_pago = Factory(:medio_de_pago, :detalle => "efectivo")
-      # @pc2 = Factory(:partida_contable, :medio_de_pago => @medio_de_pago)
     end
 
     it "debe mostrarse el encabezado con los datos de la partida contable actual" do
@@ -58,32 +49,28 @@ describe "Cancelaciones" do
       response.should have_selector("td", :content => "6,84")
     end
 
-    it "debe visualizarse las cancelaciones en la grilla" do
-      fechaDeTransaccion = "13/05/2012 22:41"
-      @cancelacion = Factory(:cancelacion, :partida_contable => @pc, :created_at => Time.zone.parse(fechaDeTransaccion))
-      visit partida_contable_cancelaciones_path(@pc)
-      response.should have_selector("td", :content => fechaDeTransaccion)
-      response.should have_selector("td", :content => I18n.l(@cancelacion.fecha_de_ingreso))
-      response.should have_selector("td", :content => @cancelacion.medio_de_pago.detalle)
-      response.should have_selector("td", :content => @cancelacion.importe_currency)
-      response.should have_selector("td", :content => "6,72")
-      response.should have_selector("td", :content => "cheque n 2314")
-    end
-
     it "debe visualizarse las cancelaciones con estado activo en la grilla" do
       fechaDeTransaccion = "13/05/2012 22:41"
       @cancelacion = Factory(:cancelacion, :partida_contable => @pc, :created_at => Time.zone.parse(fechaDeTransaccion))
       fechaDeTransaccionAAnular = "15/06/2012 21:55"
-      @cancelacionAAnular = Factory(:cancelacion, :partida_contable => @pc, :created_at => Time.zone.parse(fechaDeTransaccionAAnular))
-      visit partida_contable_cancelaciones_path(@pc)
-      response.should have_selector("td", :content => fechaDeTransaccion)
-      response.should have_selector("td", :content => fechaDeTransaccionAAnular)
-      @cancelacionAAnular.anular
-      @cancelacionAAnular.save
-      @cancelacionAAnular.reload
+      @cancelacionAnulada = Factory(:cancelacion, :partida_contable => @pc, :created_at => Time.zone.parse(fechaDeTransaccionAAnular), :estado => Cancelacion::ESTADOS[:anulada])
       visit partida_contable_cancelaciones_path(@pc)
       response.should have_selector("td", :content => fechaDeTransaccion)
       response.should_not have_selector("td", :content => fechaDeTransaccionAAnular)
+    end
+
+    it "debe visualizarse las cancelaciones de la partida contable correspondiente" do
+      fechaDeTransaccion = "13/05/2012 22:41"
+      @cancelacion = Factory(:cancelacion, :partida_contable => @pc, :created_at => Time.zone.parse(fechaDeTransaccion))
+      @pc2 = Factory(:partida_contable)
+      fechaDeTransaccion2 = "15/06/2012 21:55"
+      @cancelacion2 = Factory(:cancelacion, :partida_contable => @pc2, :created_at => Time.zone.parse(fechaDeTransaccion2))
+      visit partida_contable_cancelaciones_path(@pc)
+      response.should have_selector("td", :content => fechaDeTransaccion)
+      response.should_not have_selector("td", :content => fechaDeTransaccion2)
+      visit partida_contable_cancelaciones_path(@pc2)
+      response.should_not have_selector("td", :content => fechaDeTransaccion)
+      response.should have_selector("td", :content => fechaDeTransaccion2)
     end
 
     it "link de alta de cancelación" do
@@ -108,7 +95,6 @@ describe "Cancelaciones" do
     end
 
     it "debe mostrar los campos del formulario de alta" do
-      @cancelacion = Factory(:cancelacion, :partida_contable => @pc)
       visit new_partida_contable_cancelacion_path(@pc, @pc.cancelaciones.new)
       response.should have_selector("input", :type => "submit")
       response.should have_selector("label", :content => "Fecha de ingreso")
@@ -129,7 +115,7 @@ describe "Cancelaciones" do
 
       describe "exitoso" do
         before do
-          @cotizacion_peso_dolar = Factory(:cotizacion_peso_dolar, :user => @user)
+          @cotizacion_peso_dolar = Factory(:cotizacion_peso_dolar, :user => @user, :valor_cents => "467")
           @medios_de_pago = Factory(:medio_de_pago)
           fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
           Time.stub!(:now).and_return(fechaDeTransaccion)
@@ -144,20 +130,22 @@ describe "Cancelaciones" do
           click_button
         end
 
-        it "alta de cancelacion" do
+        it "debe mostrarse la cancelación ingresada" do
           response.should render_template('cancelaciones/index')
-          response.should have_selector("td", :content => "17/05/2012")
+          response.should have_selector("td", :content => "17/05/2012 23:45")
           response.should have_selector("td", :content => "15/05/2012")
           response.should have_selector("td", :content => "Cheque")
           response.should have_selector("td", :content => "ARS")
           response.should have_selector("td", :content => "3")
           response.should have_selector("td", :content => "esto es una prueba")
+          response.should have_selector("td", :content => "4,67")
         end
 
         it "la partida contable debe cambiar el estado a parcial cuando se ingresa una cancelación" do
           visit partidas_contable_path
           response.should have_selector("td", :content => "parcial")
         end
+
       end
 
       describe "fallido" do

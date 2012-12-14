@@ -7,42 +7,41 @@ describe PartidaContable do
     @attr = {:importe => 1000, :importe_currency => "USD"}
   end
 
-  it "debe responder a las propiedades" do
-    @pc = Factory(:partida_contable)
-    @pc.should respond_to(:fecha_de_vencimiento)
-    @pc.should respond_to(:empresa)
-    @pc.should respond_to(:banco)
-    @pc.should respond_to(:solicitante)
-    @pc.should respond_to(:canal_de_solicitud)
-    @pc.should respond_to(:rubro)
-    @pc.should respond_to(:importe)
-    @pc.should respond_to(:importe_cents)
-    @pc.should respond_to(:importe_currency)
-    @pc.should respond_to(:valor_dolar)
-    @pc.should respond_to(:valor_dolar_cents)
-    @pc.should respond_to(:valor_dolar_currency)
-    @pc.should respond_to(:tipo_de_movimiento)
-    @pc.should respond_to(:cliente_proveedor)
-    @pc.should respond_to(:detalle)
-    @pc.should respond_to(:producto_trabajo)
-    @pc.should respond_to(:estado)
-    @pc.should respond_to(:motivo_de_baja_presupuestaria)
-    @pc.should respond_to(:deleted_at)
-  end
-
-  it "importe es del tipo money" do
-    @pc = Factory(:partida_contable, :importe_cents => 100000)
-    @pc.importe == Money.new(@attr[:importe], @attr[:importe_currency])
-  end
-
-  it "valor_dolar es del tipo money" do
-    @pc = Factory(:partida_contable, :importe_cents => 100000)
-    @pc.valor_dolar == Money.new(@attr[:importe], @attr[:importe_currency])
-  end
-
   describe "validación de propiedades" do
     before do
       @pc = Factory(:partida_contable)
+    end
+
+    it "debe responder a las propiedades" do
+      @pc.should respond_to(:fecha_de_vencimiento)
+      @pc.should respond_to(:empresa)
+      @pc.should respond_to(:banco)
+      @pc.should respond_to(:solicitante)
+      @pc.should respond_to(:canal_de_solicitud)
+      @pc.should respond_to(:rubro)
+      @pc.should respond_to(:importe)
+      @pc.should respond_to(:importe_cents)
+      @pc.should respond_to(:importe_currency)
+      @pc.should respond_to(:valor_dolar)
+      @pc.should respond_to(:valor_dolar_cents)
+      @pc.should respond_to(:valor_dolar_currency)
+      @pc.should respond_to(:tipo_de_movimiento)
+      @pc.should respond_to(:cliente_proveedor)
+      @pc.should respond_to(:detalle)
+      @pc.should respond_to(:producto_trabajo)
+      @pc.should respond_to(:estado)
+      @pc.should respond_to(:motivo_de_baja_presupuestaria)
+      @pc.should respond_to(:deleted_at)
+    end
+
+    it "importe es del tipo money" do
+      # @pc = Factory(:partida_contable, :importe_cents => 100000)
+      @pc.importe == Money.new(@attr[:importe], @attr[:importe_currency])
+    end
+
+    it "valor_dolar es del tipo money" do
+      # @pc = Factory(:partida_contable, :importe_cents => 100000)
+      @pc.valor_dolar == Money.new(@attr[:importe], @attr[:importe_currency])
     end
 
     describe "fecha_de_vencimiento" do
@@ -226,8 +225,8 @@ describe PartidaContable do
     end
 
     it "debe cambiar el estado de la partida contable a parcial" do
-      @medio_de_pago = Factory(:medio_de_pago)
-      @pc.cancelaciones.build(:medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD"))
+      # @medio_de_pago = Factory(:medio_de_pago)
+      @pc.cancelaciones.build(:medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD"), :valor_dolar => Money.new(607, "ARS"))
       @pc.save
       @pc.reload
       @pc.estado.should == PartidaContable::ESTADOS[:parcial]
@@ -236,10 +235,33 @@ describe PartidaContable do
     it "no debe cambiar el estado de la partida contable a parcial" do
       @medio_de_pago = Factory(:medio_de_pago)
       PartidaContable.any_instance.stub(:save).and_return(false)
-      @pc.cancelaciones.build(:medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD"))
+      @pc.cancelaciones.build(:medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD"), :valor_dolar => Money.new(607, "ARS"))
       @pc.save
       @pc.reload
       @pc.estado.should == PartidaContable::ESTADOS[:activa]
+    end
+
+    describe "cancelaciones activas" do
+      before do
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(91050, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+        @cancelacion1 = @pc.cancelaciones.create!(@attr)
+        @cancelacion2 = @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(121400, "ARS")))
+        @cancelacion3 = @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(242800, "ARS")))
+        @cancelacion2.anular
+        @cancelacion2.save
+      end
+
+      it "debe mostrar la suma de las cancelaciones activas" do
+        @pc.importe_total_cancelado.should == Money.new(333850,"ARS")
+      end
+
+      it "obtener las cancelaciones activas de la partida contable correspondiente" do
+        @pc2 = Factory(:partida_contable)
+        @medio_de_pago = Factory(:medio_de_pago)
+        @attr2 = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(8231, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+        @cancelacion4pc2 = @pc2.cancelaciones.create!(@attr2)
+        @pc.cancelaciones_activas.should == [@cancelacion1, @cancelacion3]
+      end
     end
 
     # it "debe responder a adicionar_cancelacion" do
@@ -256,70 +278,103 @@ describe PartidaContable do
     #   @pc.adicionar_cancelacion
     #   @pc.cancelaciones.first
     # end
+  end
 
-    describe "importe total cancelado" do
-      before do
-        @medio_de_pago = Factory(:medio_de_pago)
-        @attr = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(150, "USD")}
-        Money.add_rate("USD", "ARS", @pc.valor_dolar.amount)
-      end
-
-      it "si no tiene ninguna cancelación el resultado debe ser cero" do
-        @pc.cancelaciones.count.should == 0
-        @pc.importe_total_cancelado.should == Money.new(0, "ARS")
-      end
-
-      it "debe mostrar la suma de las cancelaciones" do
-        @pc.cancelaciones.create!(@attr)
-        @attr[:importe] = Money.new(200, "USD")
-        @pc.cancelaciones.create!(@attr)
-        @pc.importe_total_cancelado.should == Money.new(2124,"ARS")
-      end
-
-      describe "cancelaciones activas" do
-        before do
-          @cancelacion1 = @pc.cancelaciones.create!(@attr)
-          @attr[:importe] = Money.new(200, "USD")
-          @cancelacion2 = @pc.cancelaciones.create!(@attr)
-          @attr[:importe] = Money.new(400, "USD")
-          @cancelacion3 = @pc.cancelaciones.create!(@attr)
-          @cancelacion2.anular
-          @cancelacion2.save
-        end
-
-        it "debe mostrar la suma de las cancelaciones activas" do
-          @pc.importe_total_cancelado.should == Money.new(3338,"ARS")
-        end
-
-        it "obtener las cancelaciones activas de la partida contable correspondiente" do
-          @pc2 = Factory(:partida_contable)
-          @medio_de_pago = Factory(:medio_de_pago)
-          @attr2 = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(1356, "USD")}
-          @cancelacion4pc2 = @pc2.cancelaciones.create!(@attr2)
-          @pc.cancelaciones_activas.should == [@cancelacion1, @cancelacion3]
-        end
-      end
+  describe "importe total cancelado" do
+    before do
+      # @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(150, "USD"), :valor_dolar => Money.new(607, "ARS")}
+      # Money.add_rate("USD", "ARS", "6.07")
     end
 
-    describe "resta cancelar" do
-      it "si no tiene ninguna cancelación debe mostrar el monto de la partida contable" do
-        @pc.resta_cancelar.should == @pc.importe
-      end
-
-      it "con una cancelación" do
-        @medio_de_pago = Factory(:medio_de_pago)
-        @attr = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => 150, :importe_currency => "ARS", :estado => "Activo"}
-        @pc.cancelaciones.create!(@attr)
-        @pc.resta_cancelar.should == Money.new(85000,"ARS")
-      end
+    it "si no tiene ninguna cancelación el resultado debe ser cero" do
+      @pc = Factory(:partida_contable)
+      @pc.cancelaciones.count.should == 0
+      @pc.importe_total_cancelado.should == Money.new(0, "ARS")
     end
 
-    describe "dar por cumplida" do
-      it "debe cambiar el estado a cumplida" do
+    it "debe sumar las cancelaciones de la misma moneda" do
+      @pc = Factory(:partida_contable)
+      @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(31254, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+      @pc.cancelaciones.create!(@attr)
+      @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(2398, "ARS")))
+      @pc.importe_total_cancelado.should == Money.new(33652, "ARS")
+    end
+
+    describe "suma de cancelaciones de distintas monedas" do
+      it "partida contable en pesos con una cancelación en dólares" do
+        # Money.add_rate("USD", "ARS", "6.07")
+        @pc = Factory(:partida_contable)
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(91050, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+        @pc.cancelaciones.create!(@attr)
+        @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(20000, "USD")))
+        @pc.importe_total_cancelado.should == Money.new(212450, "ARS")
+      end
+
+      it "partida contable en dólares con una cancelación en pesos" do
+        # Money.add_rate("ARS", "USD", "0.164744646")
+        @pc = Factory(:partida_contable, :importe_cents => 10000, :importe_currency => "USD")
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(23000, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+        @pc.cancelaciones.create!(@attr)
+        @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(2396, "USD")))
+        @pc.importe_total_cancelado.should == Money.new(6185, "USD")
+      end
+    end
+  end
+
+  describe "resta cancelar" do
+    it "si no tiene ninguna cancelación debe mostrar el monto de la partida contable" do
+      @pc = Factory(:partida_contable)
+      @pc.resta_cancelar.should == @pc.importe
+    end
+
+    it "con una cancelación en la misma" do
+      @pc = Factory(:partida_contable, :importe_cents => 100000)
+      @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(23415, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+      @pc.cancelaciones.create!(@attr)
+      @pc.resta_cancelar.should == Money.new(76585,"ARS")
+    end
+
+    describe "suma de cancelaciones de distintas monedas" do
+      it "partida contable en pesos con una cancelación en dólares" do
         @pc = Factory(:partida_contable, :importe_cents => 100000)
-        @pc.dar_por_cumplida
-        @pc.estado.should == PartidaContable::ESTADOS[:cumplida]
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(150, "USD"), :valor_dolar => Money.new(607, "ARS")}
+        @pc.cancelaciones.create!(@attr)
+        @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(23116, "ARS")))
+        @pc.resta_cancelar.should == Money.new(75974, "ARS")
       end
+
+      it "partida contable en pesos con una cancelación en dólares con distintas cotizaciones" do
+        @pc = Factory(:partida_contable, :importe_cents => 100000)
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(150, "USD"), :valor_dolar => Money.new(631, "ARS")}
+        @pc.cancelaciones.create!(@attr)
+        @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(23116, "ARS")))
+        @pc.resta_cancelar.should == Money.new(75938, "ARS")
+      end
+
+      it "partida contable en dólares con una cancelación en pesos" do
+        @pc = Factory(:partida_contable, :importe_cents => 10000, :importe_currency => "USD")
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(23000, "ARS"), :valor_dolar => Money.new(607, "ARS")}
+        @pc.cancelaciones.create!(@attr)
+        @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(2396, "USD")))
+        @pc.resta_cancelar.should == Money.new(3815, "USD")
+      end
+
+      it "partida contable en dólares con una cancelación en pesos con distintas cotizaciones" do
+        @pc = Factory(:partida_contable, :importe_cents => 10000, :importe_currency => "USD")
+        @attr = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => Money.new(23000, "ARS"), :valor_dolar => Money.new(631, "ARS")}
+        @pc.cancelaciones.create!(@attr)
+        @pc.cancelaciones.create!(@attr.merge(:importe => Money.new(2396, "USD")))
+        @pc.resta_cancelar.should == Money.new(3959, "USD")
+      end
+
+    end
+  end
+
+  describe "dar por cumplida" do
+    it "debe cambiar el estado a cumplida" do
+      @pc = Factory(:partida_contable, :importe_cents => 100000)
+      @pc.dar_por_cumplida
+      @pc.estado.should == PartidaContable::ESTADOS[:cumplida]
     end
   end
 end
