@@ -56,7 +56,7 @@ MotivoDeBajaPresupuestaria.create!(:detalle => "Cumplida")
 MotivoDeBajaPresupuestaria.create!(:detalle => "No se realizará la compra o gasto")
 
 
-valid_attributes = {:user_id => @user, :valor => 1, :valor => Money.new(4, "ARS")}
+valid_attributes = {:user_id => @user, :valor => Money.new(4, "ARS")}
 @cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
 @saldo_bancario = SaldoBancario.create! valid_attributes.merge(:empresa_id => @calmin.id, :banco_id => @banco1.id)
 @saldo_bancario = SaldoBancario.create! valid_attributes.merge(:empresa_id => @calmin.id, :banco_id => @banco2.id)
