@@ -1,0 +1,7 @@
+<h1>Informes Presupuestario</h1>
+
+<table>
+  <%= content_tag_for(:tr, @empresas) do |empresa| %>
+    <td><%= link_to empresa.detalle, informe_presupuestario_path(empresa) %></td>
+  <% end %>
+</table>

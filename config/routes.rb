@@ -28,6 +28,7 @@ SampleApp::Application.routes.draw do
   resources :bancos
   resources :cotizaciones_peso_dolar, :only => [:edit, :update]
   resources :saldos_bancario, :only => [:edit, :update]
+  resources :informes_presupuestario, :only => [:index, :show]
 
 
   match '/signup',  :to => 'users#new'

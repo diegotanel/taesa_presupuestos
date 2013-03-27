@@ -22,4 +22,5 @@ ActiveSupport::Inflector.inflections do |inflect|
 	inflect.irregular 'cotizacion_peso_dolar_historico', 'cotizaciones_peso_dolar_historico'
 	inflect.irregular 'cancelacion', 'cancelaciones'
 	inflect.irregular 'cliente_proveedor', 'clientes_proveedores'
+	inflect.irregular 'informe_presupuestario', 'informes_presupuestario'
 end

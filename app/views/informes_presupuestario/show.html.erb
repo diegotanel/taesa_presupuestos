@@ -1,0 +1,54 @@
+<div>
+    <% @logos = { 1 => "Ariste_logo.jpg", 2 => "Lobina_logo.jpg",
+                  3 => "Calmin_logo.jpg", 4 => "taesa_logo.jpg",
+                  5 => "Dalmon_logo.jpg", 6 => "chantaco_logo.jpg" } %>
+
+    <%= image_tag(@logos[@empresa.id], :alt => "logo", :id => 'logo', :class => "round", :height => "129", :width => "122") %>
+</div>
+
+<h1 class="titulo ">Informes Presupuestario - <%= "#{@reporte[:empresa]}" %></h1>
+<div class="center">
+Estado financiero al: <%= I18n.l(@reporte[:fecha_del_informe]) %>
+</div>
+
+
+<table class="info_presupuesto">
+<tr>
+  <th rowspan=2>Fecha</th>
+  <th rowspan=2>Detalle</th>
+  <th rowspan=2>Sin asignar banco</th>
+  <% @reporte[:nombre_bancos].each { |nombre_banco| %>
+    <th colspan=3><%= nombre_banco %></th>
+  <% } %>
+  <th rowspan=2>Saldo total financiero</th>
+</tr>
+
+<tr>
+  <% @reporte[:nombre_bancos].each { |nombre_banco| %>
+    <td>Debe</td>
+    <td>Haber</td>
+    <td>Saldo</td>
+  <% } %>
+</tr>
+
+
+<% @reporte[:asientos].each { |asiento| %>
+  <tr>
+    <td><%= I18n.l(asiento[:fecha]) %></td>
+    <td><%= asiento[:detalle] %></td>
+    <% asiento[:banco_sin_asignar].each { |banco_sin_asignar| %>
+      <td><%= number_to_currency(banco_sin_asignar[:saldo]) %></td>
+    <% } %>
+    <% asiento[:bancos].each { |banco| %>
+      <td><%= number_to_currency(banco[:debe]) %></td>
+      <td><%= number_to_currency(banco[:haber]) %></td>
+      <td><%= number_to_currency(banco[:saldo]) %></td>
+    <% } %>
+    <td><%= number_to_currency(asiento[:saldo_total]) %></td>
+  </tr>
+<% } %>
+</table>
+
+<div class="imprimir">
+<a href="#" onclick="window.print();return false;">Imprimir informe</a>
+</div>

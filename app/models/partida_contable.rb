@@ -8,7 +8,7 @@ class PartidaContable < ActiveRecord::Base
   belongs_to :producto_trabajo
   belongs_to :motivo_de_baja_presupuestaria
   has_many :cancelaciones, :after_add => :cambiar_a_parcial
-  attr_accessible :deleted_at, :detalle, :empresa_id, :fecha_de_vencimiento, :importe, :importe_cents, :importe_currency, :tipo_de_movimiento, :valor_dolar_cents, :valor_dolar_currency
+  attr_accessible :deleted_at, :detalle, :empresa_id, :fecha_de_vencimiento, :importe, :importe_cents, :importe_currency, :tipo_de_movimiento, :valor_dolar, :valor_dolar_cents, :valor_dolar_currency
   attr_accessible :banco_id, :solicitante_id, :canal_de_solicitud_id, :rubro_id, :cliente_proveedor_id, :producto_trabajo_id, :motivo_de_baja_presupuestaria_id
 
   monetize :importe_cents, :with_model_currency => :importe_currency

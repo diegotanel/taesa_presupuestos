@@ -261,6 +261,7 @@ describe PartidaContable do
         @attr2 = { :medio_de_pago => @medio_de_pago, :fecha_de_ingreso => DateTime.now, :importe => Money.new(8231, "ARS"), :valor_dolar => Money.new(607, "ARS")}
         @cancelacion4pc2 = @pc2.cancelaciones.create!(@attr2)
         @pc.cancelaciones_activas.should == [@cancelacion1, @cancelacion3]
+        @pc2.cancelaciones_activas.should == [@cancelacion4pc2]
       end
     end
 
@@ -375,6 +376,32 @@ describe PartidaContable do
       @pc = Factory(:partida_contable, :importe_cents => 100000)
       @pc.dar_por_cumplida
       @pc.estado.should == PartidaContable::ESTADOS[:cumplida]
+    end
+  end
+
+  describe "verificación de asociación con partidas_contable" do
+    before do
+      @empresa = Factory(:empresa)
+      @banco = Factory(:banco)
+      @solicitante = Factory(:solicitante)
+      @canal_de_solicitud = Factory(:canal_de_solicitud)
+      @rubro = Factory(:rubro)
+      @medio_de_pago = Factory(:medio_de_pago)
+      @cliente_proveedor = Factory(:cliente_proveedor)
+      @producto_trabajo = Factory(:producto_trabajo)
+      @attr2 = { :fecha_de_vencimiento => DateTime.now, :importe => 1356 , :importe_currency => "EUR", :valor_dolar => Money.new(4, "ARS"),
+                 :solicitante_id => @solicitante, :canal_de_solicitud_id => @canal_de_solicitud, :rubro_id => @rubro, :cliente_proveedor_id => @cliente_proveedor,
+                 :producto_trabajo_id => @producto_trabajo, :tipo_de_movimiento => 1 }
+      @pc = @empresa.partidas_contable.create!(@attr2)
+    end
+
+    it "debe tener los pcs asociados" do
+      @pc.empresa_id.should == @empresa.id
+      @pc.empresa.should == @empresa
+    end
+
+    it "obtener las pcs pendientes de una empresa" do
+      
     end
   end
 end

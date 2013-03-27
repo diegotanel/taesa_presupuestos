@@ -30,17 +30,28 @@ describe Banco do
       @banco.should respond_to(:empresas)
     end
 
+    it "debe responder a saldos bancario" do
+      @banco.should respond_to(:saldos_bancario)
+    end
+
     describe "verificación de asociación" do
       before do
-        @empresa1 = Empresa.new(:detalle => "Taesa")
-        @empresa2 = Empresa.new(:detalle => "Chantaco")
+        @empresa1 = Empresa.create!(:detalle => "Taesa")
+        @empresa2 = Empresa.create!(:detalle => "Chantaco")
         @empresas = [@empresa1, @empresa2]
-        @banco.empresas = @empresas
+        @user = Factory(:user)
       end
 
-      it "debe tener los bancos asociados" do
+      it "debe contener los bancos asociados" do
+        @empresas.each { |empresa|
+          @banco.saldos_bancario.create!(:empresa_id => empresa.id, :user_id => @user, :valor => 4)
+        }
+        @banco.reload
         @banco.empresas.should == @empresas
       end
+
+      it "debe traer las empresas activas"
+
     end
   end
 end

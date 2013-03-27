@@ -18,12 +18,12 @@
 User.create!(:name => "arobles", :email => "arobles@taesa.com.ar",
                      :password => "123456", :password_confirmation => "123456")
 
-Banco.create!(:detalle => "Banco Provincia de Buenos Aires")
-Banco.create!(:detalle => "Citibank NA")
+@banco1 = Banco.create!(:detalle => "Banco Provincia de Buenos Aires")
+@banco2 = Banco.create!(:detalle => "Citibank NA")
 
 Empresa.create!(:detalle => "Ariste de Estrugamou SAAGI")
 Empresa.create!(:detalle => "Lobiña SA")
-Empresa.create!(:detalle => "Calmin SA")
+@calmin = Empresa.create!(:detalle => "Calmin SA")
 Empresa.create!(:detalle => "TAESA AGEISA")
 Empresa.create!(:detalle => "Dalmon SA")
 Empresa.create!(:detalle => "Chantaco SA")
@@ -58,4 +58,5 @@ MotivoDeBajaPresupuestaria.create!(:detalle => "No se realizará la compra o gas
 
 valid_attributes = {:user_id => @user, :valor => 1, :valor => Money.new(4, "ARS")}
 @cotizacion_peso_dolar = CotizacionPesoDolar.create! valid_attributes
-@saldo_bancario = SaldoBancario.create! valid_attributes
+@saldo_bancario = SaldoBancario.create! valid_attributes.merge(:empresa_id => @calmin.id, :banco_id => @banco1.id)
+@saldo_bancario = SaldoBancario.create! valid_attributes.merge(:empresa_id => @calmin.id, :banco_id => @banco2.id)

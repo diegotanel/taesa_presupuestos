@@ -19,13 +19,6 @@ ActiveRecord::Schema.define(:version => 20121204182324) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "bancos_empresas", :id => false, :force => true do |t|
-    t.integer "banco_id",   :null => false
-    t.integer "empresa_id", :null => false
-  end
-
-  add_index "bancos_empresas", ["banco_id", "empresa_id"], :name => "index_bancos_empresas_on_banco_id_and_empresa_id"
-
   create_table "canales_de_solicitud", :force => true do |t|
     t.string   "detalle",    :null => false
     t.datetime "created_at", :null => false
@@ -141,12 +134,16 @@ ActiveRecord::Schema.define(:version => 20121204182324) do
   end
 
   create_table "saldos_bancario", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",        :null => false
+    t.integer  "banco_id",       :null => false
+    t.integer  "empresa_id",     :null => false
     t.integer  "valor_cents",    :null => false
     t.string   "valor_currency", :null => false
+    t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
 
+  add_index "saldos_bancario", ["banco_id", "empresa_id"], :name => "index_saldos_bancario_on_banco_id_and_empresa_id", :unique => true
   add_index "saldos_bancario", ["user_id"], :name => "index_saldos_bancario_on_user_id"
 
   create_table "saldos_bancario_historico", :force => true do |t|

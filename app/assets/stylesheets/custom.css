@@ -1,5 +1,5 @@
 .container {
-  width: 710px;
+  width: 910px;
 }
 
 body {
@@ -237,3 +237,12 @@ form.new_micropost textarea {
   height: 4em;
   margin-bottom: 0;
 }
+
+table.info_presupuesto th {
+  text-align: center;
+}
+
+table.info_presupuesto td {
+  text-align: center;
+}
+

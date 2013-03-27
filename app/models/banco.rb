@@ -1,5 +1,6 @@
 class Banco < ActiveRecord::Base
-  has_and_belongs_to_many :empresas
+  has_many :saldos_bancario, :class_name => 'SaldoBancario'
+  has_many :empresas, :through => :saldos_bancario
 
   attr_accessible :detalle, :empresa_ids
 

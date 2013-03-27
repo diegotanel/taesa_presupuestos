@@ -25,6 +25,8 @@ end
 Factory.define :saldo_bancario do |sb|
   sb.valor_cents 1356
   sb.valor_currency "ARS"
+  sb.association :empresa
+  sb.association :banco
   sb.association :user
 end
 

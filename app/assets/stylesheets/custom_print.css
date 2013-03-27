@@ -1,0 +1,23 @@
+body {
+  -webkit-print-color-adjust:exact;
+}
+
+h1.titulo {
+  text-align: center;	
+}
+
+table.info_presupuesto th, td {
+  text-align: center;
+}
+
+header, pre.debug_dump, div.imprimir {
+  display: none;
+}
+
+tbody tr:nth-child(even) td, tbody tr.even td {
+  background:#e5ecf9;
+}
+
+div.center {
+ text-align: center;
+}
