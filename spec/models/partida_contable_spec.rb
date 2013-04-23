@@ -201,6 +201,18 @@ describe PartidaContable do
         end.should raise_error(Money::Currency::UnknownCurrency)
       end
     end
+
+    describe "Detalle" do
+      it "debe ser requerido" do
+        @pc.detalle = nil
+        @pc.should_not be_valid
+      end
+
+      it "debe contener algún dato" do
+        @pc.detalle = ""
+        @pc.should_not be_valid
+      end
+    end
   end
 
   describe "asociación con cancelación" do
@@ -401,7 +413,7 @@ describe PartidaContable do
     end
 
     it "obtener las pcs pendientes de una empresa" do
-      
+
     end
   end
 end

@@ -33,6 +33,80 @@ describe "PartidaContables" do
       Factory(:producto_trabajo)
     end
 
+    describe "deben inicializarse todos los combobox del formulario en blanco" do
+      it "deben inicializarse el combobox de empresa en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_empresa_id") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione una empresa...")
+          n.should have_selector('option[value="1"]', :content => "TAESA")
+        end
+      end
+
+      it "deben inicializarse el combobox de banco en blanco" do
+        # visit new_partida_contable_path
+        # response.should have_selector("select#partida_contable_banco_id") do |n|
+        #   n.should have_selector('option[value=""]', :content => "Seleccione un banco...")
+        # end
+      end
+
+      it "deben inicializarse el combobox de solicitante en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_solicitante_id") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione un solicitante...")
+          n.should have_selector('option[value="1"]', :content => "Fernando")
+        end
+      end
+
+      it "deben inicializarse el combobox de canal de solicitud en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_canal_de_solicitud_id") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione un canal de solicitud...")
+          n.should have_selector('option[value="1"]', :content => "Mail")
+        end
+      end
+
+      it "deben inicializarse el combobox de rubro en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_rubro_id") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione un rubro...")
+          n.should have_selector('option[value="1"]', :content => "Impuestos")
+        end
+      end
+
+      it "deben inicializarse el combobox de tipo de moneda en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_importe_currency") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione una moneda...")
+          n.should have_selector('option[value="ARS"]', :content => "ARS")
+        end
+      end
+
+      it "deben inicializarse el combobox de tipo de movimiento en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_tipo_de_movimiento") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione un tipo de movimiento...")
+          n.should have_selector('option[value="1"]', :content => "entrada")
+        end
+      end
+
+      it "deben inicializarse el combobox de cliente proveedor en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_cliente_proveedor_id") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione un cliente / proveedor...")
+          n.should have_selector('option[value="1"]', :content => "Jukic")
+        end
+      end
+
+      it "deben inicializarse el combobox de producto trabajo en blanco" do
+        visit new_partida_contable_path
+        response.should have_selector("select#partida_contable_producto_trabajo_id") do |n|
+          n.should have_selector('option[value=""]', :content => "Seleccione un producto trabajo...")
+          n.should have_selector('option[value="1"]', :content => "Cosecha")
+        end
+      end
+
+    end
+
     describe "exitoso" do
       before do
         fechaDeCreacion = Time.zone.parse("17/05/2012 23:45")

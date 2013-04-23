@@ -29,6 +29,7 @@ class PartidaContable < ActiveRecord::Base
   validates :producto_trabajo, :presence => true
   validates :estado, :presence => true, :inclusion => { :in => PartidaContable::ESTADOS.values }
   validates :tipo_de_movimiento, :presence => true
+  validates :detalle, :presence => true
 
   TIPODEMONEDA = %w[ARS USD]
 

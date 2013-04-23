@@ -184,7 +184,7 @@ DEPENDENCIES
   gravatar_image_tag
   jquery-rails
   money
-  money-rails
+  money-rails (= 0.7.0)
   pg
   rails (= 3.2.8)
   rails-i18n

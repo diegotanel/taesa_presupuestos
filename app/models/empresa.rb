@@ -10,6 +10,6 @@ class Empresa < ActiveRecord::Base
     return self.partidas_contable.where(
       :estado => [PartidaContable::ESTADOS[:activa],
                   PartidaContable::ESTADOS[:parcial]]
-    )
+    ).order('fecha_de_vencimiento ASC')
   end
 end

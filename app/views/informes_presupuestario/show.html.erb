@@ -34,7 +34,7 @@ Estado financiero al: <%= I18n.l(@reporte[:fecha_del_informe]) %>
 
 <% @reporte[:asientos].each { |asiento| %>
   <tr>
-    <td><%= I18n.l(asiento[:fecha]) %></td>
+    <td><%= I18n.l(asiento[:fecha], :format => :short) %></td>
     <td><%= asiento[:detalle] %></td>
     <% asiento[:banco_sin_asignar].each { |banco_sin_asignar| %>
       <td><%= number_to_currency(banco_sin_asignar[:saldo]) %></td>

@@ -90,6 +90,7 @@ Factory.define :partida_contable do |pc|
   pc.association :producto_trabajo
   pc.estado "1"
   pc.association :motivo_de_baja_presupuestaria
+  pc.detalle "detalle1"
 end
 
 Factory.define :cancelacion do |cancelacion|

@@ -13,7 +13,7 @@ class CreatePartidasContable < ActiveRecord::Migration
       t.string :valor_dolar_currency, :null => false
       t.integer :tipo_de_movimiento, :null => false
       t.references :cliente_proveedor, :null => false
-      t.string :detalle
+      t.string :detalle, :null => false
       t.references :producto_trabajo, :null => false
       t.integer :estado, :null => false
       t.references :motivo_de_baja_presupuestaria

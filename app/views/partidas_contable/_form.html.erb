@@ -9,32 +9,32 @@
 
   <div class="field">
     <%= f.label :empresa %><br />
-    <%= f.collection_select("empresa_id", @empresas, "id", "detalle") %>
+    <%= f.collection_select("empresa_id", @empresas, "id", "detalle", :include_blank => "Seleccione una empresa...") %>
   </div>
 
   <div class="field">
     <%= f.label :banco %><br />
-    <%= f.grouped_collection_select("banco_id", @empresas, "bancos", "detalle", "id", "detalle") %>
+    <%= f.grouped_collection_select("banco_id", @empresas, "bancos", "detalle", "id", "detalle", :include_blank => "Seleccione un banco...") %>
   </div>
 
   <div class="field">
     <%= f.label :solicitante %><br />
-    <%= f.collection_select("solicitante_id", @solicitantes, "id", "detalle") %>
+    <%= f.collection_select("solicitante_id", @solicitantes, "id", "detalle", :include_blank => "Seleccione un solicitante...") %>
   </div>
 
   <div class="field">
     <%= f.label :canal_de_solicitud %><br />
-    <%= f.collection_select("canal_de_solicitud_id", @canales_de_solicitud, "id", "detalle") %>
+    <%= f.collection_select("canal_de_solicitud_id", @canales_de_solicitud, "id", "detalle", :include_blank => "Seleccione un canal de solicitud...") %>
   </div>
 
   <div class="field">
     <%= f.label :rubro %><br />
-    <%= f.collection_select("rubro_id", @rubros, "id", "detalle") %>
+    <%= f.collection_select("rubro_id", @rubros, "id", "detalle", :include_blank => "Seleccione un rubro...") %>
   </div>
 
   <div class="field">
     <%= f.label :importe_currency, "Tipo de moneda" %><br />
-    <%= f.select("importe_currency", PartidaContable::TIPODEMONEDA) %>
+    <%= f.select("importe_currency", PartidaContable::TIPODEMONEDA, :include_blank => "Seleccione una moneda...") %>
   </div>
 
   <div class="field">
@@ -44,17 +44,17 @@
 
   <div class="field">
     <%= f.label :tipo_de_movimiento %><br />
-    <%= f.select("tipo_de_movimiento", @tipos_de_movimiento) %>
+    <%= f.select("tipo_de_movimiento", @tipos_de_movimiento, :include_blank => "Seleccione un tipo de movimiento...") %>
   </div>
 
   <div class="field">
     <%= f.label :cliente_proveedor %><br />
-    <%= f.collection_select("cliente_proveedor_id", @clientes_proveedores, "id", "detalle") %>
+    <%= f.collection_select("cliente_proveedor_id", @clientes_proveedores, "id", "detalle", :include_blank => "Seleccione un cliente / proveedor...") %>
   </div>
 
   <div class="field">
     <%= f.label :producto_trabajo %><br />
-    <%= f.collection_select("producto_trabajo_id", @productos_trabajos, "id", "detalle") %>
+    <%= f.collection_select("producto_trabajo_id", @productos_trabajos, "id", "detalle", :include_blank => "Seleccione un producto trabajo...") %>
   </div>
 
   <div class="field">

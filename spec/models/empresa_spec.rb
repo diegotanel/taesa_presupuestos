@@ -60,8 +60,10 @@ describe Empresa do
 
     describe "verificación de asociación con partidas_contable" do
       before do
-        @pc1 = Factory(:partida_contable, :empresa => @empresa)
-        @pc2 = Factory(:partida_contable, :empresa => @empresa, :importe_cents => 100000)
+        @fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
+        Time.stub!(:now).and_return(@fechaDeTransaccion)
+        @pc1 = Factory(:partida_contable, :empresa => @empresa, :fecha_de_vencimiento => @fechaDeTransaccion)
+        @pc2 = Factory(:partida_contable, :empresa => @empresa, :importe_cents => 100000, :fecha_de_vencimiento => @fechaDeTransaccion)
       end
 
       it "debe tener las partidas contable asociadas" do
@@ -69,16 +71,27 @@ describe Empresa do
       end
 
       it "debe retornar las pcs pendientes (activas, parciales y vencidas)" do
-        @pc3parcial = Factory(:partida_contable, :empresa => @empresa)
-        @attrCancelacion = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => 1356 , :importe_currency => "EUR", :valor_dolar => Money.new(4, "ARS")}
-        @pc3parcial.cancelaciones.create!(@attrCancelacion)
-        @pc3parcial.save
-        @pc3parcial.reload
-        fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
-        Time.stub!(:now).and_return(fechaDeTransaccion)
-        @pc4vencida = Factory(:partida_contable, :empresa => @empresa, :fecha_de_vencimiento => 1.day.ago)
-        @pc5cumplida = Factory(:partida_contable, :empresa => @empresa, :estado => PartidaContable::ESTADOS[:cumplida])
-        @empresa.partidas_contables_pendientes.should == [@pc1, @pc2, @pc3parcial, @pc4vencida]
+        pc3parcial = Factory(:partida_contable, :empresa => @empresa)
+        attrCancelacion = { :medio_de_pago => Factory(:medio_de_pago), :fecha_de_ingreso => DateTime.now, :importe => 1356 , :importe_currency => "EUR", :valor_dolar => Money.new(4, "ARS")}
+        pc3parcial.cancelaciones.create!(attrCancelacion)
+        pc3parcial.save
+        pc3parcial.reload
+
+        pc4vencida = Factory(:partida_contable, :empresa => @empresa, :fecha_de_vencimiento => 1.day.ago)
+        pc5cumplida = Factory(:partida_contable, :empresa => @empresa, :estado => PartidaContable::ESTADOS[:cumplida])
+        @empresa.partidas_contables_pendientes.should =~ [@pc1, @pc2, pc3parcial, pc4vencida]
+      end
+
+      it "debe retornar las pcs pendientes ordenadas por fecha de vencimiento" do
+        @pc1.fecha_de_vencimiento = @fechaDeTransaccion + 5.days
+        @pc2.fecha_de_vencimiento = @fechaDeTransaccion + 3.days
+        @pc3 = Factory(:partida_contable, :empresa => @empresa, :fecha_de_vencimiento => @fechaDeTransaccion + 10.days)
+        @pc4 = Factory(:partida_contable, :empresa => @empresa, :fecha_de_vencimiento => @fechaDeTransaccion + 4.days)
+        @pc1.save
+        @pc2.save
+        @pc1.reload
+        @pc2.reload
+        @empresa.partidas_contables_pendientes.should == [@pc2, @pc4, @pc1, @pc3]
       end
     end
   end

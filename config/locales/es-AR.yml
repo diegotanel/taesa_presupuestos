@@ -9,6 +9,7 @@ es-AR:
   time:
     formats:
       default: ! '%d/%m/%Y %H:%M'
+      short: ! '%d/%m/%Y'
   activerecord:
     attributes:
         user: Usuario

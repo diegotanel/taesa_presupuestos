@@ -8,7 +8,6 @@ describe "InformesPresupuestarios" do
   describe "como usuario" do
     before do
       @user = Factory(:user)
-      @fecha = "25/09/2012 23:06"
       integration_sign_in(@user)
     end
 
@@ -56,7 +55,7 @@ describe "InformesPresupuestarios" do
         end
 
         it "debe mostrar la tabla con un banco" do
-          response.should have_selector("td", :content => "17/05/2012 23:45")
+          response.should have_selector("td", :content => "17/05/2012")
           response.should have_selector("td", :content => @saldo_bancario.detalle)
           response.should have_selector("td", :content => "$2.500,00")
           response.should have_selector("td", :content => "$408.500,00")
@@ -64,6 +63,11 @@ describe "InformesPresupuestarios" do
           response.should have_selector("td", :content => "$268.500,00")
         end
       end
+
+      describe "generar informe presupuestario con dos bancos" do
+        
+      end
+
     end
   end
   DatabaseCleaner.clean
