@@ -6,6 +6,7 @@ class CreateSaldosBancario < ActiveRecord::Migration
       t.references :empresa, :null => false
       t.integer :valor_cents, :null => false
       t.string :valor_currency, :null => false
+      t.integer :estado, :null => false
       
       t.timestamps
     end

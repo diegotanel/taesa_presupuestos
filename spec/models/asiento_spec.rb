@@ -147,8 +147,8 @@ describe Asiento do
         @banco2 = Banco.create!(:detalle => "Citibank")
         @user = Factory(:user)
 
-        @saldo_bancario1 = @empresa.saldos_bancario.create!(:banco_id => @banco1.id, :user_id => @user, :valor => Money.new(250000, "ARS"))
-        @saldo_bancario2 =@empresa.saldos_bancario.create!(:banco_id => @banco2.id, :user_id => @user, :valor => Money.new(2189100, "ARS"))
+        @saldo_bancario1 = @banco1.saldos_bancario.create!(:empresa_id => @empresa.id, :user_id => @user, :valor => Money.new(250000, "ARS"))
+        @saldo_bancario2 = @banco2.saldos_bancario.create!(:empresa_id => @empresa.id, :user_id => @user, :valor => Money.new(2189100, "ARS"))
 
         @movimientosBanco1 = [
           [14000000, PartidaContable::TIPODEMOVIMIENTO[:entrada]],
@@ -205,8 +205,8 @@ describe Asiento do
         @banco2 = Banco.create!(:detalle => "Citibank")
         @user = Factory(:user)
 
-        @saldo_bancario1 = @empresa.saldos_bancario.create!(:banco_id => @banco1.id, :user_id => @user, :valor => Money.new(250000, "ARS"))
-        @saldo_bancario2 = @empresa.saldos_bancario.create!(:banco_id => @banco2.id, :user_id => @user, :valor => Money.new(2189100, "ARS"))
+        @saldo_bancario1 = @banco1.saldos_bancario.create!(:empresa_id => @empresa.id, :user_id => @user, :valor => Money.new(250000, "ARS"))
+        @saldo_bancario2 = @banco2.saldos_bancario.create!(:empresa_id => @empresa.id, :user_id => @user, :valor => Money.new(2189100, "ARS"))
 
         @movimientos = [
           [40600000, PartidaContable::TIPODEMOVIMIENTO[:salida], nil],

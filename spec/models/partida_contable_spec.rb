@@ -403,7 +403,7 @@ describe PartidaContable do
       @producto_trabajo = Factory(:producto_trabajo)
       @attr2 = { :fecha_de_vencimiento => DateTime.now, :importe => 1356 , :importe_currency => "EUR", :valor_dolar => Money.new(4, "ARS"),
                  :solicitante_id => @solicitante, :canal_de_solicitud_id => @canal_de_solicitud, :rubro_id => @rubro, :cliente_proveedor_id => @cliente_proveedor,
-                 :producto_trabajo_id => @producto_trabajo, :tipo_de_movimiento => 1 }
+                 :producto_trabajo_id => @producto_trabajo, :tipo_de_movimiento => 1, :detalle => "texto" }
       @pc = @empresa.partidas_contable.create!(@attr2)
     end
 

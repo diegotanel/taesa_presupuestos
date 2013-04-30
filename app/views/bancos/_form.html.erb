@@ -1,20 +1,20 @@
 <%= form_for(@banco) do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
+<%= render 'shared/error_messages', :object => f.object %>
 
 
-  <div class="field">
+<div class="field">
   <%= f.label :detalle %><br />
   <%= f.text_field :detalle %>
-  </div>
-  <div class="field">
-  <%= hidden_field_tag "banco[empresa_ids][]", nil %>
+</div>
+<div class="field">
+  <%= hidden_field_tag "banco[empresa_attrib][]", nil %>
   <% Empresa.all.each do |empresa| %>
-    <%= check_box_tag "banco[empresa_ids][]", empresa.id, @banco.empresa_ids.include?(empresa.id), id: dom_id(empresa) %>
-    <%= label_tag dom_id(empresa), empresa.detalle %><br>
+  <%= check_box_tag "banco[empresa_attrib][]", empresa.id, @banco.empresa_ids.include?(empresa.id), id: dom_id(empresa) %>
+  <%= label_tag dom_id(empresa), empresa.detalle %><br>
   <% end %>
-  </div>
+</div>
 
-  <div class="actions">
+<div class="actions">
   <%= f.submit %>
-  </div>
+</div>
 <% end %>

@@ -50,7 +50,8 @@ describe PartidasContableController do
       :cliente_proveedor_id => @cliente_proveedor,
       :producto_trabajo_id => @producto_trabajo,
       :estado => "1",
-      :motivo_de_baja_presupuestaria_id => @motivo_de_baja_presupuestaria
+      :motivo_de_baja_presupuestaria_id => @motivo_de_baja_presupuestaria,
+      :detalle => "texto para detalle"
     }
   end
 

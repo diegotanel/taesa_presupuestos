@@ -7,7 +7,6 @@ class BancosController < ApplicationController
   end
 
   def show
-    # @banco = Banco.find(params[:id])
     respond_with(@banco)
   end
 
@@ -17,23 +16,20 @@ class BancosController < ApplicationController
   end
 
   def edit
-    # @banco = Banco.find(params[:id])
   end
 
   def create
-    @banco = Banco.new(params[:banco])
-    @banco.save
+    params[:banco][:current_user_id] = current_user.id
+    @banco = Banco.create(params[:banco])
     respond_with(@banco)
   end
 
   def update
-    # @banco = Banco.find(params[:id])
     @banco.update_attributes(params[:banco])
     respond_with(@banco)
   end
 
   def destroy
-    # @banco = Banco.find(params[:id])
     @banco.destroy
     respond_with(@banco)
   end

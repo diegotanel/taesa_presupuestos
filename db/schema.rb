@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20121204182324) do
 
   create_table "empresas", :force => true do |t|
     t.string   "detalle",    :null => false
+    t.integer  "estado",     :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -102,7 +103,7 @@ ActiveRecord::Schema.define(:version => 20121204182324) do
     t.string   "valor_dolar_currency",             :null => false
     t.integer  "tipo_de_movimiento",               :null => false
     t.integer  "cliente_proveedor_id",             :null => false
-    t.string   "detalle"
+    t.string   "detalle",                          :null => false
     t.integer  "producto_trabajo_id",              :null => false
     t.integer  "estado",                           :null => false
     t.integer  "motivo_de_baja_presupuestaria_id"
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20121204182324) do
     t.integer  "empresa_id",     :null => false
     t.integer  "valor_cents",    :null => false
     t.string   "valor_currency", :null => false
+    t.integer  "estado",         :null => false
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end

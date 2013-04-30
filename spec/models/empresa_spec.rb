@@ -19,15 +19,81 @@ describe Empresa do
     Empresa.new(@attr).should respond_to(:saldos_bancario)
   end
 
+  it "debe responder a saldos bancario" do
+    Empresa.new(@attr).should respond_to(:estado)
+  end
+
+  it "debe responder a anular" do
+    Empresa.new(@attr).should respond_to(:anular)
+  end
+
+  it "debe responder a activar" do
+    Empresa.new(@attr).should respond_to(:activar)
+  end
+
+  it "debe responder a activas" do
+    Empresa.should respond_to(:activas)
+  end
+
+  it "debe responder a deshabilitadas" do
+    Empresa.should respond_to(:deshabilitadas)
+  end
+
   describe "validations" do
-    it "should require a detalle" do
-      Empresa.new(@attr.merge(:detalle => "")).should_not be_valid
+    describe "detalle" do
+      it "should require a detalle" do
+        Empresa.new(@attr.merge(:detalle => "")).should_not be_valid
+      end
     end
+
+    describe "estado" do
+      before do
+        @empresa = Empresa.new(@attr)
+      end
+
+      it "debe inicializarse con estado activa" do
+        @empresa.estado.should_not be_nil
+      end
+
+      it "debe ser requerido" do
+        @empresa.estado = nil
+        @empresa.should_not be_valid
+      end
+
+      it "debe estar como activa" do
+        @empresa.estado.should == Empresa::ESTADOS[:activa]
+      end
+
+      it "no puede ser nulo" do
+        lambda {
+          @empresa.estado = nil
+          @empresa.save!
+        }.should raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      it "no debe aceptar valores" do
+        @empresa.estado = 23
+        @empresa.should_not be_valid
+      end
+
+      it "debe cambiar el estado a activa" do
+        @empresa.anular
+        @empresa.estado.should == Empresa::ESTADOS[:deshabilitada]
+        @empresa.activar
+        @empresa.estado.should == Empresa::ESTADOS[:activa]
+      end
+
+      it "debe cambiar el estado a deshabilitada" do
+        @empresa.anular
+        @empresa.estado.should == Empresa::ESTADOS[:deshabilitada]
+      end
+    end
+
   end
 
   describe "Asociación" do
     before do
-      @empresa = Empresa.create!(@attr)
+      @empresa = Empresa.new(@attr)
     end
 
     it "debe responder a bancos" do
@@ -44,17 +110,20 @@ describe Empresa do
 
     describe "verificación de asociación con banco" do
       before do
-        @banco1 = Banco.create!(:detalle => "Banco Galicia")
-        @banco2 = Banco.create!(:detalle => "Banco Frances")
-        @bancos = [@banco1, @banco2]
+        @empresa1 = Empresa.create!(:detalle => "TAESA")
+        @empresa2 = Empresa.create!(:detalle => "Chantaco")
+        @empresa3 = Empresa.create!(:detalle => "SuperFito")
+        @empresas = [@empresa1, @empresa2, @empresa3]
+
+        @banco = Banco.create!(:detalle => "Banco Galicia")
         @user = Factory(:user)
       end
 
-      it "debe tener los bancos asociados" do
-        @bancos.each { |banco|
-          @empresa.saldos_bancario.create!(:banco_id => banco.id, :user_id => @user, :valor => 4)
+      it "debe tener los banco asociados" do
+        @empresas.each { |empresa|
+          @banco.saldos_bancario.create!(:empresa_id => empresa.id, :user_id => @user, :valor => 4)
         }
-        @empresa.bancos.should == @bancos
+        @banco.empresas.should == @empresas
       end
     end
 
@@ -93,6 +162,24 @@ describe Empresa do
         @pc2.reload
         @empresa.partidas_contables_pendientes.should == [@pc2, @pc4, @pc1, @pc3]
       end
+    end
+  end
+
+  describe "búsqueda por activas y deshabilitadas" do
+    before do
+      @empresa1 = Factory(:empresa, :detalle => "TAESA", :estado => Empresa::ESTADOS[:activa])
+      @empresa2 = Factory(:empresa, :detalle => "Chantaco", :estado => Empresa::ESTADOS[:deshabilitada])
+      @empresa3 = Factory(:empresa, :detalle => "SuperFito", :estado => Empresa::ESTADOS[:activa])
+    end
+
+    it "debe obtener las empresas activas" do
+      @resultado = Empresa.activas
+      @resultado.should =~ [@empresa1, @empresa3]
+    end
+
+    it "debe obtener las empresas deshabilitadas" do
+      @resultado = Empresa.deshabilitadas
+      @resultado.should =~ [@empresa2]
     end
   end
 end

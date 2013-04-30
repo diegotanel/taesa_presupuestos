@@ -34,7 +34,7 @@ describe "InformesPresupuestarios" do
           @banco = Factory(:banco, :detalle => "Banco Provincia Buenos Aires")
           fechaDeTransaccion = Time.zone.parse("17/05/2012 23:45")
           Time.stub!(:now).and_return(fechaDeTransaccion)
-          @saldo_bancario = SaldoBancario.create!(:user_id => @user, :valor => 1, :valor => Money.new(250000, "ARS"), :empresa_id => @empresa, :banco_id => @banco)
+          @saldo_bancario = @banco.saldos_bancario.create!(:user_id => @user, :valor => 1, :valor => Money.new(250000, "ARS"), :empresa_id => @empresa)
           @pc1 = Factory(:partida_contable, :importe_cents => 40600000, :importe_currency => "ARS", :tipo_de_movimiento => PartidaContable::TIPODEMOVIMIENTO[:salida], :banco => nil, :empresa => @empresa, :detalle => "Ferrari Venta 1000 Tn Trigo")
           @pc2 = Factory(:partida_contable, :importe_cents => 14000000, :importe_currency => "ARS", :tipo_de_movimiento => PartidaContable::TIPODEMOVIMIENTO[:salida], :banco => @banco, :empresa => @empresa, :detalle => "Siembra soja")
           visit informes_presupuestario_path

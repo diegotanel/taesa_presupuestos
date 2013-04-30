@@ -6,6 +6,7 @@ describe "Bancos" do
   before do
     @user = Factory(:user)
     integration_sign_in(@user)
+    @etiqueta = "Banco Galicia"
   end
 
   it "link de acceso" do
@@ -40,24 +41,46 @@ describe "Bancos" do
       end
     end
 
+    it "alta de banco sin detalle" do
+      lambda do
+        visit new_banco_path
+        fill_in :banco_detalle, :with => ""
+        click_button
+        response.should render_template('bancos/new')
+        response.should have_selector("div#error_explanation")
+      end.should_not change(Banco, :count)
+    end
+
     it "alta de banco sin empresas" do
       lambda do
         visit new_banco_path
-        fill_in :banco_detalle, :with => "Banco Galicia"
+        fill_in :banco_detalle, :with => @etiqueta
         click_button
         response.should render_template('bancos/show')
+        response.should have_selector("p", :content => @etiqueta)
       end.should change(Banco, :count).by(1)
     end
 
     it "alta de banco con empresas" do
       lambda do
         visit new_banco_path
-        fill_in :banco_detalle, :with => "Banco Galicia"
+        fill_in :banco_detalle, :with => @etiqueta
         check @empresa1.detalle
         check @empresa3.detalle
         click_button
         response.should render_template('bancos/show')
+        response.should have_selector("p", :content => @etiqueta)
       end.should change(Banco, :count).by(1)
+    end
+
+    it "Dar de alta una cuenta representada por un saldo" do
+      lambda do
+        visit new_banco_path
+        fill_in :banco_detalle, :with => @etiqueta
+        check @empresa1.detalle
+        check @empresa3.detalle
+        click_button
+      end.should change(SaldoBancario, :count).by(2)
     end
 
     describe "comprobación de la asociación" do

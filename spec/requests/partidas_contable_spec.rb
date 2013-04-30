@@ -125,6 +125,7 @@ describe "PartidaContables" do
         select "entrada", :from => :partida_contable_tipo_de_movimiento
         select "Jukic", :from => :partida_contable_cliente_proveedor_id
         select "Cosecha", :from => :partida_contable_producto_trabajo_id
+        fill_in :partida_contable_detalle, :with => "texto para detalle"
         click_button
       end
 

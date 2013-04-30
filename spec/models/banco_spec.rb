@@ -12,7 +12,7 @@ describe Banco do
   end
 
   it "debe tener el atributo detalle" do
-    Banco.create!(@attr).should respond_to(:detalle)
+    Banco.new.should respond_to(:detalle)
   end
 
   describe "validations" do
@@ -23,7 +23,7 @@ describe Banco do
 
   describe "Asociación con empresa" do
     before do
-      @banco = Banco.create!(@attr)
+      @banco = Banco.new
     end
 
     it "debe responder a empresas" do
@@ -43,11 +43,30 @@ describe Banco do
       end
 
       it "debe contener los bancos asociados" do
+        @banco = Banco.create!(@attr)
         @empresas.each { |empresa|
           @banco.saldos_bancario.create!(:empresa_id => empresa.id, :user_id => @user, :valor => 4)
         }
         @banco.reload
         @banco.empresas.should == @empresas
+      end
+
+      it "debe guardar la asociación en una única operación" do
+        @banco = Banco.new(@attr)
+        @empresas.each { |empresa|
+          @banco.saldos_bancario.build(:empresa_id => empresa.id, :user_id => @user, :valor => 4)
+        }
+        @banco.save!
+        @banco.reload
+        @banco.empresas.should == @empresas
+      end
+
+      it "no debe guardarse el banco si hay un error en la asociación" do
+        @banco = Banco.new(@attr)
+        @banco.saldos_bancario.build(:empresa_id => nil, :user_id => nil)
+        @banco.save
+        @banco.should_not be_valid
+        @banco.should_not be_persisted
       end
 
       it "debe traer las empresas activas"
