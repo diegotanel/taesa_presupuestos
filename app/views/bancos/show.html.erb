@@ -6,6 +6,9 @@
   <%= @banco.detalle %>
 </p>
 
+<%= content_tag_for(:ul, @banco.empresas) do |empresa| %>
+  <li><%= empresa.detalle %></li>
+<% end %>
 
 
 <%= link_to t('scaffoldi18n.edit'), edit_banco_path(@banco) %> |

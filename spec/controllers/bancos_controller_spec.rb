@@ -19,12 +19,14 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe BancosController do
-
+  before do
+    @user = test_sign_in(Factory(:user))
+  end
   # This should return the minimal set of attributes required to create a valid
   # Banco. As you add validations to Banco, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {:detalle => "detalle1"}
+    {:detalle => "detalle1", :user_id => @user.id}
   end
 
   # This should return the minimal set of values that should be in the session

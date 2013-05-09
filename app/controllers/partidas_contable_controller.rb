@@ -53,6 +53,7 @@ class PartidasContableController < ApplicationController
 
   def inicializarVista
     @empresas = Empresa.all
+    @saldos_bancario = SaldoBancario.all
     @bancos = Banco.all
     @solicitantes = Solicitante.all
     @canales_de_solicitud = CanalDeSolicitud.all

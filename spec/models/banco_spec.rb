@@ -15,6 +15,14 @@ describe Banco do
     Banco.new.should respond_to(:detalle)
   end
 
+  it "debe tener el atributo empresas_activas_asociadas" do
+    Banco.new.should respond_to(:empresas_activas_asociadas)
+  end
+
+  it "debe tener el atributo empresas_activas_no_asociadas" do
+    Banco.new.should respond_to(:empresas_activas_no_asociadas)
+  end
+
   describe "validations" do
     it "should require a detalle" do
       Banco.new(@attr.merge(:detalle => "")).should_not be_valid
@@ -36,9 +44,11 @@ describe Banco do
 
     describe "verificación de asociación" do
       before do
-        @empresa1 = Empresa.create!(:detalle => "Taesa")
-        @empresa2 = Empresa.create!(:detalle => "Chantaco")
-        @empresas = [@empresa1, @empresa2]
+        @empresa1 = Factory(:empresa, :detalle => "TAESA", :estado => Empresa::ESTADOS[:activa])
+        @empresa2 = Factory(:empresa, :detalle => "Chantaco", :estado => Empresa::ESTADOS[:deshabilitada])
+        @empresa3 = Factory(:empresa, :detalle => "SuperFito", :estado => Empresa::ESTADOS[:activa])
+        @empresa4 = Factory(:empresa, :detalle => "SuperGonza", :estado => Empresa::ESTADOS[:activa])
+        @empresas = [@empresa1, @empresa2, @empresa3, @empresa4]
         @user = Factory(:user)
       end
 
@@ -69,7 +79,28 @@ describe Banco do
         @banco.should_not be_persisted
       end
 
-      it "debe traer las empresas activas"
+      it "debe obtener las empresas activas asociadas al banco" do
+        @banco = Banco.create!(:detalle => "Banco Galicia")
+        @banco.saldos_bancario.create!(:empresa_id => @empresa3.id, :user_id => @user, :valor => 4)
+        @banco.empresas_activas_asociadas.should =~ [@empresa3]
+      end
+
+      it "debe obtener las empresas activas asociadas al banco" do
+        @banco = Banco.create!(:detalle => "Banco Galicia")
+        @banco.empresas_activas_asociadas.should =~ []
+      end
+
+      it "debe obtener las empresas activas no asociadas al banco" do
+        @banco = Banco.create!(:detalle => "Banco Galicia")
+        @banco.saldos_bancario.create!(:empresa_id => @empresa3.id, :user_id => @user, :valor => 4)
+        @banco.saldos_bancario.create!(:empresa_id => @empresa4.id, :user_id => @user, :valor => 4)
+        @banco.empresas_activas_no_asociadas.should =~ [@empresa1]
+      end
+
+      it "debe obtener todas las empresas activas no asociadas al banco" do
+        @banco = Banco.create!(:detalle => "Banco Galicia")
+        @banco.empresas_activas_no_asociadas.should =~ [@empresa1, @empresa3, @empresa4]
+      end
 
     end
   end

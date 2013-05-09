@@ -3,7 +3,7 @@ class Banco < ActiveRecord::Base
   has_many :empresas, :through => :saldos_bancario
   before_save :crear_saldos_bancario
 
-  attr_accessible :detalle, :empresa_ids, :empresa_attrib, :current_user_id
+  attr_accessible :detalle, :empresa_ids, :empresa_attrib, :user_id
 
   validates :detalle, :presence => true
 
@@ -11,8 +11,16 @@ class Banco < ActiveRecord::Base
     @empresa_attrib = empresa_attrib.delete_if(&:empty?)
   end
 
-  def current_user_id=(id)
+  def user_id=(id)
     @current_user_id = id
+  end
+
+  def empresas_activas_asociadas
+    self.empresas.select { |empresa| empresa.estado == Empresa::ESTADOS[:activa]  }
+  end
+
+  def empresas_activas_no_asociadas
+    Empresa.activas.where("id NOT IN (?)", self.empresa_ids.empty? ? '' : self.empresa_ids)
   end
 
   private

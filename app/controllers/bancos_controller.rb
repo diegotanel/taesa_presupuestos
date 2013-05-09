@@ -1,5 +1,7 @@
 class BancosController < ApplicationController
   before_filter :encontrar_banco, :only => [:show, :edit, :update, :destroy]
+  before_filter :buscar_empresas_activas, :only => [:new, :create]
+  before_filter :buscar_empresas_activas_no_asociadas, :only => [:edit, :update]
 
   def index
     @bancos = Banco.all
@@ -19,12 +21,13 @@ class BancosController < ApplicationController
   end
 
   def create
-    params[:banco][:current_user_id] = current_user.id
+    params[:banco][:user_id] = current_user.id
     @banco = Banco.create(params[:banco])
     respond_with(@banco)
   end
 
   def update
+    params[:banco][:user_id] = current_user.id
     @banco.update_attributes(params[:banco])
     respond_with(@banco)
   end
@@ -38,5 +41,13 @@ class BancosController < ApplicationController
 
   def encontrar_banco
     @banco = Banco.find(params[:id])
+  end
+
+  def buscar_empresas_activas
+    @empresas = Empresa.activas
+  end
+
+  def buscar_empresas_activas_no_asociadas
+    @empresas = @banco.empresas_activas_no_asociadas
   end
 end

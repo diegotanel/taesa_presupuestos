@@ -185,4 +185,10 @@ describe SaldoBancario do
       @banco.saldos_bancario.new(@attr.merge(:valor_currency => "")).should_not be_valid
     end
   end
+
+  describe "filtros" do
+    it "debe obtener los saldos_bancario activos" do
+      
+    end
+  end
 end
