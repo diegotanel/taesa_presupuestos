@@ -20,7 +20,7 @@ class Banco < ActiveRecord::Base
   end
 
   def empresas_activas_no_asociadas
-    Empresa.activas.where("id NOT IN (?)", self.empresa_ids.empty? ? '' : self.empresa_ids)
+    Empresa.activas.where("id NOT IN (?)", self.empresa_ids.empty? ? 'nil' : self.empresa_ids)
   end
 
   private
