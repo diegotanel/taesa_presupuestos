@@ -143,6 +143,18 @@ describe SaldoBancario do
         @SaldoBancario.estado = 23
         @SaldoBancario.should_not be_valid
       end
+
+      it "debe cambiar el estado a activa" do
+        @SaldoBancario.anular
+        @SaldoBancario.estado.should == SaldoBancario::ESTADOS[:deshabilitada]
+        @SaldoBancario.activar
+        @SaldoBancario.estado.should == SaldoBancario::ESTADOS[:activa]
+      end
+
+      it "debe cambiar el estado a deshabilitada" do
+        @SaldoBancario.anular
+        @SaldoBancario.estado.should == SaldoBancario::ESTADOS[:deshabilitada]
+      end
     end
   end
 
@@ -188,7 +200,7 @@ describe SaldoBancario do
 
   describe "filtros" do
     it "debe obtener los saldos_bancario activos" do
-      
+
     end
   end
 end

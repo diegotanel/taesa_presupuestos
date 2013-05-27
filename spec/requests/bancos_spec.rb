@@ -183,7 +183,7 @@ describe "Bancos" do
       @banco = Banco.create!(:detalle => @etiqueta)
       @sb = @banco.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
       visit edit_banco_path(@banco)
-      response.should have_selector("a", :href => deshabilitar_saldo_bancario_path(@sb.id), :content => "Deshabilitar")
+      response.should have_selector("a", :href => saldo_bancario_path(@sb), :content => "Deshabilitar")
       click_link "Deshabilitar"
       response.should render_template('bancos/edit')
     end

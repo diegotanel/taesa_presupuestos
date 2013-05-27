@@ -12,6 +12,8 @@ gem 'money'
 gem 'money-rails', "0.7.0"#, :git => 'git://github.com/RubyMoney/money-rails.git'
 # gem "delocalize"
 gem 'taps'
+# gem 'hirb'
+gem 'hirb-unicode'
 
 group :production do
   # gems specifically for Heroku go here

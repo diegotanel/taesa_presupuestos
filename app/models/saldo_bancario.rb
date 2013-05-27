@@ -18,7 +18,7 @@ class SaldoBancario < ActiveRecord::Base
 
   before_update :copiar_a_historico
 
-  
+
   def copiar_a_historico
     @attr = {:user_id => self.user_id_was, :saldo_bancario => self, :valor_cents => self.valor_cents_was, :valor_currency => self.valor_currency_was, :fecha_de_alta => self.updated_at}
     historico = SaldoBancarioHistorico.new(@attr)
@@ -29,13 +29,21 @@ class SaldoBancario < ActiveRecord::Base
     "Saldo Bancario #{self.banco.detalle} Contable"
   end
 
+  def anular
+    self.estado = SaldoBancario::ESTADOS[:deshabilitada]
+  end
+
+  def activar
+    self.estado = SaldoBancario::ESTADOS[:activa]
+  end
+
   def tipo_de_movimiento
     PartidaContable::TIPODEMOVIMIENTO[:entrada]
   end
 
   private
 
-  after_initialize do
-    self.estado ||= SaldoBancario::ESTADOS[:activa]
-  end
+    after_initialize do
+      self.estado ||= SaldoBancario::ESTADOS[:activa]
+    end
 end

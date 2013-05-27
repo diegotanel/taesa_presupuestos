@@ -17,5 +17,18 @@
 <div class="actions">
   <%= f.submit %>
 </div>
+
 <% end %>
 
+<% unless @banco.empresas_activas_asociadas.empty? %>
+<table>
+  <tr>
+    <th>Empresas activas</th>
+  </tr>
+
+  <%= content_tag_for(:tr, @banco.saldos_bancario_activos) do |sb| %>
+    <td><%= sb.empresa.detalle %></td>
+    <td><%= link_to "Deshabilitar", sb, :method => :delete %></td>
+  <% end %>
+</table>
+<% end %>

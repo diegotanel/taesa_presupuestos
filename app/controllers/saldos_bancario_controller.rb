@@ -16,6 +16,17 @@ class SaldosBancarioController < ApplicationController
     respond_with(@saldo_bancario, :location => edit_saldo_bancario_path)
   end
 
+  def destroy
+    @saldo_bancario.anular
+    if @saldo_bancario.save
+      flash[:success] = "La asociación con #{@saldo_bancario.empresa.detalle} se ha deshabilitado"
+      redirect_to edit_banco_path(@saldo_bancario.banco)
+    else
+      flash.now[:failure] = "No se pudo realizar la operación"
+      render 'banco/edit'
+    end
+  end
+
   private
 
   def encontrar_saldo

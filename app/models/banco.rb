@@ -23,6 +23,10 @@ class Banco < ActiveRecord::Base
     Empresa.activas.where("id NOT IN (?)", self.empresa_ids.empty? ? 0 : self.empresa_ids)
   end
 
+  def saldos_bancario_activos
+    self.saldos_bancario.where(:estado => SaldoBancario::ESTADOS[:activa])
+  end
+
   private
 
   def crear_saldos_bancario

@@ -23,6 +23,10 @@ describe Banco do
     Banco.new.should respond_to(:empresas_activas_no_asociadas)
   end
 
+  it "debe tener el atributo saldos_bancario_activos" do
+    Banco.new.should respond_to(:saldos_bancario_activos)
+  end
+
   describe "validations" do
     it "should require a detalle" do
       Banco.new(@attr.merge(:detalle => "")).should_not be_valid
@@ -100,6 +104,17 @@ describe Banco do
       it "debe obtener todas las empresas activas no asociadas al banco" do
         @banco = Banco.create!(:detalle => "Banco Galicia")
         @banco.empresas_activas_no_asociadas.should =~ [@empresa1, @empresa3, @empresa4]
+      end
+
+      it "debe obtener los saldos bancarios asociados activos" do
+        @banco = Banco.create!(:detalle => "Banco Galicia")
+        @sb1 = @banco.saldos_bancario.create!(:empresa_id => @empresa3.id, :user_id => @user, :valor => 4)
+        @sb1.anular
+        @sb1.save!
+        @sb2 = @banco.saldos_bancario.create!(:empresa_id => @empresa4.id, :user_id => @user, :valor => 4)
+        @banco2 = Banco.create!(:detalle => "Banco Frances")
+        @banco2.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
+        @banco.saldos_bancario_activos.should =~ [@sb2]
       end
 
     end

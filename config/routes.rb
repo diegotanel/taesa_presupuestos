@@ -27,9 +27,9 @@ SampleApp::Application.routes.draw do
   resources :roles, :only => :update
   resources :bancos
   resources :cotizaciones_peso_dolar, :only => [:edit, :update]
-  resources :saldos_bancario, :only => [:edit, :update]  do
+  resources :saldos_bancario, :only => [:edit, :update, :destroy]  do
     member do
-      put :activar, :deshabilitar
+      put :activar
     end
   end
   resources :informes_presupuestario, :only => [:index, :show]
