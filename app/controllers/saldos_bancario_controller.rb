@@ -27,16 +27,27 @@ class SaldosBancarioController < ApplicationController
     end
   end
 
+  def activar
+    @saldo_bancario.activar
+    if @saldo_bancario.save
+      flash[:success] = "La asociación con #{@saldo_bancario.empresa.detalle} se ha activado"
+      redirect_to edit_banco_path(@saldo_bancario.banco)
+    else
+      flash.now[:failure] = "No se pudo realizar la operación"
+      render 'banco/edit'
+    end
+  end
+
   private
 
-  def encontrar_saldo
-    @saldo_bancario = SaldoBancario.find(params[:id])
-  end
+    def encontrar_saldo
+      @saldo_bancario = SaldoBancario.find(params[:id])
+    end
 
-  def inicializacionVista
-    @valorVista = @saldo_bancario.valor
-    @actualizacionVista = @saldo_bancario.updated_at
-    @usuarioVista = @saldo_bancario.user.name
-  end
+    def inicializacionVista
+      @valorVista = @saldo_bancario.valor
+      @actualizacionVista = @saldo_bancario.updated_at
+      @usuarioVista = @saldo_bancario.user.name
+    end
 
 end

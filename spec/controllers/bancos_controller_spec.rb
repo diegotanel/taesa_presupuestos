@@ -113,7 +113,7 @@ describe BancosController do
         # specifies that the Banco created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Banco.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        Banco.any_instance.should_receive(:update_attributes).with({'these' => 'params', "user_id"=> @user.id})
         put :update, {:id => banco.to_param, :banco => {'these' => 'params'}}, valid_session
       end
 

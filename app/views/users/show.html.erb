@@ -11,13 +11,16 @@
       </div>
       <br/>
       <% if current_user.admin? %>
-      <%= link_to "Editar usuario", edit_user_path(@user) %>
-      | <%= link_to "Cambiar rol", role_path(@user), :method => :put %>
+        <%= link_to "Editar usuario", edit_user_path(@user) %>
+        |
+        <%= link_to "Cambiar rol", role_path(@user), :method => :put %>
       <% end %>
     </td>
     <td class="sidebar round">
-      <strong>Nombre</strong> <%= @user.name %><br />
-      <strong>URL</strong>  <%= link_to user_path(@user), @user %>
+      <strong>Nombre</strong>
+      <%= @user.name %><br />
+      <strong>URL</strong>
+      <%= link_to user_path(@user), @user %>
     </td>
   </tr>
 </table>

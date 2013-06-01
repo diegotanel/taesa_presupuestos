@@ -11,3 +11,4 @@ doc/app
 *.*~
 *.swp
 webrat.log
+coverage

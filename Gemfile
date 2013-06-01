@@ -21,6 +21,7 @@ group :production do
 end
 
 group :development do
+  gem 'htmlbeautifier'
   gem 'rspec-rails'
   gem 'annotate'
   gem 'faker'
@@ -34,6 +35,7 @@ group :test do
   gem 'factory_girl_rails', '1.0'
   gem 'database_cleaner'
   gem 'sqlite3', '1.3.6'
+  gem 'simplecov', :require => false
 end
 
 # Gems used only for assets and not required

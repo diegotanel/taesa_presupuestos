@@ -174,7 +174,7 @@ describe "Bancos" do
       click_button
       @banco = assigns(:banco)
       visit edit_banco_path(@banco)
-      response.should have_selector("th", :content => "Empresas activas")
+      response.should have_selector("th", :content => "Cuentas activas")
       response.should have_selector("td", :content => "#{@empresa1[:detalle]}")
       response.should have_selector("td", :content => "#{@empresa3[:detalle]}")
     end
@@ -188,18 +188,44 @@ describe "Bancos" do
       response.should render_template('bancos/edit')
     end
 
-    # it "se deben haber desasociado todas las empresas" do
-    #   @banco = Banco.create!(:detalle => "Banco Galicia")
-    #   @banco.empresas = [@empresa1, @empresa3]
-    #   visit edit_banco_path(@banco)
-    #   uncheck @empresa1.detalle
-    #   uncheck @empresa3.detalle
-    #   click_button
-    #   visit edit_banco_path(@banco)
-    #   @empresas.each do |empresa|
-    #     field_with_id("empresa_#{empresa.id}").should_not be_checked
-    #   end
-    # end
+    it "debe mostrar los links de habilitar las empresas" do
+      @banco = Banco.create!(:detalle => @etiqueta)
+      @sb = @banco.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
+      @sb.anular
+      @sb.save!
+      visit edit_banco_path(@banco)
+      response.should have_selector("a", :href => activar_saldo_bancario_path(@sb), :content => "Habilitar")
+      click_link "Habilitar"
+      response.should render_template('bancos/edit')
+    end
+
+    it "no debe mostrar ningun saldo bancario, si no se encuentra asociado" do
+      @banco = Banco.create!(:detalle => @etiqueta)
+      visit edit_banco_path(@banco)
+      response.should_not have_selector("th", :content => "Cuentas activas")
+      response.should_not have_selector("th", :content => "Cuentas deshabilitadas")
+      response.should_not have_selector("a", :content => "Deshabilitar")
+      response.should_not have_selector("a", :content => "Habilitar")
+    end
+
+    it "no debe mostrar las cuentas activas" do
+      @banco = Banco.create!(:detalle => @etiqueta)
+      @sb = @banco.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
+      @sb.anular
+      @sb.save!
+      visit edit_banco_path(@banco)
+      response.should_not have_selector("th", :content => "Cuentas activas")
+      response.should_not have_selector("a", :content => "Deshabilitar")
+    end
+
+    it "no debe mostrar las cuentas deshabilitadas" do
+      @banco = Banco.create!(:detalle => @etiqueta)
+      @sb = @banco.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
+      visit edit_banco_path(@banco)
+      response.should_not have_selector("th", :content => "Cuentas deshabilitadas")
+      response.should_not have_selector("a", :content => "Habilitar")
+    end
+
 
   end
 

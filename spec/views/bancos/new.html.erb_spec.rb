@@ -3,8 +3,9 @@ require 'spec_helper'
 describe "bancos/new" do
   before(:each) do
     assign(:banco, stub_model(Banco,
-      :detalle => "MyString"
-    ).as_new_record)
+                              :detalle => "MyString"
+                              ).as_new_record)
+    assign(:empresas, [])
   end
 
   it "renders new banco form" do

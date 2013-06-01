@@ -27,6 +27,10 @@ class Banco < ActiveRecord::Base
     self.saldos_bancario.where(:estado => SaldoBancario::ESTADOS[:activa])
   end
 
+  def saldos_bancario_deshabilitados
+    self.saldos_bancario.where(:estado => SaldoBancario::ESTADOS[:deshabilitada])
+  end
+
   private
 
   def crear_saldos_bancario

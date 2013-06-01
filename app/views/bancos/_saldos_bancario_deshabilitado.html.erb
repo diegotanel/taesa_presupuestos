@@ -1,0 +1,11 @@
+<% unless @banco.saldos_bancario_deshabilitados.empty? %>
+    <table>
+      <tr>
+        <th>Cuentas deshabilitadas</th>
+      </tr>
+      <%= content_tag_for(:tr, @banco.saldos_bancario_deshabilitados) do |sb| %>
+        <td><%= sb.empresa.detalle %></td>
+        <td><%= link_to "Habilitar", activar_saldo_bancario_path(sb), :method => :put %></td>
+      <% end %>
+    </table>
+    <% end %>

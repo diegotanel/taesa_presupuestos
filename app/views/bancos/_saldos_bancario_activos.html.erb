@@ -1,0 +1,11 @@
+<% unless @banco.saldos_bancario_activos.empty? %>
+      <table>
+        <tr>
+          <th>Cuentas activas</th>
+        </tr>
+        <%= content_tag_for(:tr, @banco.saldos_bancario_activos) do |sb| %>
+          <td><%= sb.empresa.detalle %></td>
+          <td><%= link_to "Deshabilitar", sb, :method => :delete %></td>
+        <% end %>
+      </table>
+    <% end %>

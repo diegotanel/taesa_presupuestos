@@ -39,15 +39,15 @@ class BancosController < ApplicationController
 
   private
 
-  def encontrar_banco
-    @banco = Banco.find(params[:id])
-  end
+    def encontrar_banco
+      @banco = Banco.find(params[:id])
+    end
 
-  def buscar_empresas_activas
-    @empresas = Empresa.activas
-  end
+    def buscar_empresas_activas
+      @empresas = Empresa.activas
+    end
 
-  def buscar_empresas_activas_no_asociadas
-    @empresas = @banco.empresas_activas_no_asociadas
-  end
+    def buscar_empresas_activas_no_asociadas
+      @empresas = @banco.empresas_activas_no_asociadas
+    end
 end

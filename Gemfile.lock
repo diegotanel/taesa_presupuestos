@@ -63,6 +63,7 @@ GEM
     hirb-unicode (0.0.5)
       hirb (~> 0.5)
       unicode-display_width (~> 0.1.1)
+    htmlbeautifier (0.0.7)
     httpi (1.1.1)
       rack
     i18n (0.6.1)
@@ -147,6 +148,10 @@ GEM
       nori (~> 1.1.0)
       wasabi (~> 2.5.0)
     sequel (3.20.0)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     sinatra (1.0)
       rack (>= 1.0)
     spork (1.0.0rc3)
@@ -181,6 +186,7 @@ GEM
     will_paginate (3.0.3)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -192,6 +198,7 @@ DEPENDENCIES
   faker
   gravatar_image_tag
   hirb-unicode
+  htmlbeautifier
   jquery-rails
   money
   money-rails (= 0.7.0)
@@ -203,6 +210,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   savon
+  simplecov
   spork
   sqlite3 (= 1.3.6)
   taps

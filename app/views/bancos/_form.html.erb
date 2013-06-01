@@ -1,34 +1,21 @@
 <%= form_for(@banco) do |f| %>
-<%= render 'shared/error_messages', :object => f.object %>
-
-
-<div class="field">
-  <%= f.label :detalle %><br />
-  <%= f.text_field :detalle %>
-</div>
-<div class="field">
-  <%= hidden_field_tag "banco[empresa_attrib][]", nil %>
-  <% @empresas.all.each do |empresa| %>
-  <%= check_box_tag "banco[empresa_attrib][]", empresa.id, @banco.empresa_ids.include?(empresa.id), id: dom_id(empresa) %>
-  <%= label_tag dom_id(empresa), empresa.detalle %><br>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+    <%= f.label :detalle %><br />
+    <%= f.text_field :detalle %>
+  </div>
+  <div class="field">
+    <%= hidden_field_tag "banco[empresa_attrib][]", nil %>
+    <% @empresas.all.each do |empresa| %>
+      <%= check_box_tag "banco[empresa_attrib][]", empresa.id, @banco.empresa_ids.include?(empresa.id), id: dom_id(empresa) %>
+      <%= label_tag dom_id(empresa), empresa.detalle %><br>
+      <% end %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
   <% end %>
-</div>
-
-<div class="actions">
-  <%= f.submit %>
-</div>
-
-<% end %>
-
-<% unless @banco.empresas_activas_asociadas.empty? %>
-<table>
-  <tr>
-    <th>Empresas activas</th>
-  </tr>
-
-  <%= content_tag_for(:tr, @banco.saldos_bancario_activos) do |sb| %>
-    <td><%= sb.empresa.detalle %></td>
-    <td><%= link_to "Deshabilitar", sb, :method => :delete %></td>
+  <% unless @banco.empresas_activas_asociadas.empty? %>
+    <%= render 'saldos_bancario_activos' %>
+    <%= render 'saldos_bancario_deshabilitado' %>
   <% end %>
-</table>
-<% end %>

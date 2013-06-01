@@ -12,7 +12,7 @@ describe Banco do
   end
 
   it "debe tener el atributo detalle" do
-    Banco.new.should respond_to(:detalle)
+    @banco = Banco.new.should respond_to(:detalle)
   end
 
   it "debe tener el atributo empresas_activas_asociadas" do
@@ -25,6 +25,10 @@ describe Banco do
 
   it "debe tener el atributo saldos_bancario_activos" do
     Banco.new.should respond_to(:saldos_bancario_activos)
+  end
+
+  it "debe tener el atributo saldos_bancario_deshabilitados" do
+    Banco.new.should respond_to(:saldos_bancario_deshabilitados)
   end
 
   describe "validations" do
@@ -115,6 +119,17 @@ describe Banco do
         @banco2 = Banco.create!(:detalle => "Banco Frances")
         @banco2.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
         @banco.saldos_bancario_activos.should =~ [@sb2]
+      end
+
+      it "debe obtener los saldos bancarios asociados deshablitados" do
+        @banco = Banco.create!(:detalle => "Banco Galicia")
+        @sb1 = @banco.saldos_bancario.create!(:empresa_id => @empresa3.id, :user_id => @user, :valor => 4)
+        @sb1.anular
+        @sb1.save!
+        @sb2 = @banco.saldos_bancario.create!(:empresa_id => @empresa4.id, :user_id => @user, :valor => 4)
+        @banco2 = Banco.create!(:detalle => "Banco Frances")
+        @banco2.saldos_bancario.create!(:empresa_id => @empresa1.id, :user_id => @user, :valor => 4)
+        @banco.saldos_bancario_deshabilitados.should =~ [@sb1]        
       end
 
     end
