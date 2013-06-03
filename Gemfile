@@ -15,6 +15,7 @@ gem 'taps'
 # gem 'hirb'
 gem 'hirb-unicode'
 gem 'travis-lint'
+gem 'schema_plus'
 
 group :production do
   # gems specifically for Heroku go here
