@@ -33,12 +33,12 @@ class Banco < ActiveRecord::Base
 
   private
 
-  def crear_saldos_bancario
-    if @empresa_attrib
-      @empresa_attrib.map { |e|
-        self.saldos_bancario.build(:user_id => @current_user_id, :valor => Money.new(0, "ARS"), :empresa_id => e)
-      }
+    def crear_saldos_bancario
+      if @empresa_attrib
+        @empresa_attrib.map { |e|
+          self.saldos_bancario.build(:user_id => @current_user_id, :valor => Money.new(0, "ARS"), :empresa_id => e)
+        }
+      end
     end
-  end
 
 end

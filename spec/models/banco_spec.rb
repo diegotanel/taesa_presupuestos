@@ -12,7 +12,7 @@ describe Banco do
   end
 
   it "debe tener el atributo detalle" do
-    @banco = Banco.new.should respond_to(:detalle)
+    Banco.new.should respond_to(:detalle)
   end
 
   it "debe tener el atributo empresas_activas_asociadas" do
