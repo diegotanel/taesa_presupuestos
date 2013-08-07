@@ -37,6 +37,7 @@ GEM
     bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-x86-mingw32)
     builder (3.0.4)
+    coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -77,6 +78,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    method_source (0.8.1)
     mime-types (1.19)
     money (5.1.0)
       i18n (~> 0.6.0)
@@ -91,6 +93,15 @@ GEM
     pg (0.14.1)
     pg (0.14.1-x86-mingw32)
     polyglot (0.3.3)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry (0.9.12.2-x86-mingw32)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+      win32console (~> 1.3)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -158,6 +169,7 @@ GEM
     simplecov-html (0.7.1)
     sinatra (1.0)
       rack (>= 1.0)
+    slop (3.4.5)
     spork (1.0.0rc3)
     sprockets (2.1.3)
       hike (~> 1.2)
@@ -191,6 +203,7 @@ GEM
       rack (>= 1.0)
       rack-test (>= 0.5.3)
     will_paginate (3.0.3)
+    win32console (1.3.2-x86-mingw32)
 
 PLATFORMS
   ruby
@@ -210,6 +223,7 @@ DEPENDENCIES
   money
   money-rails (= 0.7.0)
   pg
+  pry
   rails (= 3.2.8)
   rails-i18n
   responders

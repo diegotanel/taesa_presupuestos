@@ -5,7 +5,7 @@
     <td>Empresa: <%= @pc.empresa.detalle %></td>
   </tr>
   <tr>
-    <td>Banco: <%= @pc.banco.detalle %></td>
+    <td>Banco: <%= @pc.banco.detalle if @pc.banco %></td>
   </tr>
   <tr>
     <td>Moneda: <%= @pc.importe_currency %></td>

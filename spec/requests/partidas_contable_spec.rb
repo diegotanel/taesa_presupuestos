@@ -129,6 +129,27 @@ describe "PartidaContables" do
         click_button
       end
 
+      it "debe visualizarse las etiquetas de la vista de solo lectura" do
+        response.should have_selector("p", :content => "Número de partida contable")
+        response.should have_selector("p", :content => "Fecha de creación")
+        response.should have_selector("p", :content => "Fecha de vencimiento")
+        response.should have_selector("p", :content => "Empresa")
+        response.should have_selector("p", :content => "Banco")
+        response.should have_selector("p", :content => "Solicitante")
+        response.should have_selector("p", :content => "Canal de solicitud")
+        response.should have_selector("p", :content => "Rubro")
+        response.should have_selector("p", :content => "Tipo de moneda")
+        response.should have_selector("p", :content => "Importe")
+        response.should have_selector("p", :content => "Valor dólar")
+        response.should have_selector("p", :content => "Tipo de movimiento")
+        response.should have_selector("p", :content => "Cliente proveedor")
+        response.should have_selector("p", :content => "Producto trabajo")
+        response.should have_selector("p", :content => "Detalle")
+        response.should have_selector("p", :content => "Estado")
+        response.should have_selector("p", :content => "Motivo de baja presupuestaria")
+        response.should have_selector("p", :content => "Fecha de baja")
+      end
+
       it "debe retornar la vista de sola lectura" do
         response.should have_selector("p", :content => "15/05/2012")
         response.should have_selector("p", :content => "TAESA")

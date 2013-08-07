@@ -22,7 +22,7 @@ describe "Cancelaciones" do
       response.should have_selector("td", :content => @pc.banco.detalle)
       response.should have_selector("td", :content => "Moneda")
       response.should have_selector("td", :content => @pc.importe_currency)
-      response.should have_selector("td", :content => "Total a cancelar")
+      response.should have_selector("content", :td => "Total a cancelar")
       response.should have_selector("td", :content => "13,56")
       response.should have_selector("td", :content => "Importe total cancelado")
       response.should have_selector("td", :content => "6,72")
@@ -74,6 +74,14 @@ describe "Cancelaciones" do
     end
 
     it "link de alta de cancelación" do
+      visit partida_contable_cancelaciones_path(@pc)
+      response.should have_selector("a", :href => new_partida_contable_cancelacion_path(@pc), :content => "Alta")
+      click_link "Alta"
+      response.should render_template('cancelaciones/new')
+    end
+
+    it "vista de cancelaciones con una pc con banco no asignado" do
+      @pc = Factory(:partida_contable, :banco => nil)
       visit partida_contable_cancelaciones_path(@pc)
       response.should have_selector("a", :href => new_partida_contable_cancelacion_path(@pc), :content => "Alta")
       click_link "Alta"
